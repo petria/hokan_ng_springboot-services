@@ -1,6 +1,7 @@
 package org.freakz.hokan_ng_springboot.bot.service.imdb;
 
 
+import com.omertron.omdbapi.OmdbApi;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
 import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class IMDBServiceImpl implements IMDBService {
 
-//  private static final OmdbApi omdb = new OmdbApi();
+  private static final OmdbApi omdb = new OmdbApi();
 
   private static final int IMDB_ID = 0;
   private static final int IMDB_TITLE= 1;

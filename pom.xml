@@ -16,14 +16,14 @@
 
     <repositories>
 
-    <repository>
-            <id>central</id>
+        <repository>
+            <id>hokannew</id>
             <name>hokannew-releases</name>
             <url>http://hokannew.no-ip.biz/artifactory/libs-release-local</url>
         </repository>
 
     </repositories>
-	
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>org.freakz.hokan_ng_springboot.bot.HokanNgSpringBootServices</start-class>
