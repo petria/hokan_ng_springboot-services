@@ -71,37 +71,37 @@ public class IMDBServiceTest {
 
   }
 
-  @Test
+/*  @Test
   public void testGetDetailedInfoFromUrl() {
     String url = "http://www.imdb.com/title/tt2009537/";
     IMDBDetails details = service.getDetailedInfo(url);
     Assert.assertNotNull(details.getDetails());
     Assert.assertEquals("No Country for Gay Old Men", details.getDetails().getTitle());
-  }
+  }*/
 
-  @Test
+/*  @Test
   public void testGetDetailedInfoFromID() {
     String id = "tt2009537";
     IMDBDetails details = service.getDetailedInfo(id);
     Assert.assertNotNull(details.getDetails());
     Assert.assertEquals("No Country for Gay Old Men", details.getDetails().getTitle());
-  }
+  }*/
 
-  @Test
+/*  @Test
   public void testDetailedInfoFromTitle() {
     String title = "No Country for Gay Old Men";
     IMDBDetails details = service.getDetailedInfo(title);
     Assert.assertNotNull(details.getDetails());
     Assert.assertEquals("No Country for Gay Old Men", details.getDetails().getTitle());
-  }
+  }*/
 
-  @Test
+/*  @Test
   public void testDetailedInfoSceneName() {
     String title = "Hitman.Agent.47.2015.1080p.BluRay.x264-DRONES";
     IMDBDetails details = service.getDetailedInfo(title);
     Assert.assertNotNull(details.getDetails());
     Assert.assertEquals("Hitman: Agent 47", details.getDetails().getTitle());
-  }
+  }*/
 
   @Test
   public void testDetailedInfoBogusName() {

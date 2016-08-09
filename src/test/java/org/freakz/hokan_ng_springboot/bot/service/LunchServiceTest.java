@@ -42,13 +42,13 @@ public class LunchServiceTest {
     assertEquals(LunchPlace.LOUNAS_INFO_HERKKUPISTE, response.getLunchPlace());
   }
 
-  @Test
+/*  @Test
   public void testQulkuri() {
     LunchRequestHandler lunchRequestHandler = new QulkuriLunchPlaceHandler();
     LunchData response = new LunchData();
     lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_QULKURI, response, DateTime.now());
     assertEquals(LunchPlace.LOUNAS_INFO_QULKURI, response.getLunchPlace());
-  }
+  }*/
 
   @Test
   public void testEnergiaKeidas() {
@@ -87,12 +87,12 @@ public class LunchServiceTest {
 		assertEquals(LunchPlace.LOUNAS_INFO_VESILINNA, response.getLunchPlace());
 	}
 
-  @Test
+/*  @Test
   public void testAlvari() {
     LunchRequestHandler lunchRequestHandler = new AlvariLunchPlaceHandler();
     LunchData response = new LunchData();
     lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_ALVARI, response, DateTime.now());
     assertEquals(LunchPlace.LOUNAS_INFO_ALVARI, response.getLunchPlace());
-  }
+  }*/
 
 }

@@ -1,7 +1,10 @@
 package org.freakz.hokan_ng_springboot.bot.service.imdb;
 
-
+import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.OmdbApi;
+import com.omertron.omdbapi.model.OmdbVideoFull;
+import com.omertron.omdbapi.model.SearchResults;
+import com.omertron.omdbapi.tools.OmdbBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
 import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
@@ -40,7 +43,7 @@ public class IMDBServiceImpl implements IMDBService {
   }
 
   public IMDBSearchResults findByTitle(String title) {
-/*    try {
+    try {
       String parsed = parseSceneMovieName(title);
       if (parsed != null) {
         log.debug("Using parsed name: {}", parsed);
@@ -50,14 +53,13 @@ public class IMDBServiceImpl implements IMDBService {
       return new IMDBSearchResults(results.getResults());
     } catch (OMDBException e) {
       e.printStackTrace();
-    }*/
-    // TODO
+    }
     return null;
   }
 
   @Override
   public IMDBDetails getDetailedInfo(String name) {
-    int mode = -1;
+    int mode;
     String imdbIdSearch = null;
     String titleSearch = null;
     if (name.matches("tt\\d{7}")) {
@@ -79,24 +81,20 @@ public class IMDBServiceImpl implements IMDBService {
 
     switch (mode) {
       case IMDB_ID:
-/*        try {
-        OmdbVideoFull info = null;
         try {
-          info = omdb.getInfo(new OmdbBuilder().setImdbId(imdbIdSearch).build());
+          OmdbVideoFull info = omdb.getInfo(new OmdbBuilder().setImdbId(imdbIdSearch).build());
+          return new IMDBDetails(info);
         } catch (OMDBException e) {
-          e.printStackTrace();
+          // e.printStackTrace();
         }
-        return new IMDBDetails(info);
-        } catch (OMDBException e) {
-         // e.printStackTrace();
-        }
-        */
         break;
       case IMDB_TITLE:
-/*        OmdbVideoFull info = omdb.getInfo(new OmdbBuilder().setTitle(titleSearch).build());
-
-
-        return new IMDBDetails(info); */
+        try {
+          OmdbVideoFull info = omdb.getInfo(new OmdbBuilder().setTitle(titleSearch).build());
+          return new IMDBDetails(info);
+        } catch (OMDBException e) {
+          // e.printStackTrace();
+        }
     }
 
     return new IMDBDetails();
