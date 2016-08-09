@@ -11,20 +11,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.3.5.RELEASE</version>
-        <relativePath/>
+        <version>1.4.0.RELEASE</version>
     </parent>
 
     <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>http://repo.spring.io/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
+
+    <repository>
             <id>central</id>
             <name>hokannew-releases</name>
             <url>http://hokannew.no-ip.biz/artifactory/libs-release-local</url>
