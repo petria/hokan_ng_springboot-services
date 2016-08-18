@@ -52,7 +52,7 @@ public class ServicesWebController {
 
   @RequestMapping("/lunch")
   public String lunch(@RequestParam(value = "place", required = false) String placeKey, Model model) {
-    LunchPlace place = LunchPlace.LOUNAS_INFO_ENERGIA_KEIDAS;
+    LunchPlace place = LunchPlace.LOUNAS_INFO_HARMOONI;
     if (placeKey != null) {
       place = LunchPlace.getLunchPlace(placeKey);
       if (place == null) {

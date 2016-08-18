@@ -12,7 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="hokan_ng_springboot-common" />
-    <orderEntry type="module" module-name="hokan_ng_springboot-custom" />
+    <orderEntry type="library" name="Maven: org.freakz:hokan_ng_springboot-custom:1.0.0-final" level="project" />
     <orderEntry type="library" name="Maven: javax.jms:javax.jms-api:2.0" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.4" level="project" />
     <orderEntry type="library" name="Maven: com.martiansoftware:jsap:2.1" level="project" />
