@@ -7,9 +7,7 @@ import org.freakz.hokan_ng_springboot.bot.service.lunch.requesthandlers.*;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Petri Airio on 25.1.2016.
@@ -49,6 +47,14 @@ public class LunchServiceTest {
     lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_QULKURI, response, DateTime.now());
     assertEquals(LunchPlace.LOUNAS_INFO_QULKURI, response.getLunchPlace());
   }*/
+
+  @Test
+  public void testFiilu() {
+    LunchRequestHandler lunchRequestHandler = new FiiluLunchRequestHandler();
+    LunchData response = new LunchData();
+    lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_FIILU, response, DateTime.now());
+    assertEquals(LunchPlace.LOUNAS_INFO_FIILU, response.getLunchPlace());
+  }
 
 	@Test
 	public void testVesilinna() {
