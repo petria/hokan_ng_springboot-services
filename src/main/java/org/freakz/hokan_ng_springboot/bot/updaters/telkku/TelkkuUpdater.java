@@ -197,8 +197,13 @@ public class TelkkuUpdater extends Updater {
     if (getUpdateCount() == 0) {
       loadFetchFile(OLD_FETCH_FILE);
     }
-    if (osDetector.detectHostOs() == HostOS.WINDOWS) {
+
+    HostOS hostOS = osDetector.detectHostOs();
+    if (hostOS == HostOS.WINDOWS) {
       throw new HokanHostOsNotSupportedException("Telkku updater not supported on Windows");
+    }
+    if (hostOS == HostOS.OSX) {
+      throw new HokanHostOsNotSupportedException("Telkku updater not supported on OsX");
     }
 
     String fileName = runTvGrab();
@@ -216,7 +221,7 @@ public class TelkkuUpdater extends Updater {
     return new TelkkuData(channelNames, programList, getLastUpdateTime());
   }
 
-  public List<TelkkuProgram> readXmlFile(String fileName, List<String> channels)
+  private List<TelkkuProgram> readXmlFile(String fileName, List<String> channels)
       throws ParserConfigurationException, IOException, SAXException {
 
     File file = new File(fileName);

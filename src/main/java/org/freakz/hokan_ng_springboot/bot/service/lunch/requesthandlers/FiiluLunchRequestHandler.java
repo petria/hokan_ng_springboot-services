@@ -27,7 +27,6 @@ import java.util.List;
 @Slf4j
 public class FiiluLunchRequestHandler implements LunchRequestHandler {
 
-
   private List<String> fetchLunch(String url) {
     WebDriver driver = new HtmlUnitDriver(true); //the param true turns on javascript.
     driver.get(url);
