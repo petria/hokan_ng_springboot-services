@@ -8,6 +8,7 @@ import org.freakz.hokan_ng_springboot.bot.models.LunchMenu;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.LunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.service.lunch.LunchRequestHandler;
 import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcher;
+import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcherImpl;
 import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
@@ -32,7 +33,14 @@ public class FiiluLunchRequestHandler implements LunchRequestHandler {
   private WWWPageFetcher wwwPageFetcher;
 
   private List<String> fetchLunch(String url) {
-    String output = wwwPageFetcher.fetchWWWPage(url);
+    String output;
+    if (wwwPageFetcher == null) {
+      // TODO fix
+      output = WWWPageFetcherImpl.fetchUrl(url);
+    } else {
+      output = wwwPageFetcher.fetchWWWPage(url);
+    }
+
     Document doc = Jsoup.parse(output);
 
     Elements e = doc.getElementsByTag("strong");
@@ -111,10 +119,8 @@ public class FiiluLunchRequestHandler implements LunchRequestHandler {
       idx++;
       lunchMenu = new LunchMenu(lunch);
       response.getMenu().put(LunchDay.FRIDAY, lunchMenu);
-
-
-      int foo = 0;
     }
+
   }
 
   private String stripLunchRow(String row, String title) {

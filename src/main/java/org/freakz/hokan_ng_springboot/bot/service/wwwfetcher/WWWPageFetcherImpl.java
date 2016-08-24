@@ -32,7 +32,7 @@ public class WWWPageFetcherImpl implements WWWPageFetcher {
     );
   }
 
-  private String fetchUrl(String url) {
+  public static String fetchUrl(String url) {
     log.debug("Fetching url: {}", url);
     WebDriver driver = new HtmlUnitDriver(true); //the param true turns on javascript.
     driver.get(url);
