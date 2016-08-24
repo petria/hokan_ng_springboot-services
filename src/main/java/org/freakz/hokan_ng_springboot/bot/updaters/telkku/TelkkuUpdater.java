@@ -10,7 +10,6 @@ import org.freakz.hokan_ng_springboot.bot.jpa.entity.PropertyName;
 import org.freakz.hokan_ng_springboot.bot.jpa.service.PropertyService;
 import org.freakz.hokan_ng_springboot.bot.models.TelkkuData;
 import org.freakz.hokan_ng_springboot.bot.models.TelkkuProgram;
-import org.freakz.hokan_ng_springboot.bot.models.UpdaterStatus;
 import org.freakz.hokan_ng_springboot.bot.updaters.Updater;
 import org.freakz.hokan_ng_springboot.bot.util.CmdExecutor;
 import org.freakz.hokan_ng_springboot.bot.util.FileUtil;
@@ -61,6 +60,8 @@ public class TelkkuUpdater extends Updater {
 
   private static final String TVGRAB_BIN = "/usr/bin/tv_grab_fi";
 
+  private static final String TVGRAB_BIN_OSX = "/sw/bin/tv_grab_fi";
+
   private static final String FETCH_FILE = "telkku_progs.xml";
   private static final String OLD_FETCH_FILE = "old_telkku_progs.xml";
   private static final String FETCH_CHARSET = "UTF-8";
@@ -81,7 +82,7 @@ public class TelkkuUpdater extends Updater {
     this.fileUtil = fileUtil;
   }
 
-  public String runTvGrab() throws Exception {
+  private String runTvGrab(HostOS hostOS) throws Exception {
     String tmpDir = fileUtil.getTmpDirectory();
     File dtdFile = new File(tmpDir + XMLTV_DTD_FILE);
     if (!dtdFile.exists()) {
@@ -89,7 +90,13 @@ public class TelkkuUpdater extends Updater {
     }
     String tmpConf = fileUtil.copyResourceToTmpFile(TVGRAB_CONF_RESOURCE);
     File outputFile = File.createTempFile(FETCH_FILE, "");
-    String cmd = TVGRAB_BIN + " --config-file " + tmpConf + " --output " + outputFile.getAbsolutePath();
+    String binary;
+    if (hostOS == HostOS.OSX) {
+      binary = TVGRAB_BIN_OSX;
+    } else {
+      binary = TVGRAB_BIN;
+    }
+    String cmd = binary + " --config-file " + tmpConf + " --output " + outputFile.getAbsolutePath();
     log.info("Running: {}", cmd);
     CmdExecutor cmdExecutor = new CmdExecutor(cmd, FETCH_CHARSET);
     log.info("Run done: {}", (Object[])cmdExecutor.getOutput());
@@ -181,11 +188,6 @@ public class TelkkuUpdater extends Updater {
 
   @Override
   public Calendar calculateNextUpdate() {
-    if (status == UpdaterStatus.HOST_OS_NOT_SUPPORTED) {
-
-    }
-
-
     Calendar cal = new GregorianCalendar();
     cal.add(Calendar.HOUR_OF_DAY, 4);
     return cal;
@@ -202,11 +204,8 @@ public class TelkkuUpdater extends Updater {
     if (hostOS == HostOS.WINDOWS) {
       throw new HokanHostOsNotSupportedException("Telkku updater not supported on Windows");
     }
-    if (hostOS == HostOS.OSX) {
-      throw new HokanHostOsNotSupportedException("Telkku updater not supported on OsX");
-    }
 
-    String fileName = runTvGrab();
+    String fileName = runTvGrab(hostOS);
     log.info("Tv data file: {}", fileName);
 
     List<String> channelNames = new ArrayList<>();
