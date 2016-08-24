@@ -7,13 +7,14 @@ import org.freakz.hokan_ng_springboot.bot.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.models.LunchMenu;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.LunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.service.lunch.LunchRequestHandler;
+import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcher;
+import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,11 +28,11 @@ import java.util.List;
 @Slf4j
 public class FiiluLunchRequestHandler implements LunchRequestHandler {
 
+  @Autowired
+  private WWWPageFetcher wwwPageFetcher;
+
   private List<String> fetchLunch(String url) {
-    WebDriver driver = new HtmlUnitDriver(true); //the param true turns on javascript.
-    driver.get(url);
-    String output = driver.getPageSource();
-    driver.quit();
+    String output = wwwPageFetcher.fetchWWWPage(url);
     Document doc = Jsoup.parse(output);
 
     Elements e = doc.getElementsByTag("strong");
@@ -68,51 +69,46 @@ public class FiiluLunchRequestHandler implements LunchRequestHandler {
     if (firstFound) {
       idx++;
       String lunch = "";
-      lunch += menu.get(idx++);
-      lunch += " " + menu.get(idx++);
-      lunch += " " + menu.get(idx++);
+      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
       idx++;
-      lunch = beautifyLunch(lunch);
       LunchMenu lunchMenu = new LunchMenu(lunch);
       response.getMenu().put(LunchDay.MONDAY, lunchMenu);
 
       idx++;
       lunch = "";
-      lunch += menu.get(idx++);
-      lunch += " " + menu.get(idx++);
-      lunch += " " + menu.get(idx++);
+      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
       idx++;
-      lunch = beautifyLunch(lunch);
       lunchMenu = new LunchMenu(lunch);
       response.getMenu().put(LunchDay.TUESDAY, lunchMenu);
 
       idx++;
       lunch = "";
-      lunch += menu.get(idx++);
-      lunch += " " + menu.get(idx++);
-      lunch += " " + menu.get(idx++);
+      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
       idx++;
-      lunch = beautifyLunch(lunch);
       lunchMenu = new LunchMenu(lunch);
       response.getMenu().put(LunchDay.WEDNESDAY, lunchMenu);
 
       idx++;
       lunch = "";
-      lunch += menu.get(idx++);
-      lunch += " " + menu.get(idx++);
-      lunch += " " + menu.get(idx++);
+      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
       idx++;
-      lunch = beautifyLunch(lunch);
       lunchMenu = new LunchMenu(lunch);
       response.getMenu().put(LunchDay.THURSDAY, lunchMenu);
 
       idx++;
       lunch = "";
-      lunch += menu.get(idx++);
-      lunch += " " + menu.get(idx++);
-      lunch += " " + menu.get(idx++);
+      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
       idx++;
-      lunch = beautifyLunch(lunch);
       lunchMenu = new LunchMenu(lunch);
       response.getMenu().put(LunchDay.FRIDAY, lunchMenu);
 
@@ -121,11 +117,12 @@ public class FiiluLunchRequestHandler implements LunchRequestHandler {
     }
   }
 
-  private String beautifyLunch(String lunch) {
-    lunch = lunch.replaceFirst("Street gourmet grilli .....", "Grilli: ");
-    lunch = lunch.replaceFirst("Nordic Buffet ....", "Buffet: ");
-    lunch = lunch.replaceFirst("Päivän keittolounas ....", "Keitto: ");
-    return lunch;
+  private String stripLunchRow(String row, String title) {
+    String g = row.replaceAll("Street gourmet grilli ..... |Nordic Buffet .... |Päivän keittolounas .... ", "");
+    String[] meals = g.split(" \\(.*?\\) ?");
+    String tt = StringStuff.arrayToString(meals, ", ");
+
+    return String.format("%s %s", title, tt);
   }
 
 }

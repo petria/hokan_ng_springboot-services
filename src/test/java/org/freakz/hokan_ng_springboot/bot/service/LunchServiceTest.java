@@ -4,6 +4,7 @@ import org.freakz.hokan_ng_springboot.bot.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.service.lunch.LunchRequestHandler;
 import org.freakz.hokan_ng_springboot.bot.service.lunch.requesthandlers.*;
+import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -71,5 +72,27 @@ public class LunchServiceTest {
     lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_ALVARI, response, DateTime.now());
     assertEquals(LunchPlace.LOUNAS_INFO_ALVARI, response.getLunchPlace());
   }*/
+
+  private String stripLunchRow(String row, String title) {
+    String g = row.replaceAll("Street gourmet grilli ..... |Nordic Buffet .... |Päivän keittolounas .... ", "");
+    String[] meals = g.split(" \\(.*?\\) ?");
+    String tt = StringStuff.arrayToString(meals, ", ");
+
+    return String.format("%s %s", title, tt);
+  }
+
+  @Test
+  public void testF11luParse() {
+    String grill = "Street gourmet grilli 10,20 Juustolla ja paprikalla täytetty broilerinfilee (A, G, VL)   Bearnaisekastiketta (A, G, L)   Pähkinäistä täysjyvävehnää (A, L, M) Pulled pork hot dog (A, VL)";
+    String buffet = "Nordic Buffet 9,60 Jauhelihapyöryköitä (A, L, M)   Ruskeaa kastiketta (A, L, M) Tatti-pinaattikiusausta (A, G, L, Veg)";
+    String soup = "Päivän keittolounas 7,20 Broileri-kookoskeittoa (A, L, M, VS)";
+
+//    String ff = stripLunchRow(grill, "Grilli:");
+//    String ff = stripLunchRow(buffet, "Buffet:");
+    String ff = stripLunchRow(soup, "Keitto:");
+
+    int foo = 0;
+
+  }
 
 }
