@@ -29,106 +29,106 @@ import java.util.List;
 @Slf4j
 public class FiiluLunchRequestHandler implements LunchRequestHandler {
 
-  @Autowired
-  private WWWPageFetcher wwwPageFetcher;
+    @Autowired
+    private WWWPageFetcher wwwPageFetcher;
 
-  private List<String> fetchLunch(String url) {
-    String output;
-    if (wwwPageFetcher == null) {
-      // TODO fix
-      output = WWWPageFetcherImpl.fetchUrl(url);
-    } else {
-      output = wwwPageFetcher.fetchWWWPage(url);
+    private List<String> fetchLunch(String url) {
+        String output;
+        if (wwwPageFetcher == null) {
+            // TODO fix
+            output = WWWPageFetcherImpl.fetchUrl(url);
+        } else {
+            output = wwwPageFetcher.fetchWWWPage(url);
+        }
+
+        Document doc = Jsoup.parse(output);
+
+        Elements e = doc.getElementsByTag("strong");
+        List<String> rows = new ArrayList<>();
+
+        for (Element element : e) {
+            rows.add(element.parent().text());
+        }
+        return rows;
     }
 
-    Document doc = Jsoup.parse(output);
-
-    Elements e = doc.getElementsByTag("strong");
-    List<String> rows = new ArrayList<>();
-
-    for (Element element : e) {
-      rows.add(element.parent().text());
-    }
-    return rows;
-  }
-
-  @Override
-  @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_FIILU)
-  public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
-    response.setLunchPlace(lunchPlaceRequest);
-    List<String> menu = fetchLunch(lunchPlaceRequest.getUrl());
-    parseMenu(menu, response);
-  }
-
-  private void parseMenu(List<String> menu, LunchData response) {
-    boolean firstFound = false;
-    int idx = 0;
-    while (!firstFound) {
-      String row = menu.get(idx);
-      if (row.contains("Maanantai")) {
-        firstFound = true;
-        break;
-      }
-      idx++;
-      if (idx == menu.size()) {
-        break;
-      }
-    }
-    if (firstFound) {
-      idx++;
-      String lunch = "";
-      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
-      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
-      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
-      idx++;
-      LunchMenu lunchMenu = new LunchMenu(lunch);
-      response.getMenu().put(LunchDay.MONDAY, lunchMenu);
-
-      idx++;
-      lunch = "";
-      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
-      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
-      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
-      idx++;
-      lunchMenu = new LunchMenu(lunch);
-      response.getMenu().put(LunchDay.TUESDAY, lunchMenu);
-
-      idx++;
-      lunch = "";
-      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
-      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
-      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
-      idx++;
-      lunchMenu = new LunchMenu(lunch);
-      response.getMenu().put(LunchDay.WEDNESDAY, lunchMenu);
-
-      idx++;
-      lunch = "";
-      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
-      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
-      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
-      idx++;
-      lunchMenu = new LunchMenu(lunch);
-      response.getMenu().put(LunchDay.THURSDAY, lunchMenu);
-
-      idx++;
-      lunch = "";
-      lunch += stripLunchRow(menu.get(idx++), "Grilli:");
-      lunch += stripLunchRow(menu.get(idx++), " Buffet:");
-      lunch += stripLunchRow(menu.get(idx++), " Keitto:");
-      idx++;
-      lunchMenu = new LunchMenu(lunch);
-      response.getMenu().put(LunchDay.FRIDAY, lunchMenu);
+    @Override
+    @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_FIILU)
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+        response.setLunchPlace(lunchPlaceRequest);
+        List<String> menu = fetchLunch(lunchPlaceRequest.getUrl());
+        parseMenu(menu, response);
     }
 
-  }
+    private void parseMenu(List<String> menu, LunchData response) {
+        boolean firstFound = false;
+        int idx = 0;
+        while (!firstFound) {
+            String row = menu.get(idx);
+            if (row.contains("Maanantai")) {
+                firstFound = true;
+                break;
+            }
+            idx++;
+            if (idx == menu.size()) {
+                break;
+            }
+        }
+        if (firstFound) {
+            idx++;
+            String lunch = "";
+            lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+            lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+            lunch += stripLunchRow(menu.get(idx++), " Keitto:");
+            idx++;
+            LunchMenu lunchMenu = new LunchMenu(lunch);
+            response.getMenu().put(LunchDay.MONDAY, lunchMenu);
 
-  private String stripLunchRow(String row, String title) {
-    String g = row.replaceAll("Street gourmet grilli ..... |Nordic Buffet .... |Päivän keittolounas .... ", "");
-    String[] meals = g.split(" \\(.*?\\) ?");
-    String tt = StringStuff.arrayToString(meals, ", ");
+            idx++;
+            lunch = "";
+            lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+            lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+            lunch += stripLunchRow(menu.get(idx++), " Keitto:");
+            idx++;
+            lunchMenu = new LunchMenu(lunch);
+            response.getMenu().put(LunchDay.TUESDAY, lunchMenu);
 
-    return String.format("%s %s", title, tt);
-  }
+            idx++;
+            lunch = "";
+            lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+            lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+            lunch += stripLunchRow(menu.get(idx++), " Keitto:");
+            idx++;
+            lunchMenu = new LunchMenu(lunch);
+            response.getMenu().put(LunchDay.WEDNESDAY, lunchMenu);
+
+            idx++;
+            lunch = "";
+            lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+            lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+            lunch += stripLunchRow(menu.get(idx++), " Keitto:");
+            idx++;
+            lunchMenu = new LunchMenu(lunch);
+            response.getMenu().put(LunchDay.THURSDAY, lunchMenu);
+
+            idx++;
+            lunch = "";
+            lunch += stripLunchRow(menu.get(idx++), "Grilli:");
+            lunch += stripLunchRow(menu.get(idx++), " Buffet:");
+            lunch += stripLunchRow(menu.get(idx++), " Keitto:");
+            idx++;
+            lunchMenu = new LunchMenu(lunch);
+            response.getMenu().put(LunchDay.FRIDAY, lunchMenu);
+        }
+
+    }
+
+    private String stripLunchRow(String row, String title) {
+        String g = row.replaceAll("Street gourmet grilli ..... |Nordic Buffet .... |Päivän keittolounas .... ", "");
+        String[] meals = g.split(" \\(.*?\\) ?");
+        String tt = StringStuff.arrayToString(meals, ", ");
+
+        return String.format("%s %s", title, tt);
+    }
 
 }

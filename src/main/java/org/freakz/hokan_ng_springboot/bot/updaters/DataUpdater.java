@@ -15,33 +15,33 @@ import java.util.Calendar;
  */
 public interface DataUpdater {
 
-  Calendar getNextUpdateTime();
+    Calendar getNextUpdateTime();
 
-  Calendar getLastUpdateTime();
+    Calendar getLastUpdateTime();
 
-  Calendar calculateNextUpdate();
+    Calendar calculateNextUpdate();
 
-  void updateData(CommandPool commandPool);
+    void updateData(CommandPool commandPool);
 
-  void getData(UpdaterData updaterData, Object... args);
+    void getData(UpdaterData updaterData, Object... args);
 
-  UpdaterData getData(Object... args);
+    UpdaterData getData(Object... args);
 
-  UpdaterStatus getStatus();
+    UpdaterStatus getStatus();
 
-  long getUpdateCount();
+    long getUpdateCount();
 
-  long getDataFetched();
+    long getDataFetched();
 
-  long getItemsFetched();
+    long getItemsFetched();
 
-  long getItemmCount();
+    long getItemmCount();
 
-  long getLastUpdateRuntime();
+    long getLastUpdateRuntime();
 
-  long getTotalUpdateRuntime();
+    long getTotalUpdateRuntime();
 
-  String getUpdaterName();
+    String getUpdaterName();
 
 
 }

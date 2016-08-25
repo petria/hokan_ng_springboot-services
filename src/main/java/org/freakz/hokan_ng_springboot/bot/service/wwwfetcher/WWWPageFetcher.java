@@ -6,7 +6,7 @@ package org.freakz.hokan_ng_springboot.bot.service.wwwfetcher;
  */
 public interface WWWPageFetcher {
 
-  String fetchWWWPage(String url);
+    String fetchWWWPage(String url);
 
 
 }

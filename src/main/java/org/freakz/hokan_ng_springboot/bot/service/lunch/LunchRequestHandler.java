@@ -10,6 +10,6 @@ import org.joda.time.DateTime;
  */
 public interface LunchRequestHandler {
 
-  void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day);
+    void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day);
 
 }

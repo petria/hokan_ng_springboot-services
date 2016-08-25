@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface MetarDataService {
 
-  List<MetarData> getMetarData(Object... station);
+    List<MetarData> getMetarData(Object... station);
 
 }

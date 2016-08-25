@@ -12,31 +12,31 @@ import java.util.List;
  */
 public class DayChangedServiceTest {
 
-  @Test
-  public void testGetSunsetText() {
-    DayChangedService service = new DayChangedServiceImpl();
-    List<String> cityList = new ArrayList<>();
-    cityList.add("Turku");
-    String texts = service.getSunriseTexts(cityList);
-    Assert.assertTrue("Must have Sunset text", texts.contains("Sunset"));
-  }
+    @Test
+    public void testGetSunsetText() {
+        DayChangedService service = new DayChangedServiceImpl();
+        List<String> cityList = new ArrayList<>();
+        cityList.add("Turku");
+        String texts = service.getSunriseTexts(cityList);
+        Assert.assertTrue("Must have Sunset text", texts.contains("Sunset"));
+    }
 
-  @Test
-  public void testGetSunrisesText() {
-    DayChangedService service = new DayChangedServiceImpl();
-    List<String> cityList = new ArrayList<>();
-    cityList.add("Turku");
-    String texts = service.getSunriseTexts(cityList);
-    Assert.assertTrue("Must have Sunrise text", texts.contains("Sunrise"));
-  }
+    @Test
+    public void testGetSunrisesText() {
+        DayChangedService service = new DayChangedServiceImpl();
+        List<String> cityList = new ArrayList<>();
+        cityList.add("Turku");
+        String texts = service.getSunriseTexts(cityList);
+        Assert.assertTrue("Must have Sunrise text", texts.contains("Sunrise"));
+    }
 
-  @Test
-  public void testGetLengthOfDayText() {
-    DayChangedService service = new DayChangedServiceImpl();
-    List<String> cityList = new ArrayList<>();
-    cityList.add("Turku");
-    String texts = service.getSunriseTexts(cityList);
-    Assert.assertTrue("Must have Day length text", texts.contains("Length of day"));
-  }
+    @Test
+    public void testGetLengthOfDayText() {
+        DayChangedService service = new DayChangedServiceImpl();
+        List<String> cityList = new ArrayList<>();
+        cityList.add("Turku");
+        String texts = service.getSunriseTexts(cityList);
+        Assert.assertTrue("Must have Day length text", texts.contains("Length of day"));
+    }
 
 }

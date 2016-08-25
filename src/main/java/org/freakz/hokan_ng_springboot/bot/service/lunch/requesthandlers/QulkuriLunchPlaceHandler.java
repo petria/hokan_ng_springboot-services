@@ -26,32 +26,32 @@ import java.net.PasswordAuthentication;
 @Slf4j
 public class QulkuriLunchPlaceHandler implements LunchRequestHandler {
 
-  @Override
-  @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_QULKURI)
-  public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
-    response.setLunchPlace(lunchPlaceRequest);
-    String url = lunchPlaceRequest.getUrl();
-    Document doc;
-    try {
-      Authenticator.setDefault(new Authenticator() {
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication("foo", "bar".toCharArray());
+    @Override
+    @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_QULKURI)
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+        response.setLunchPlace(lunchPlaceRequest);
+        String url = lunchPlaceRequest.getUrl();
+        Document doc;
+        try {
+            Authenticator.setDefault(new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("foo", "bar".toCharArray());
+                }
+            });
+            doc = Jsoup.connect(url).timeout(0).userAgent(StaticStrings.HTTP_USER_AGENT).get();
+        } catch (IOException e) {
+            log.error("Could not fetch lunch from {}", url, e);
+            return;
         }
-      });
-      doc = Jsoup.connect(url).timeout(0).userAgent(StaticStrings.HTTP_USER_AGENT).get();
-    } catch (IOException e) {
-      log.error("Could not fetch lunch from {}", url, e);
-      return;
+        Elements elements = doc.getElementsByClass("art-postcontent");
+        Elements days = elements.select("h4[style=text-align: center;]");
+        Elements lunches = elements.select("p[style=text-align: center;]");
+        for (int xx = 0; xx < 5; xx++) {
+            LunchDay lunchDay = LunchDay.getFromWeekdayString(days.get(xx).text());
+            LunchMenu lunchMenu = new LunchMenu(lunches.get(xx).text().replace(" – – – – – – Tai – – – – – –", ","));
+            response.getMenu().put(lunchDay, lunchMenu);
+        }
     }
-    Elements elements = doc.getElementsByClass("art-postcontent");
-    Elements days = elements.select("h4[style=text-align: center;]");
-    Elements lunches = elements.select("p[style=text-align: center;]");
-    for (int xx = 0; xx < 5; xx++) {
-      LunchDay lunchDay = LunchDay.getFromWeekdayString(days.get(xx).text());
-      LunchMenu lunchMenu = new LunchMenu(lunches.get(xx).text().replace(" – – – – – – Tai – – – – – –", ","));
-      response.getMenu().put(lunchDay, lunchMenu);
-    }
-  }
 
 }

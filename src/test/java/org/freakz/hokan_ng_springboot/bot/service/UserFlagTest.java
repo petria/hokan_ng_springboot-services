@@ -10,26 +10,26 @@ import org.junit.Test;
  */
 public class UserFlagTest {
 
-  @Test
-  public void testFromStringToUserFlag() {
-    String str = "ADMIN";
-    UserFlag userFlag = UserFlag.getUserFlagFromString(str);
-    Assert.assertEquals(UserFlag.ADMIN, userFlag);
-  }
+    @Test
+    public void testFromStringToUserFlag() {
+        String str = "ADMIN";
+        UserFlag userFlag = UserFlag.getUserFlagFromString(str);
+        Assert.assertEquals(UserFlag.ADMIN, userFlag);
+    }
 
-  @Test
-  public void testFromExactShortStringToUserFlag() {
-    String str = "WL";
-    UserFlag userFlag = UserFlag.getUserFlagFromString(str);
-    Assert.assertEquals(UserFlag.WEB_LOGIN, userFlag);
-  }
+    @Test
+    public void testFromExactShortStringToUserFlag() {
+        String str = "WL";
+        UserFlag userFlag = UserFlag.getUserFlagFromString(str);
+        Assert.assertEquals(UserFlag.WEB_LOGIN, userFlag);
+    }
 
-  @Test
-  public void testFromShortAbbreviationStringToUserFlag() {
-    String str = "igNoR";
-    UserFlag userFlag = UserFlag.getUserFlagFromString(str);
-    Assert.assertEquals(UserFlag.IGNORE_ON_CHANNEL, userFlag);
-  }
+    @Test
+    public void testFromShortAbbreviationStringToUserFlag() {
+        String str = "igNoR";
+        UserFlag userFlag = UserFlag.getUserFlagFromString(str);
+        Assert.assertEquals(UserFlag.IGNORE_ON_CHANNEL, userFlag);
+    }
 
 
 }

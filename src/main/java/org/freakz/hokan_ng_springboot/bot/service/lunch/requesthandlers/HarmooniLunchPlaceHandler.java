@@ -27,61 +27,61 @@ import java.net.PasswordAuthentication;
 @Slf4j
 public class HarmooniLunchPlaceHandler implements LunchRequestHandler {
 
-  @Override
-  @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_HARMOONI)
-  public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
-    response.setLunchPlace(lunchPlaceRequest);
-    String url = lunchPlaceRequest.getUrl();
-    Document doc;
-    try {
-      Authenticator.setDefault(new Authenticator() {
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication("foo", "bar".toCharArray());
+    @Override
+    @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_HARMOONI)
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+        response.setLunchPlace(lunchPlaceRequest);
+        String url = lunchPlaceRequest.getUrl();
+        Document doc;
+        try {
+            Authenticator.setDefault(new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("foo", "bar".toCharArray());
+                }
+            });
+            doc = Jsoup.connect(url).timeout(0).userAgent(StaticStrings.HTTP_USER_AGENT).get();
+        } catch (IOException e) {
+            log.error("Could not fetch lunch from {}", url, e);
+            return;
         }
-      });
-      doc = Jsoup.connect(url).timeout(0).userAgent(StaticStrings.HTTP_USER_AGENT).get();
-    } catch (IOException e) {
-      log.error("Could not fetch lunch from {}", url, e);
-      return;
-    }
-    Elements elements = doc.getElementsByClass("entry-content");
-    Elements h3 = elements.select("h3");
+        Elements elements = doc.getElementsByClass("entry-content");
+        Elements h3 = elements.select("h3");
 
-    for (Element element : h3) {
-      String text = element.text();
-      LunchDay lunchDay = LunchDay.getFromWeekdayString(text);
+        for (Element element : h3) {
+            String text = element.text();
+            LunchDay lunchDay = LunchDay.getFromWeekdayString(text);
 
 //      log.debug("{}", text);
-      boolean gotAll = false;
-      Element test = element.nextElementSibling();
-      String lunchForDay = "";
-      while (!gotAll) {
-        // TODO better method to avoid looping forever
-        String food;
-        if (test == null) {
-          break;
-        } else {
-          food = test.text();
-        }
-        if (food.matches("Maanantai.*|Tiistai.*|Keskiviikko.*|Torstai.*|Perjantai.*")) {
-          break;
-        } else {
-          if (lunchForDay.length() > 0) {
-            lunchForDay += ", ";
-          }
-          lunchForDay += food;
+            boolean gotAll = false;
+            Element test = element.nextElementSibling();
+            String lunchForDay = "";
+            while (!gotAll) {
+                // TODO better method to avoid looping forever
+                String food;
+                if (test == null) {
+                    break;
+                } else {
+                    food = test.text();
+                }
+                if (food.matches("Maanantai.*|Tiistai.*|Keskiviikko.*|Torstai.*|Perjantai.*")) {
+                    break;
+                } else {
+                    if (lunchForDay.length() > 0) {
+                        lunchForDay += ", ";
+                    }
+                    lunchForDay += food;
 //          log.debug(" ->{}", food);
+                }
+                test = test.nextElementSibling();
+            }
+            LunchMenu lunchMenu = new LunchMenu(lunchForDay);
+            response.getMenu().put(lunchDay, lunchMenu);
+
         }
-        test = test.nextElementSibling();
-      }
-      LunchMenu lunchMenu = new LunchMenu(lunchForDay);
-      response.getMenu().put(lunchDay, lunchMenu);
+        int foo = 0;
 
     }
-    int foo = 0;
-
-  }
 
 
 }
