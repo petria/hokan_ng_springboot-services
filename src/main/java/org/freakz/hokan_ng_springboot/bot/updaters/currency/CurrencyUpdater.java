@@ -18,15 +18,15 @@ import java.util.Map;
 @Slf4j
 public class CurrencyUpdater {  //extends Updater {
 
-  private Map<String, CurrencyValue> values = new HashMap<>();
+    private Map<String, CurrencyValue> values = new HashMap<>();
 
-//  @Override
-  public void doUpdateData() throws Exception {
-    //To change body of implemented methods use File | Settings | File Templates.
-  }
+    //  @Override
+    public void doUpdateData() throws Exception {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-//  @Override
-  public Object doGetData(Object... args) {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
-  }
+    //  @Override
+    public Object doGetData(Object... args) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

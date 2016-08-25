@@ -9,17 +9,17 @@ package org.freakz.hokan_ng_springboot.bot.updaters;
  */
 public class UpdaterData {
 
-  private Object data;
+    private Object data;
 
-  public UpdaterData() {
-  }
+    public UpdaterData() {
+    }
 
-  public Object getData() {
-    return data;
-  }
+    public Object getData() {
+        return data;
+    }
 
-  public void setData(Object data) {
-    this.data = data;
-  }
+    public void setData(Object data) {
+        this.data = data;
+    }
 
 }

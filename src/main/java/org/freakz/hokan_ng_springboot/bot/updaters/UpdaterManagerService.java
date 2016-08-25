@@ -13,18 +13,18 @@ import java.util.List;
  */
 public interface UpdaterManagerService {
 
-  List<DataUpdaterModel> getDataUpdaterModelList();
+    List<DataUpdaterModel> getDataUpdaterModelList();
 
-  List<DataUpdater> getUpdaterList();
+    List<DataUpdater> getUpdaterList();
 
-  DataUpdater getUpdater(String updaterName);
+    DataUpdater getUpdater(String updaterName);
 
-  void stop();
+    void stop();
 
-  void start();
+    void start();
 
-  void startUpdater(DataUpdater updater);
+    void startUpdater(DataUpdater updater);
 
-  DataUpdaterModel startUpdaterByName(String updater);
+    DataUpdaterModel startUpdaterByName(String updater);
 
 }

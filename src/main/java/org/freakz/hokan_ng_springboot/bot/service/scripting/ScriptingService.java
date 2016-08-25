@@ -9,6 +9,6 @@ import org.freakz.hokan_ng_springboot.bot.models.ScriptResult;
  */
 public interface ScriptingService {
 
-  ScriptResult evalScript(String script, ServiceRequest request);
+    ScriptResult evalScript(String script, ServiceRequest request);
 
 }

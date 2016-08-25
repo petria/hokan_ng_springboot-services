@@ -8,28 +8,27 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by petria on 5.2.2015.
- *
  */
 @Component
 @Slf4j
 public class ServicesJmsReceiver extends SpringJmsReceiver {
 
-  @Autowired
-  private JmsSender jmsSender;
+    @Autowired
+    private JmsSender jmsSender;
 
-  @Autowired
-  private JmsServiceMessageHandler jmsServiceMessageHandler;
-
-
-  @Override
-  public String getDestinationName() {
-    return "HokanNGServicesQueue";
-  }
+    @Autowired
+    private JmsServiceMessageHandler jmsServiceMessageHandler;
 
 
-  @Override
-  public void handleJmsEnvelope(JmsEnvelope envelope) throws Exception {
-    jmsServiceMessageHandler.handleJmsEnvelope(envelope);
-  }
+    @Override
+    public String getDestinationName() {
+        return "HokanNGServicesQueue";
+    }
+
+
+    @Override
+    public void handleJmsEnvelope(JmsEnvelope envelope) throws Exception {
+        jmsServiceMessageHandler.handleJmsEnvelope(envelope);
+    }
 
 }

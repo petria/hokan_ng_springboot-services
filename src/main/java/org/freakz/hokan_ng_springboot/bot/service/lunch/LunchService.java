@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface LunchService {
 
-  LunchData getLunchForDay(LunchPlace place, DateTime day);
+    LunchData getLunchForDay(LunchPlace place, DateTime day);
 
-  List<LunchPlace> getLunchPlaces();
+    List<LunchPlace> getLunchPlaces();
 
 }

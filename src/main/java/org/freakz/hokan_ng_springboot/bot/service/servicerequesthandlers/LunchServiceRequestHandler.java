@@ -22,23 +22,23 @@ import java.util.List;
 @Slf4j
 public class LunchServiceRequestHandler {
 
-  @Autowired
-  private LunchService lunchService;
+    @Autowired
+    private LunchService lunchService;
 
-  @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.LUNCH_PLACES_REQUEST)
-  public void handleLunchPlacesServiceRequest(ServiceRequest request, ServiceResponse response) {
-    log.debug("Handling: {}", request);
-    List<LunchPlace> placeList = lunchService.getLunchPlaces();
-    response.setResponseData(request.getType().getResponseDataKey(), placeList);
-  }
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.LUNCH_PLACES_REQUEST)
+    public void handleLunchPlacesServiceRequest(ServiceRequest request, ServiceResponse response) {
+        log.debug("Handling: {}", request);
+        List<LunchPlace> placeList = lunchService.getLunchPlaces();
+        response.setResponseData(request.getType().getResponseDataKey(), placeList);
+    }
 
-  @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.LUNCH_REQUEST)
-  public void handleLunchRequest(ServiceRequest request, ServiceResponse response) {
-    log.debug("Handling: {}", request);
-    LunchPlace place = (LunchPlace) request.getParameters()[0];
-    DateTime day = (DateTime) request.getParameters()[1];
-    LunchData lunchData = lunchService.getLunchForDay(place, day);
-    response.setResponseData(request.getType().getResponseDataKey(), lunchData);
-  }
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.LUNCH_REQUEST)
+    public void handleLunchRequest(ServiceRequest request, ServiceResponse response) {
+        log.debug("Handling: {}", request);
+        LunchPlace place = (LunchPlace) request.getParameters()[0];
+        DateTime day = (DateTime) request.getParameters()[1];
+        LunchData lunchData = lunchService.getLunchForDay(place, day);
+        response.setResponseData(request.getType().getResponseDataKey(), lunchData);
+    }
 
 }

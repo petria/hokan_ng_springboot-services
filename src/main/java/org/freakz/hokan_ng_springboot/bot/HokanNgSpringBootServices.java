@@ -22,25 +22,25 @@ import java.util.Map;
 @Slf4j
 public class HokanNgSpringBootServices {
 
-  private static String JMS_BROKER_URL = "tcp://localhost:61616";
+    private static String JMS_BROKER_URL = "tcp://localhost:61616";
 
-  @Bean
-  public ConnectionFactory connectionFactory() {
-    ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(JMS_BROKER_URL);
-    activeMQConnectionFactory.setTrustAllPackages(true);
-    return activeMQConnectionFactory;
-  }
-
-  public static void main(String[] args) {
-    CommandLineArgsParser parser = new CommandLineArgsParser(args);
-    Map<CommandLineArgs, String> parsed = parser.parseArgs();
-    String url = parsed.get(CommandLineArgs.JMS_BROKER_URL);
-    if (url != null) {
-      JMS_BROKER_URL = url;
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(JMS_BROKER_URL);
+        activeMQConnectionFactory.setTrustAllPackages(true);
+        return activeMQConnectionFactory;
     }
-    log.debug("JMS_BROKER_URL: {}", JMS_BROKER_URL);
 
-    SpringApplication.run(HokanNgSpringBootServices.class, args);
-  }
+    public static void main(String[] args) {
+        CommandLineArgsParser parser = new CommandLineArgsParser(args);
+        Map<CommandLineArgs, String> parsed = parser.parseArgs();
+        String url = parsed.get(CommandLineArgs.JMS_BROKER_URL);
+        if (url != null) {
+            JMS_BROKER_URL = url;
+        }
+        log.debug("JMS_BROKER_URL: {}", JMS_BROKER_URL);
+
+        SpringApplication.run(HokanNgSpringBootServices.class, args);
+    }
 
 }

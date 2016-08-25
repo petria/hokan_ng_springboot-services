@@ -20,16 +20,16 @@ import java.util.List;
 @Slf4j
 public class SunriseServiceRequestHandler {
 
-  @Autowired
-  private DayChangedService dayChangedService;
+    @Autowired
+    private DayChangedService dayChangedService;
 
-  @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SUNRISE_SERVICE_REQUEST)
-  public void handleLunchPlacesServiceRequest(ServiceRequest request, ServiceResponse response) {
-    String city = (String) request.getParameters()[0];
-    List<String> cityList = new ArrayList<>();
-    cityList.add(city);
-    String sunrise = dayChangedService.getSunriseTexts(cityList);
-    response.setResponseData(request.getType().getResponseDataKey(), sunrise);
-  }
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SUNRISE_SERVICE_REQUEST)
+    public void handleLunchPlacesServiceRequest(ServiceRequest request, ServiceResponse response) {
+        String city = (String) request.getParameters()[0];
+        List<String> cityList = new ArrayList<>();
+        cityList.add(city);
+        String sunrise = dayChangedService.getSunriseTexts(cityList);
+        response.setResponseData(request.getType().getResponseDataKey(), sunrise);
+    }
 
 }
