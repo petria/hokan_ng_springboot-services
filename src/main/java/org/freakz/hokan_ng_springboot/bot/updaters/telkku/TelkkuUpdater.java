@@ -262,6 +262,7 @@ public class TelkkuUpdater extends Updater {
         nodeLst = doc.getElementsByTagName("programme");
 
         List<TelkkuProgram> programs = new ArrayList<>();
+        TelkkuProgram.resetIdCounter();
 
         for (int s = 0; s < nodeLst.getLength(); s++) {
 

@@ -210,16 +210,22 @@ public class TelkkuServiceImpl implements TelkkuService, CommandRunnable {
         public Channel channel;
         public TvNotify notify;
         public TelkkuProgram program;
+        public boolean fullNotify;
     }
 
 
     public void notifyWatcher() {
-        List<Channel> channels = channelPropertyService.getChannelsWithProperty(PropertyName.PROP_CHANNEL_DO_TVNOTIFY, "true|1");
+        List<Channel> channels = channelPropertyService.getChannelsWithProperty(PropertyName.PROP_CHANNEL_DO_TVNOTIFY, "full|true|1");
         Calendar future = new GregorianCalendar();
         future.add(Calendar.MINUTE, 5);
         List<Notify> toNotify = new ArrayList<>();
         for (String tvChannel : getChannels()) {
             for (Channel channel : channels) {
+                String chanNotify = channelPropertyService.getChannelPropertyAsString(channel, PropertyName.PROP_CHANNEL_DO_TVNOTIFY, "");
+                boolean fullNotify = false;
+                if (chanNotify.equalsIgnoreCase("full")) {
+                    fullNotify = true;
+                }
                 List<TvNotify> notifyList = notifyService.getTvNotifies(channel);
                 TelkkuProgram current = getCurrentProgram(future.getTime(), tvChannel);
                 if (current != null) {
@@ -230,6 +236,7 @@ public class TelkkuServiceImpl implements TelkkuService, CommandRunnable {
                                 n.channel = channel;
                                 n.notify = notify;
                                 n.program = current;
+                                n.fullNotify = fullNotify;
                                 toNotify.add(n);
                             }
                         }
@@ -246,11 +253,16 @@ public class TelkkuServiceImpl implements TelkkuService, CommandRunnable {
     private void sendNotifies(List<Notify> toNotify) {
 
         for (Notify n : toNotify) {
-            String note = String.format("Kohta alkaa -> [%s] %s %s (%s)",
+            String description = "";
+            if (n.fullNotify) {
+                description = " :: " + n.program.getDescription();
+            }
+            String note = String.format("Kohta alkaa -> [%s] %s %s (%s)%s",
                     n.program.getChannel(),
                     StringStuff.formatTime(n.program.getStartTimeD(), StringStuff.STRING_STUFF_DF_HHMM),
                     n.program.getProgram(),
-                    n.program.getId()
+                    n.program.getId(),
+                    description
             );
             NotifyRequest request = new NotifyRequest();
             request.setTargetChannelId(n.channel.getId());
