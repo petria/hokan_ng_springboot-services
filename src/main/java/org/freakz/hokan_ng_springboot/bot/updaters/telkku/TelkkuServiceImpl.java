@@ -247,7 +247,6 @@ public class TelkkuServiceImpl implements TelkkuService, CommandRunnable {
         if (toNotify.size() > 0) {
             sendNotifies(toNotify);
         }
-
     }
 
     private void sendNotifies(List<Notify> toNotify) {
@@ -255,7 +254,9 @@ public class TelkkuServiceImpl implements TelkkuService, CommandRunnable {
         for (Notify n : toNotify) {
             String description = "";
             if (n.fullNotify) {
-                description = " :: " + n.program.getDescription();
+                if (n.program.getDescription() != null && n.program.getDescription().length() > 0) {
+                    description = " :: " + n.program.getDescription();
+                }
             }
             String note = String.format("Kohta alkaa -> [%s] %s %s (%s)%s",
                     n.program.getChannel(),
