@@ -49,7 +49,7 @@ public class LunchServiceTest {
     assertEquals(LunchPlace.LOUNAS_INFO_QULKURI, response.getLunchPlace());
   }*/
 
-    @Test
+    //    @Test
     public void testFiilu() {
         LunchRequestHandler lunchRequestHandler = new FiiluLunchRequestHandler();
         LunchData response = new LunchData();
