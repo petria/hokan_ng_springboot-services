@@ -16,21 +16,21 @@ import java.util.List;
  */
 public interface TelkkuService {
 
-  TelkkuProgram getCurrentProgram(Date time, String channel);
+    TelkkuProgram getCurrentProgram(Date time, String channel);
 
-  TelkkuProgram getNextProgram(TelkkuProgram current, String channel);
+    TelkkuProgram getNextProgram(TelkkuProgram current, String channel);
 
-  boolean isReady();
+    boolean isReady();
 
-  String[] getChannels();
+    String[] getChannels();
 
-  List<TelkkuProgram> findPrograms(String program);
+    List<TelkkuProgram> findPrograms(String program);
 
-  TelkkuProgram findProgramById(int id);
+    TelkkuProgram findProgramById(int id);
 
-  List<TelkkuProgram> findDailyPrograms(Date day);
+    List<TelkkuProgram> findDailyPrograms(Date day);
 
-  TvNowData getTvNowData();
+    TvNowData getTvNowData();
 
-  List<TelkkuProgram> getChannelDailyNotifiedPrograms(Channel channel, Date day);
+    List<TelkkuProgram> getChannelDailyNotifiedPrograms(Channel channel, Date day);
 }

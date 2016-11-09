@@ -10,28 +10,27 @@ import java.io.IOException;
 
 /**
  * Created by Petri Airio on 12.5.2015.
- *
  */
 public class IlmatieteenlaitosTest {
 
 
-  public void testShortForecast() throws IOException {
+    public void testShortForecast() throws IOException {
 
-    Document doc = Jsoup.connect("http://ilmatieteenlaitos.fi/saa/jyv%C3%A4skyl%C3%A4?forecast=short").userAgent(StaticStrings.HTTP_USER_AGENT).get();
-    Elements times = doc.getElementsByClass("meteogram-times");
-    Elements symbols = doc.getElementsByClass("meteogram-weather-symbols");
-    Elements temperatures = doc.getElementsByClass("meteogram-temperatures");
+        Document doc = Jsoup.connect("http://ilmatieteenlaitos.fi/saa/jyv%C3%A4skyl%C3%A4?forecast=short").userAgent(StaticStrings.HTTP_USER_AGENT).get();
+        Elements times = doc.getElementsByClass("meteogram-times");
+        Elements symbols = doc.getElementsByClass("meteogram-weather-symbols");
+        Elements temperatures = doc.getElementsByClass("meteogram-temperatures");
 
-    String timez = times.get(0).text();
-    String temps = temperatures.get(0).text();
-    int foo = 0;
+        String timez = times.get(0).text();
+        String temps = temperatures.get(0).text();
+        int foo = 0;
 
-  }
+    }
 
 
-  public static void main(String[] args) throws Exception {
-    IlmatieteenlaitosTest instance = new IlmatieteenlaitosTest();
-    instance.testShortForecast();
+    public static void main(String[] args) throws Exception {
+        IlmatieteenlaitosTest instance = new IlmatieteenlaitosTest();
+        instance.testShortForecast();
 
 /*    Document doc = Jsoup.connect("http://en.ilmatieteenlaitos.fi/weather/sastamala").userAgent(StaticStrings.HTTP_USER_AGENT).get();
     Elements elements = doc.getElementsByClass("time-stamp");
@@ -48,6 +47,6 @@ public class IlmatieteenlaitosTest {
     }
     int foo = 0;
     System.out.println(sb.toString());*/
-  }
+    }
 
 }

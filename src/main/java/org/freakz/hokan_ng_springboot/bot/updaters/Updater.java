@@ -22,116 +22,116 @@ import java.util.GregorianCalendar;
 @Slf4j
 public abstract class Updater implements DataUpdater, CommandRunnable {
 
-  protected long updateCount = 0;
+    protected long updateCount = 0;
 
-  protected long dataFetched = 0;
-  protected long itemsFetched = 0;
-  protected long itemCount = 0;
+    protected long dataFetched = 0;
+    protected long itemsFetched = 0;
+    protected long itemCount = 0;
 
-  protected long lastUpdateRuntime = 0;
-  protected long totalUpdateRuntime = 0;
+    protected long lastUpdateRuntime = 0;
+    protected long totalUpdateRuntime = 0;
 
-  private Calendar nextUpdate = new GregorianCalendar();
-  private Calendar lastUpdate;
-  protected UpdaterStatus status;
+    private Calendar nextUpdate = new GregorianCalendar();
+    private Calendar lastUpdate;
+    protected UpdaterStatus status;
 
-  protected Updater() {
-  }
-
-  @Override
-  public String getUpdaterName() {
-    return this.getClass().getSimpleName();
-  }
-
-  @Override
-  public Calendar getNextUpdateTime() {
-    return nextUpdate;
-  }
-
-  @Override
-  public Calendar getLastUpdateTime() {
-    return lastUpdate;
-  }
-
-  @Override
-  public void updateData(CommandPool commandPool) {
-    commandPool.startRunnable(this, "<system>");
-  }
-
-  @Override
-  public void handleRun(long myPid, Object args) throws HokanException {
-    try {
-      status = UpdaterStatus.UPDATING;
-      long startTime = System.currentTimeMillis();
-      doUpdateData();
-      long duration = (System.currentTimeMillis() - startTime) / 1000;
-      this.lastUpdateRuntime = duration;
-      this.totalUpdateRuntime += duration;
-      nextUpdate = calculateNextUpdate();
-      status = UpdaterStatus.IDLE;
-    } catch (HokanHostOsNotSupportedException e) {
-      status = UpdaterStatus.HOST_OS_NOT_SUPPORTED;
-    } catch (Exception e) {
-      log.error("Updater failed", e);
-      status = UpdaterStatus.CRASHED;
-      this.nextUpdate.add(Calendar.MINUTE, 2);
-      throw new HokanException("Updater failed, trying again  in 2 minutes!", e);
-    } finally {
-      updateCount++;
-      lastUpdate = new GregorianCalendar();
+    protected Updater() {
     }
-  }
+
+    @Override
+    public String getUpdaterName() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Override
+    public Calendar getNextUpdateTime() {
+        return nextUpdate;
+    }
+
+    @Override
+    public Calendar getLastUpdateTime() {
+        return lastUpdate;
+    }
+
+    @Override
+    public void updateData(CommandPool commandPool) {
+        commandPool.startRunnable(this, "<system>");
+    }
+
+    @Override
+    public void handleRun(long myPid, Object args) throws HokanException {
+        try {
+            status = UpdaterStatus.UPDATING;
+            long startTime = System.currentTimeMillis();
+            doUpdateData();
+            long duration = (System.currentTimeMillis() - startTime) / 1000;
+            this.lastUpdateRuntime = duration;
+            this.totalUpdateRuntime += duration;
+            nextUpdate = calculateNextUpdate();
+            status = UpdaterStatus.IDLE;
+        } catch (HokanHostOsNotSupportedException e) {
+            status = UpdaterStatus.HOST_OS_NOT_SUPPORTED;
+        } catch (Exception e) {
+            log.error("Updater failed", e);
+            status = UpdaterStatus.CRASHED;
+            this.nextUpdate.add(Calendar.MINUTE, 2);
+            throw new HokanException("Updater failed, trying again  in 2 minutes!", e);
+        } finally {
+            updateCount++;
+            lastUpdate = new GregorianCalendar();
+        }
+    }
 
 
-  public abstract void doUpdateData() throws Exception;
+    public abstract void doUpdateData() throws Exception;
 
-  @Override
-  public void getData(UpdaterData data, Object... args) {
-    data.setData(doGetData(args));
-  }
+    @Override
+    public void getData(UpdaterData data, Object... args) {
+        data.setData(doGetData(args));
+    }
 
-  @Override
-  public UpdaterData getData(Object... args) {
-    UpdaterData data = new UpdaterData();
-    data.setData(doGetData(args));
-    return data;
-  }
+    @Override
+    public UpdaterData getData(Object... args) {
+        UpdaterData data = new UpdaterData();
+        data.setData(doGetData(args));
+        return data;
+    }
 
-  public abstract Object doGetData(Object... args);
+    public abstract Object doGetData(Object... args);
 
-  @Override
-  public UpdaterStatus getStatus() {
-    return this.status;
-  }
+    @Override
+    public UpdaterStatus getStatus() {
+        return this.status;
+    }
 
-  @Override
-  public long getUpdateCount() {
-    return this.updateCount;
-  }
+    @Override
+    public long getUpdateCount() {
+        return this.updateCount;
+    }
 
-  @Override
-  public long getDataFetched() {
-    return this.dataFetched;
-  }
+    @Override
+    public long getDataFetched() {
+        return this.dataFetched;
+    }
 
-  @Override
-  public long getItemsFetched() {
-    return this.itemsFetched;
-  }
+    @Override
+    public long getItemsFetched() {
+        return this.itemsFetched;
+    }
 
-  @Override
-  public long getItemmCount() {
-    return this.itemCount;
-  }
+    @Override
+    public long getItemmCount() {
+        return this.itemCount;
+    }
 
-  @Override
-  public long getLastUpdateRuntime() {
-    return this.lastUpdateRuntime;
-  }
+    @Override
+    public long getLastUpdateRuntime() {
+        return this.lastUpdateRuntime;
+    }
 
-  @Override
-  public long getTotalUpdateRuntime() {
-    return this.totalUpdateRuntime;
-  }
+    @Override
+    public long getTotalUpdateRuntime() {
+        return this.totalUpdateRuntime;
+    }
 
 }

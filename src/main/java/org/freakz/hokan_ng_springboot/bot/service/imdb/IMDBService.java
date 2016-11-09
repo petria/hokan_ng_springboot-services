@@ -10,8 +10,8 @@ import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
  */
 public interface IMDBService {
 
-  IMDBSearchResults findByTitle(String title);
+    IMDBSearchResults findByTitle(String title);
 
-  IMDBDetails getDetailedInfo(String name);
+    IMDBDetails getDetailedInfo(String name);
 
 }

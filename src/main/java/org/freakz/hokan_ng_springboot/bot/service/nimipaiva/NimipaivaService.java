@@ -5,14 +5,13 @@ import org.joda.time.DateTime;
 
 /**
  * Created by Petri Airio on 5.10.2015.
- *
  */
 public interface NimipaivaService {
 
-  NimipaivaData getNamesForDay(DateTime day);
+    NimipaivaData getNamesForDay(DateTime day);
 
-  NimipaivaData findDayForName(String name);
+    NimipaivaData findDayForName(String name);
 
-  void loadNames();
+    void loadNames();
 
 }
