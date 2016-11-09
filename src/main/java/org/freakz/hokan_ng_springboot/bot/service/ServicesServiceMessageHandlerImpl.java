@@ -13,6 +13,7 @@ import org.freakz.hokan_ng_springboot.bot.service.currency.CurrencyService;
 import org.freakz.hokan_ng_springboot.bot.service.imdb.IMDBService;
 import org.freakz.hokan_ng_springboot.bot.service.metar.MetarDataService;
 import org.freakz.hokan_ng_springboot.bot.service.nimipaiva.NimipaivaService;
+import org.freakz.hokan_ng_springboot.bot.service.topics.TopicService;
 import org.freakz.hokan_ng_springboot.bot.service.translate.SanakirjaOrgTranslateService;
 import org.freakz.hokan_ng_springboot.bot.service.urls.UrlCatchService;
 import org.freakz.hokan_ng_springboot.bot.updaters.DataUpdater;
@@ -59,6 +60,9 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     private TelkkuService telkkuService;
 
     @Autowired
+    private TopicService topicService;
+
+    @Autowired
     private SanakirjaOrgTranslateService translateService;
 
     @Autowired
@@ -66,6 +70,7 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @Autowired
     private UrlCatchService urlCatchService;
+
 
     private boolean findHandlersMethod(ServiceRequest request, ServiceResponse response) {
         String[] names = applicationContext.getBeanDefinitionNames();
@@ -105,6 +110,18 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
         List<KelikameratWeatherData> data = (List<KelikameratWeatherData>) updaterData.getData();
         response.setResponseData(request.getType().getResponseDataKey(), data);
     }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.CHANNEL_TOPIC_GET_REQUEST)
+    public void handleChannelTopicGetRequest(ServiceRequest request, ServiceResponse response) {
+        ChannelSetTopic setTopic = topicService.channelTopicGet(request.getIrcMessageEvent());
+        response.setResponseData(request.getType().getResponseDataKey(), setTopic);
+    }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.CHANNEL_TOPIC_SET_REQUEST)
+    public void handleChannelTopicSetRequest(ServiceRequest request, ServiceResponse response) {
+        topicService.channelTopicSet(request.getIrcMessageEvent());
+    }
+
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.CATCH_URLS_REQUEST)
     public void handleCatchUrlsRequest(ServiceRequest request, ServiceResponse response) {
