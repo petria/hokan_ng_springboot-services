@@ -46,6 +46,7 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
  */
 @Service
 @Slf4j
+@SuppressWarnings("unchecked")
 public class TelkkuUpdater extends Updater {
 
     @Autowired
