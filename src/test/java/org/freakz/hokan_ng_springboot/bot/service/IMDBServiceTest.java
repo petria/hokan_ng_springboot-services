@@ -2,7 +2,8 @@ package org.freakz.hokan_ng_springboot.bot.service;
 
 import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
 import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
-import org.freakz.hokan_ng_springboot.bot.service.imdb.IMDBServiceImpl;
+import org.freakz.hokan_ng_springboot.bot.service.imdb.IMDBNewService;
+import org.freakz.hokan_ng_springboot.bot.service.imdb.IMDBNewServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,15 +39,26 @@ public class IMDBServiceTest {
                     "The.Romantic.Englishwoman.1975.720p.BluRay.x264-FAPCAVE\n" +
                     "Mississippi.Grind.2015.LIMITED.1080p.BluRay.x264-GECKOS";
 
-    private IMDBServiceImpl service;
+    private IMDBNewService service;
 
     @Before
     public void initTest() {
-        service = new IMDBServiceImpl();
+        service = new IMDBNewServiceImpl();
+    }
+
+    @Test
+    public void testGetIMDBData() {
+        String[] sceneNames = SCENE_NAMES.split("\n");
+        for (String sceneName : sceneNames) {
+            String parsed = service.parseSceneMovieName(sceneName);
+            IMDBSearchResults imdbSearchResults = service.imdbSearch(parsed);
+            Assert.assertNotNull(imdbSearchResults);
+
+        }
     }
 
 
-    @Test
+/*    @Test
     public void testParseBogusName() {
         String bogusName = "Ffufufldsjkcfxfcxcas";
         String parsed = service.parseSceneMovieName(bogusName);
@@ -71,6 +83,14 @@ public class IMDBServiceTest {
 
     }
 
+    @Test
+    public void testGetDetailedInfoFromUrl() {
+        String url = "http://www.imdb.com/title/tt2009537/";
+        IMDBDetails details = service.getDetailedInfo(url);
+        Assert.assertNotNull(details.getDetails());
+        Assert.assertEquals("No Country for Gay Old Men", details.getDetails().getTitle());
+    }
+*/
 /*  @Test
   public void testGetDetailedInfoFromUrl() {
     String url = "http://www.imdb.com/title/tt2009537/";
@@ -107,7 +127,7 @@ public class IMDBServiceTest {
     public void testDetailedInfoBogusName() {
         String name = "FUFuffuf FUFUUFUF";
         IMDBDetails details = service.getDetailedInfo(name);
-        Assert.assertNull(details.getDetails());
+//        Assert.assertNull(details.getDetails());
 
     }
 
