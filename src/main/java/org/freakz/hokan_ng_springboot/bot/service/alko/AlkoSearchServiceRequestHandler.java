@@ -60,9 +60,13 @@ public class AlkoSearchServiceRequestHandler implements AlkoSearchService {
                 Element element = products.get(i);
                 String product = element.text();
                 String price = prices.get(i).text().replaceFirst(" ", ".");
-                String taste = tastes.get(i).text();
                 String volume = volumes.get(i).text();
-                results.add(String.format("%s %s, %s, %s€", product, volume, taste, price));
+                String taste = tastes.get(i).text();
+                if (taste.length() > 0) {
+                    results.add(String.format("%s %s, %s, %s€", product, volume, taste, price));
+                } else {
+                    results.add(String.format("%s %s, %s€", product, volume, price));
+                }
 
             }
         } catch (UnsupportedEncodingException e) {
