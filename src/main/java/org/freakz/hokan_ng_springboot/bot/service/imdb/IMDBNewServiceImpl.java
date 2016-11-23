@@ -9,7 +9,7 @@ import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
 import java.util.Map;
 
 /**
- * Created by Petri Airio (petri.airio@gmail.com) 14/11/2016 / 14.51
+ * Created by Petri Airio (petri.j.airio@gmail.com) 14/11/2016 / 14.51
  */
 public class IMDBNewServiceImpl implements IMDBNewService {
 

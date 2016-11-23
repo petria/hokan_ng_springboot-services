@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by Petri Airio (petri.airio@gmail.com) 09/11/2016 / 11.30
+ * Created by Petri Airio (petri.j.airio@gmail.com) 09/11/2016 / 11.30
  */
 @Scope("singleton")
 @Service

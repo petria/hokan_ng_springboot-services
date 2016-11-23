@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by Petri Airio (petri.airio@gmail.com) 22/11/2016 / 9.20
+ * Created by Petri Airio (petri.j.airio@gmail.com) 22/11/2016 / 9.20
  */
 public class AlkoSearchServiceTest {
 

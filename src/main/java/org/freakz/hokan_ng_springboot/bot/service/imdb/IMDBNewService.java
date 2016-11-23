@@ -4,7 +4,7 @@ import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
 import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
 
 /**
- * Created by Petri Airio (petri.airio@gmail.com) 14/11/2016 / 14.52
+ * Created by Petri Airio (petri.j.airio@gmail.com) 14/11/2016 / 14.52
  */
 public interface IMDBNewService {
 
