@@ -43,17 +43,27 @@ public class AlkoSearchServiceRequestHandler implements AlkoSearchService {
     public AlkoSearchResults alkoSearch(String search) {
         AlkoSearchResults alkoSearchResults = new AlkoSearchResults();
         List<String> results = new ArrayList<>();
+        alkoSearchResults.setResults(results);
 
         try {
             String term = URLEncoder.encode(search, "UTF-8");
             String url = "https://www.alko.fi/tuotehaku?SortingAttribute=random_185&SearchParameter=&SelectedFilter=&SearchTerm=" + term;
             String page = fetchAlkoPage(url);
             Document doc = Jsoup.parse(page);
-            Elements elements = doc.getElementsByClass("product-name-wrap");
-            alkoSearchResults.setResults(results);
-            for (Element element : elements) {
-                String found = element.text();
-                results.add(found);
+            Elements products = doc.getElementsByClass("product-name-wrap");
+            Elements prices = doc.getElementsByClass("product-price");
+            Elements tastes = doc.getElementsByClass("taste-txt");
+            Elements volumes = doc.getElementsByClass("product-volume");
+
+
+            for (int i = 0; i < products.size(); i++) {
+                Element element = products.get(i);
+                String product = element.text();
+                String price = prices.get(i).text().replaceFirst(" ", ".");
+                String taste = tastes.get(i).text();
+                String volume = volumes.get(i).text();
+                results.add(String.format("%s %s , %s, %s€", product, volume, taste, price));
+
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

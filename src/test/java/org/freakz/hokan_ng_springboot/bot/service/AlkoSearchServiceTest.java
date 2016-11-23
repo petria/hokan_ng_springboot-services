@@ -18,9 +18,9 @@ public class AlkoSearchServiceTest {
     public void testSearch() {
         AlkoSearchServiceRequestHandler searchService = new AlkoSearchServiceRequestHandler();
         searchService.setWwwPageFetcher(wwwPageFetcher);
-        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("black ipa");
+        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("karhu");
         Assert.assertNotNull(alkoSearchResults.getResults());
-        Assert.assertEquals(8, alkoSearchResults.getResults().size());
+        Assert.assertEquals(12, alkoSearchResults.getResults().size());
 
     }
 
