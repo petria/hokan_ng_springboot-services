@@ -19,22 +19,23 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class WWWPageFetcherImpl implements WWWPageFetcher {
 
-    private final LoadingCache<String, String> cache;
+    private final LoadingCache<CacheParameters, String> cache;
 
     public WWWPageFetcherImpl() {
         this.cache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.HOURS).build(
-                new CacheLoader<String, String>() {
+                new CacheLoader<CacheParameters, String>() {
                     @Override
-                    public String load(String url) throws Exception {
-                        return fetchUrl(url);
+                    public String load(CacheParameters parameters) throws Exception {
+                        return fetchWWWPageNoCache(parameters.url, parameters.useJavaScript);
                     }
                 }
         );
     }
 
-    public static String fetchUrl(String url) {
+    @Override
+    public String fetchWWWPageNoCache(String url, boolean useJavaScript) {
         log.debug("Fetching url: {}", url);
-        WebDriver driver = new HtmlUnitDriver(true); //the param true turns on javascript.
+        WebDriver driver = new HtmlUnitDriver(useJavaScript);
         driver.get(url);
         String output = driver.getPageSource();
         driver.quit();
@@ -42,13 +43,20 @@ public class WWWPageFetcherImpl implements WWWPageFetcher {
     }
 
     @Override
-    public String fetchWWWPage(String url) {
+    public String fetchWWWPage(String url, boolean useJavaScript) {
         try {
-            return cache.get(url);
+            CacheParameters parameters = new CacheParameters();
+            parameters.url = url;
+            parameters.useJavaScript = useJavaScript;
+            return cache.get(parameters);
         } catch (ExecutionException e) {
             e.printStackTrace();
             return "n/a";
         }
     }
 
+    public static class CacheParameters {
+        public String url;
+        public boolean useJavaScript;
+    }
 }
