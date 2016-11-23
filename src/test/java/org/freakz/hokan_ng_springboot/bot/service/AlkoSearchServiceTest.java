@@ -20,7 +20,7 @@ public class AlkoSearchServiceTest {
         searchService.setWwwPageFetcher(wwwPageFetcher);
         AlkoSearchResults alkoSearchResults = searchService.alkoSearch("black ipa");
         Assert.assertNotNull(alkoSearchResults.getResults());
-        Assert.assertEquals(1, alkoSearchResults.getResults().size());
+        Assert.assertEquals(8, alkoSearchResults.getResults().size());
 
     }
 
