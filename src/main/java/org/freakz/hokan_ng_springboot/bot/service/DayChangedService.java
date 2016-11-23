@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by Petri Airio on 22.9.2015.
+ * -
  */
 public interface DayChangedService {
 

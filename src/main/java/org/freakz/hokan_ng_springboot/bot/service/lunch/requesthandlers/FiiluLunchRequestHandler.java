@@ -8,7 +8,6 @@ import org.freakz.hokan_ng_springboot.bot.models.LunchMenu;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.LunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.service.lunch.LunchRequestHandler;
 import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcher;
-import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcherImpl;
 import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
@@ -29,17 +28,22 @@ import java.util.List;
 @Slf4j
 public class FiiluLunchRequestHandler implements LunchRequestHandler {
 
-    @Autowired
     private WWWPageFetcher wwwPageFetcher;
+
+    @Autowired
+    public void setWwwPageFetcher(WWWPageFetcher wwwPageFetcher) {
+        this.wwwPageFetcher = wwwPageFetcher;
+    }
 
     private List<String> fetchLunch(String url) {
         String output;
-        if (wwwPageFetcher == null) {
+/*        if (wwwPageFetcher == null) {
             // TODO fix
             output = WWWPageFetcherImpl.fetchUrl(url);
         } else {
-            output = wwwPageFetcher.fetchWWWPage(url);
-        }
+            output = wwwPageFetcher.fetchWWWPage(url, true);
+        }*/
+        output = wwwPageFetcher.fetchWWWPage(url, true);
 
         Document doc = Jsoup.parse(output);
 
