@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by Petri Airio (petri.airio@soikea.com) 22/11/2016 / 9.20
+ * Created by Petri Airio (petri.airio@gmail.com) 22/11/2016 / 9.20
  */
 public class AlkoSearchServiceTest {
 
@@ -18,11 +18,10 @@ public class AlkoSearchServiceTest {
     public void testSearch() {
         AlkoSearchServiceRequestHandler searchService = new AlkoSearchServiceRequestHandler();
         searchService.setWwwPageFetcher(wwwPageFetcher);
-        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("kossu");
+        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("apa");
         Assert.assertNotNull(alkoSearchResults.getResults());
         Assert.assertEquals(12, alkoSearchResults.getResults().size());
 
     }
-
 
 }

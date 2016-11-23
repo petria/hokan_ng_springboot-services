@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Petri Airio (petri.airio@soikea.com) 22/11/2016 / 8.55
+ * Created by Petri Airio (petri.airio@gmail.com) 22/11/2016 / 8.55
  */
 @Service
 @Slf4j
