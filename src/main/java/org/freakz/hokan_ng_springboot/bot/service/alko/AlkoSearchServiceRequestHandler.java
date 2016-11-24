@@ -50,24 +50,10 @@ public class AlkoSearchServiceRequestHandler implements AlkoSearchService {
             String url = "https://www.alko.fi/tuotehaku?SortingAttribute=random_185&SearchParameter=&SelectedFilter=&SearchTerm=" + term;
             String page = fetchAlkoPage(url);
             Document doc = Jsoup.parse(page);
-            Elements products = doc.getElementsByClass("product-name-wrap");
-            Elements prices = doc.getElementsByClass("product-price");
-            Elements tastes = doc.getElementsByClass("taste-txt");
-            Elements volumes = doc.getElementsByClass("product-volume");
-
-
-            for (int i = 0; i < products.size(); i++) {
-                Element element = products.get(i);
-                String product = element.text();
-                String price = prices.get(i).text().replaceFirst(" ", ".");
-                String volume = volumes.get(i).text();
-                String taste = tastes.get(i).text();
-                if (taste.length() > 0) {
-                    results.add(String.format("%s %s, %s, %s€", product, volume, taste, price));
-                } else {
-                    results.add(String.format("%s %s, %s€", product, volume, price));
-                }
-
+            Elements list2 = doc.getElementsByClass("mini-product-wrap");
+            for (Element listItem : list2) {
+                String item = listItem.text().replaceAll(" Cart Icon Zoom Icon ", " / ").replaceFirst(" ", ".").replaceFirst(" ", "€ / ").replaceAll("/ /", "/");
+                results.add(String.format("%s", item));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

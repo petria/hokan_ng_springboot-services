@@ -2,9 +2,9 @@ package org.freakz.hokan_ng_springboot.bot.service;
 
 import org.freakz.hokan_ng_springboot.bot.models.AlkoSearchResults;
 import org.freakz.hokan_ng_springboot.bot.service.alko.AlkoSearchServiceRequestHandler;
-import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcher;
 import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcherImpl;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -12,16 +12,26 @@ import org.junit.Test;
  */
 public class AlkoSearchServiceTest {
 
-    private WWWPageFetcher wwwPageFetcher = new WWWPageFetcherImpl();
+    private AlkoSearchServiceRequestHandler searchService;
+
+    @Before
+    public void setup() {
+        searchService = new AlkoSearchServiceRequestHandler();
+        searchService.setWwwPageFetcher(new WWWPageFetcherImpl());
+    }
 
     @Test
     public void testSearch() {
-        AlkoSearchServiceRequestHandler searchService = new AlkoSearchServiceRequestHandler();
-        searchService.setWwwPageFetcher(wwwPageFetcher);
         AlkoSearchResults alkoSearchResults = searchService.alkoSearch("apa");
         Assert.assertNotNull(alkoSearchResults.getResults());
         Assert.assertEquals(12, alkoSearchResults.getResults().size());
-
     }
+
+    @Test
+    public void testSearchNoVolumeForAllProducts() {
+        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("kalia");
+        Assert.assertNotNull(alkoSearchResults.getResults());
+    }
+
 
 }
