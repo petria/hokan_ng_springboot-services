@@ -31,7 +31,28 @@ public class AlkoSearchServiceTest {
     public void testSearchNoVolumeForAllProducts() {
         AlkoSearchResults alkoSearchResults = searchService.alkoSearch("kalia");
         Assert.assertNotNull(alkoSearchResults.getResults());
+        Assert.assertEquals(2, alkoSearchResults.getResults().size());
     }
 
+    @Test
+    public void testSearchKarhu() {
+        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("karhu");
+        Assert.assertNotNull(alkoSearchResults.getResults());
+        Assert.assertEquals(12, alkoSearchResults.getResults().size());
+    }
+
+    @Test
+    public void testSearchKossu() {
+        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("kossu");
+        Assert.assertNotNull(alkoSearchResults.getResults());
+        Assert.assertEquals(12, alkoSearchResults.getResults().size());
+    }
+
+    @Test
+    public void testSearchJäger() {
+        AlkoSearchResults alkoSearchResults = searchService.alkoSearch("jäger");
+        Assert.assertNotNull(alkoSearchResults.getResults());
+        Assert.assertEquals(12, alkoSearchResults.getResults().size());
+    }
 
 }

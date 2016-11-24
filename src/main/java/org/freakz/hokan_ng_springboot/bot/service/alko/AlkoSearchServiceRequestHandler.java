@@ -52,7 +52,12 @@ public class AlkoSearchServiceRequestHandler implements AlkoSearchService {
             Document doc = Jsoup.parse(page);
             Elements list2 = doc.getElementsByClass("mini-product-wrap");
             for (Element listItem : list2) {
-                String item = listItem.text().replaceAll(" Cart Icon Zoom Icon ", " / ").replaceFirst(" ", ".").replaceFirst(" ", "€ / ").replaceAll("/ /", "/");
+                String listItemText = listItem.text();
+                String item = listItemText.replaceAll(" Cart Icon Zoom Icon ", " / ").replaceFirst(" ", ".").replaceFirst(" ", "€ / ").replaceAll("/ /", "/");
+                item = item.replaceAll("ale ale", " / ale");
+                item = item.replaceAll("lager lager", " / lager");
+                item = item.replaceAll("tumma lager tumma lager", " / tumma lager");
+                item = item.replaceAll("vahva lager vahva lager", " / vahva lager");
                 results.add(String.format("%s", item));
             }
         } catch (UnsupportedEncodingException e) {
