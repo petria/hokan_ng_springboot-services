@@ -52,7 +52,7 @@ public class AlkoSearchServiceTest {
     public void testSearchJäger() {
         AlkoSearchResults alkoSearchResults = searchService.alkoSearch("jäger");
         Assert.assertNotNull(alkoSearchResults.getResults());
-        Assert.assertEquals(12, alkoSearchResults.getResults().size());
+        Assert.assertEquals(8, alkoSearchResults.getResults().size());
     }
 
 }
