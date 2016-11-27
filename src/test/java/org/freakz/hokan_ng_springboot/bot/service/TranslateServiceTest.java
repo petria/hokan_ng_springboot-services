@@ -1,10 +1,11 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
-import org.freakz.hokan_ng_springboot.bot.service.translate.TranslateService;
+import org.freakz.hokan_ng_springboot.bot.common.service.translate.TranslateService;
 import org.junit.Assert;
 
 /**
  * Created by Petri Airio on 24.4.2015.
+ * -
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(classes = HokanNgSpringBootServices.class)

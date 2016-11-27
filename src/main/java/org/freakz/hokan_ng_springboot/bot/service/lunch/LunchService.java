@@ -1,7 +1,7 @@
 package org.freakz.hokan_ng_springboot.bot.service.lunch;
 
-import org.freakz.hokan_ng_springboot.bot.enums.LunchPlace;
-import org.freakz.hokan_ng_springboot.bot.models.LunchData;
+import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
+import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.joda.time.DateTime;
 
 import java.util.List;

@@ -6,9 +6,9 @@ package org.freakz.hokan_ng_springboot.bot.service.nimipaiva;
  */
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.models.NimipaivaData;
-import org.freakz.hokan_ng_springboot.bot.util.FileUtil;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
+import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
+import org.freakz.hokan_ng_springboot.bot.common.util.FileUtil;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
 import org.springframework.stereotype.Service;

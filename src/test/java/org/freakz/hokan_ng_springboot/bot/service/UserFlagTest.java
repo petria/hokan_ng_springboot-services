@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.UserFlag;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.UserFlag;
 import org.junit.Assert;
 import org.junit.Test;
 

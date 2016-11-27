@@ -1,10 +1,10 @@
 package org.freakz.hokan_ng_springboot.bot.updaters.kelikamerat;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.models.KelikameratUrl;
-import org.freakz.hokan_ng_springboot.bot.models.KelikameratWeatherData;
+import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratUrl;
+import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratWeatherData;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.updaters.Updater;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.jsoup.Jsoup;
@@ -14,7 +14,12 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Petri Airio on 22.6.2015.

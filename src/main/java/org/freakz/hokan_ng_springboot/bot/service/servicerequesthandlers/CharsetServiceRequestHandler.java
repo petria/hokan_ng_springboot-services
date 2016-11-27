@@ -1,14 +1,14 @@
 package org.freakz.hokan_ng_springboot.bot.service.servicerequesthandlers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequest;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceResponse;
-import org.freakz.hokan_ng_springboot.bot.models.SystemScriptResult;
-import org.freakz.hokan_ng_springboot.bot.service.SystemScript;
-import org.freakz.hokan_ng_springboot.bot.service.SystemScriptRunnerService;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.models.SystemScriptResult;
+import org.freakz.hokan_ng_springboot.bot.common.service.SystemScript;
+import org.freakz.hokan_ng_springboot.bot.common.service.SystemScriptRunnerService;
+import org.freakz.hokan_ng_springboot.bot.common.util.FileUtil;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.ServiceMessageHandler;
-import org.freakz.hokan_ng_springboot.bot.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +21,15 @@ import java.io.IOException;
 @Slf4j
 public class CharsetServiceRequestHandler {
 
-    @Autowired
-    private FileUtil fileUtil;
+    private final FileUtil fileUtil;
+
+    private final SystemScriptRunnerService systemScriptRunnerService;
 
     @Autowired
-    private SystemScriptRunnerService systemScriptRunnerService;
+    public CharsetServiceRequestHandler(FileUtil fileUtil, SystemScriptRunnerService systemScriptRunnerService) {
+        this.fileUtil = fileUtil;
+        this.systemScriptRunnerService = systemScriptRunnerService;
+    }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.CHARSET_REQUEST)
     public void handleCharsetServiceRequest(ServiceRequest request, ServiceResponse response) {
@@ -35,7 +39,6 @@ public class CharsetServiceRequestHandler {
             // tmpFile = "D:\\TEMP\\bytes";
             SystemScriptResult result = systemScriptRunnerService.runAndGetResult(SystemScript.FILE_SCRIPT, tmpFile);
             response.setResponseData(request.getType().getResponseDataKey(), result.getOriginalOutput());
-            int foo = 0;
         } catch (IOException e) {
             e.printStackTrace();
         }

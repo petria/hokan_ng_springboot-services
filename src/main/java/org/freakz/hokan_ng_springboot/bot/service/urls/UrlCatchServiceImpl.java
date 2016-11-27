@@ -1,25 +1,23 @@
 package org.freakz.hokan_ng_springboot.bot.service.urls;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandPool;
-import org.freakz.hokan_ng_springboot.bot.enums.HokanModule;
-import org.freakz.hokan_ng_springboot.bot.events.IrcMessageEvent;
-import org.freakz.hokan_ng_springboot.bot.events.NotifyRequest;
-import org.freakz.hokan_ng_springboot.bot.jms.api.JmsSender;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Channel;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Network;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.PropertyName;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Url;
-import org.freakz.hokan_ng_springboot.bot.jpa.repository.UrlRepository;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.ChannelPropertyRepositoryService;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.ChannelService;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.NetworkService;
-import org.freakz.hokan_ng_springboot.bot.util.StaticStrings;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
+import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
+import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
+import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
+import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Network;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.PropertyName;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Url;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.repository.UrlRepository;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyRepositoryService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.NetworkService;
+import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -35,26 +33,24 @@ import java.util.regex.Pattern;
 @Slf4j
 public class UrlCatchServiceImpl implements UrlCatchService {
 
-    @Autowired
-    ApplicationContext context;
+    private final ChannelPropertyRepositoryService channelPropertyService;
+
+    private final ChannelService channelService;
+
+    private final JmsSender jmsSender;
+
+    private final NetworkService networkService;
+
+    private final UrlRepository urlRepository;
 
     @Autowired
-    private CommandPool commandPool;
-
-    @Autowired
-    private ChannelPropertyRepositoryService channelPropertyService;
-
-    @Autowired
-    private ChannelService channelService;
-
-    @Autowired
-    private JmsSender jmsSender;
-
-    @Autowired
-    private NetworkService networkService;
-
-    @Autowired
-    private UrlRepository urlRepository;
+    public UrlCatchServiceImpl(ChannelPropertyRepositoryService channelPropertyService, ChannelService channelService, JmsSender jmsSender, NetworkService networkService, UrlRepository urlRepository) {
+        this.channelPropertyService = channelPropertyService;
+        this.channelService = channelService;
+        this.jmsSender = jmsSender;
+        this.networkService = networkService;
+        this.urlRepository = urlRepository;
+    }
 
     @Override
     public void catchUrls(IrcMessageEvent ircMessageEvent) {
@@ -63,7 +59,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         catchUrls(ircMessageEvent, channel);
     }
 
-    public long logUrl(IrcMessageEvent iEvent, String url) {
+    private long logUrl(IrcMessageEvent iEvent, String url) {
         long isWanha = 0;
 
         Url entity = urlRepository.findFirstByUrlLikeOrUrlTitleLikeOrderByCreatedDesc(url, url);
@@ -110,14 +106,14 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         }
     }
 
-    public String getIMDBData(String url) throws Exception {
+    private String getIMDBData(String url) throws Exception {
         org.jsoup.nodes.Document doc = Jsoup.connect(url).userAgent(StaticStrings.HTTP_USER_AGENT).get();
         String rating = doc.getElementsByAttributeValue("itemprop", "ratingValue").get(0).text();
         String users = doc.getElementsByAttributeValue("itemprop", "ratingCount").get(0).text();
         return String.format("Ratings: %s/10 from %s users", rating, users);
     }
 
-    public void getTitleNew(final String url, final Channel ch, final boolean isWanha, final String wanhaAadd) {
+    private void getTitleNew(final String url, final Channel ch, final boolean isWanha, final String wanhaAadd) {
         org.jsoup.nodes.Document doc;
         try {
             doc = Jsoup.connect(url).get();
@@ -168,7 +164,6 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         } else {
             log.info("Could not find title for url: " + url);
         }
-
     }
 
 }

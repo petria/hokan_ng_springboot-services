@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service.annotation;
 
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

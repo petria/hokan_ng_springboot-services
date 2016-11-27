@@ -1,7 +1,7 @@
 package org.freakz.hokan_ng_springboot.bot.service.imdb;
 
-import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
-import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
 
 /**
  * Created by Petri Airio (petri.j.airio@gmail.com) 14/11/2016 / 14.52

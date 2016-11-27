@@ -1,8 +1,8 @@
 package org.freakz.hokan_ng_springboot.bot.service.topics;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.events.IrcMessageEvent;
-import org.freakz.hokan_ng_springboot.bot.models.ChannelSetTopic;
+import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
+import org.freakz.hokan_ng_springboot.bot.common.models.ChannelSetTopic;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 

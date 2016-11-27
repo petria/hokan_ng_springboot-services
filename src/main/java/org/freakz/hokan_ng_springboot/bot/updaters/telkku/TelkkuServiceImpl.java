@@ -1,27 +1,35 @@
 package org.freakz.hokan_ng_springboot.bot.updaters.telkku;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandPool;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandRunnable;
-import org.freakz.hokan_ng_springboot.bot.enums.HokanModule;
-import org.freakz.hokan_ng_springboot.bot.events.NotifyRequest;
-import org.freakz.hokan_ng_springboot.bot.exception.HokanException;
-import org.freakz.hokan_ng_springboot.bot.jms.api.JmsSender;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Channel;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.PropertyName;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.TvNotify;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.ChannelPropertyService;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.TvNotifyService;
-import org.freakz.hokan_ng_springboot.bot.models.TelkkuData;
-import org.freakz.hokan_ng_springboot.bot.models.TelkkuProgram;
-import org.freakz.hokan_ng_springboot.bot.models.TvNowData;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
+import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
+import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
+import org.freakz.hokan_ng_springboot.bot.common.exception.HokanException;
+import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.PropertyName;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.TvNotify;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.TvNotifyService;
+import org.freakz.hokan_ng_springboot.bot.common.models.TelkkuData;
+import org.freakz.hokan_ng_springboot.bot.common.models.TelkkuProgram;
+import org.freakz.hokan_ng_springboot.bot.common.models.TvNowData;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.updaters.UpdaterManagerService;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: petria

@@ -1,9 +1,9 @@
 package org.freakz.hokan_ng_springboot.bot.service.servicerequesthandlers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequest;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.service.DayChangedService;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.ServiceMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,12 @@ import java.util.List;
 @Slf4j
 public class SunriseServiceRequestHandler {
 
+    private final DayChangedService dayChangedService;
+
     @Autowired
-    private DayChangedService dayChangedService;
+    public SunriseServiceRequestHandler(DayChangedService dayChangedService) {
+        this.dayChangedService = dayChangedService;
+    }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SUNRISE_SERVICE_REQUEST)
     public void handleLunchPlacesServiceRequest(ServiceRequest request, ServiceResponse response) {

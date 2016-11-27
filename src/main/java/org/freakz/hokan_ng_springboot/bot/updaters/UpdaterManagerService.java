@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.updaters;
 
-import org.freakz.hokan_ng_springboot.bot.models.DataUpdaterModel;
+import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
 
 import java.util.List;
 

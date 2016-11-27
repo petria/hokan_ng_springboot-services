@@ -1,8 +1,8 @@
 package org.freakz.hokan_ng_springboot.bot.service.currency;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.models.GoogleCurrency;
-import org.freakz.hokan_ng_springboot.bot.util.StaticStrings;
+import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
+import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

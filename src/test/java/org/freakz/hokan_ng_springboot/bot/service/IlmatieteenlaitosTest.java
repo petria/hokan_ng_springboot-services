@@ -1,7 +1,7 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
 
-import org.freakz.hokan_ng_springboot.bot.util.StaticStrings;
+import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * Created by Petri Airio on 12.5.2015.
+ * -
  */
 public class IlmatieteenlaitosTest {
 

@@ -1,17 +1,21 @@
 package org.freakz.hokan_ng_springboot.bot.updaters.horo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.models.HoroHolder;
+import org.freakz.hokan_ng_springboot.bot.common.models.HoroHolder;
+import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.updaters.Updater;
-import org.freakz.hokan_ng_springboot.bot.util.StaticStrings;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * User: petria

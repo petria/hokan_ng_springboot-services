@@ -1,8 +1,8 @@
 package org.freakz.hokan_ng_springboot.bot.service.lunch;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.enums.LunchPlace;
-import org.freakz.hokan_ng_springboot.bot.models.LunchData;
+import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
+import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.LunchPlaceHandler;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;

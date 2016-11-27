@@ -1,10 +1,10 @@
 package org.freakz.hokan_ng_springboot.bot.service.scripting;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequest;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceResponse;
-import org.freakz.hokan_ng_springboot.bot.models.ScriptResult;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.models.ScriptResult;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.ServiceMessageHandler;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
-import org.freakz.hokan_ng_springboot.bot.models.NimipaivaData;
+import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
 import org.freakz.hokan_ng_springboot.bot.service.nimipaiva.NimipaivaService;
 import org.freakz.hokan_ng_springboot.bot.service.nimipaiva.NimipaivaServiceImpl;
 import org.joda.time.DateTime;
@@ -10,6 +10,7 @@ import org.junit.Test;
 
 /**
  * Created by Petri Airio on 5.10.2015.
+ * -
  */
 public class NimipaivaServiceTest {
 

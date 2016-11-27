@@ -1,11 +1,11 @@
 package org.freakz.hokan_ng_springboot.bot.service.servicerequesthandlers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.enums.LunchPlace;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequest;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceResponse;
-import org.freakz.hokan_ng_springboot.bot.models.LunchData;
+import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.service.lunch.LunchService;
 import org.joda.time.DateTime;

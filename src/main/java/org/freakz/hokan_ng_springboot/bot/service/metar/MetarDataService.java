@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service.metar;
 
-import org.freakz.hokan_ng_springboot.bot.models.MetarData;
+import org.freakz.hokan_ng_springboot.bot.common.models.MetarData;
 
 import java.util.List;
 

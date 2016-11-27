@@ -1,11 +1,12 @@
 package org.freakz.hokan_ng_springboot.bot.service.currency;
 
-import org.freakz.hokan_ng_springboot.bot.models.GoogleCurrency;
+import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
 
 import java.util.List;
 
 /**
  * Created by Petri Airio on 2.9.2015.
+ * -
  */
 public interface CurrencyService {
 

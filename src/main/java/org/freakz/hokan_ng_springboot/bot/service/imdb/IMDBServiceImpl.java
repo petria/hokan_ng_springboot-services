@@ -1,8 +1,8 @@
 package org.freakz.hokan_ng_springboot.bot.service.imdb;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
-import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
 import org.springframework.stereotype.Service;
 
 /**

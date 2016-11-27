@@ -1,17 +1,21 @@
 package org.freakz.hokan_ng_springboot.bot.updaters;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandPool;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandRunnable;
-import org.freakz.hokan_ng_springboot.bot.models.DataUpdaterModel;
-import org.freakz.hokan_ng_springboot.bot.models.UpdaterStatus;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
+import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
+import org.freakz.hokan_ng_springboot.bot.common.models.UpdaterStatus;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: petria

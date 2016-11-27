@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
-import org.freakz.hokan_ng_springboot.bot.models.AlkoSearchResults;
+import org.freakz.hokan_ng_springboot.bot.common.models.AlkoSearchResults;
 import org.freakz.hokan_ng_springboot.bot.service.alko.AlkoSearchServiceRequestHandler;
 import org.freakz.hokan_ng_springboot.bot.service.wwwfetcher.WWWPageFetcherImpl;
 import org.junit.Assert;

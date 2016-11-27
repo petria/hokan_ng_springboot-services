@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service.annotation;
 
-import org.freakz.hokan_ng_springboot.bot.enums.LunchPlace;
+import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

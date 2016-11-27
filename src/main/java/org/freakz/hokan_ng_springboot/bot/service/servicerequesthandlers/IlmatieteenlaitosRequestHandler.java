@@ -1,12 +1,12 @@
 package org.freakz.hokan_ng_springboot.bot.service.servicerequesthandlers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequest;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.events.ServiceResponse;
-import org.freakz.hokan_ng_springboot.bot.models.HourlyWeatherData;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.models.HourlyWeatherData;
+import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.freakz.hokan_ng_springboot.bot.service.annotation.ServiceMessageHandler;
-import org.freakz.hokan_ng_springboot.bot.util.StaticStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

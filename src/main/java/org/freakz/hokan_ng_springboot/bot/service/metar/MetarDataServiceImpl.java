@@ -1,13 +1,17 @@
 package org.freakz.hokan_ng_springboot.bot.service.metar;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.models.MetarData;
-import org.freakz.hokan_ng_springboot.bot.util.FileUtil;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
+import org.freakz.hokan_ng_springboot.bot.common.models.MetarData;
+import org.freakz.hokan_ng_springboot.bot.common.util.FileUtil;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;

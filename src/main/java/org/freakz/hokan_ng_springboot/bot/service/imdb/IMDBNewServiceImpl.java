@@ -3,8 +3,8 @@ package org.freakz.hokan_ng_springboot.bot.service.imdb;
 
 import com.omertron.imdbapi.ImdbApi;
 import com.omertron.imdbapi.ImdbException;
-import org.freakz.hokan_ng_springboot.bot.models.IMDBDetails;
-import org.freakz.hokan_ng_springboot.bot.models.IMDBSearchResults;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
 
 import java.util.Map;
 

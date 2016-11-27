@@ -1,23 +1,24 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandPool;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandRunnable;
-import org.freakz.hokan_ng_springboot.bot.enums.HokanModule;
-import org.freakz.hokan_ng_springboot.bot.events.NotifyRequest;
-import org.freakz.hokan_ng_springboot.bot.exception.HokanException;
-import org.freakz.hokan_ng_springboot.bot.jms.api.JmsSender;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Channel;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.PropertyName;
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Url;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.ChannelPropertyService;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.PropertyService;
-import org.freakz.hokan_ng_springboot.bot.jpa.service.UrlLoggerService;
-import org.freakz.hokan_ng_springboot.bot.models.StatsData;
-import org.freakz.hokan_ng_springboot.bot.models.StatsMapper;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
+import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
+import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
+import org.freakz.hokan_ng_springboot.bot.common.exception.HokanException;
+import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.PropertyName;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Url;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.PropertyService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.UrlLoggerService;
+import org.freakz.hokan_ng_springboot.bot.common.models.StatsData;
+import org.freakz.hokan_ng_springboot.bot.common.models.StatsMapper;
+import org.freakz.hokan_ng_springboot.bot.common.service.StatsService;
+import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
+import org.freakz.hokan_ng_springboot.bot.common.util.TimeUtil;
 import org.freakz.hokan_ng_springboot.bot.service.nimipaiva.NimipaivaService;
-import org.freakz.hokan_ng_springboot.bot.util.StringStuff;
-import org.freakz.hokan_ng_springboot.bot.util.TimeUtil;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +28,13 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Petri Airio on 22.9.2015.
@@ -37,28 +44,43 @@ import java.util.*;
 @Slf4j
 public class DayChangedServiceImpl implements DayChangedService, CommandRunnable {
 
-    @Autowired
-    private ChannelPropertyService channelPropertyService;
+    private final ChannelPropertyService channelPropertyService;
 
-    @Autowired
-    private CommandPool commandPool;
+    private final CommandPool commandPool;
 
-    @Autowired
-    private JmsSender jmsSender;
+    private final JmsSender jmsSender;
 
-    @Autowired
-    private NimipaivaService nimipaivaService;
+    private final NimipaivaService nimipaivaService;
 
-    @Autowired
-    private PropertyService propertyService;
+    private final PropertyService propertyService;
 
-    @Autowired
-    private StatsService statsService;
+    private final StatsService statsService;
 
-    @Autowired
-    private UrlLoggerService urlLoggerService;
+    private final UrlLoggerService urlLoggerService;
 
     private Map<String, String> daysDone = new HashMap<>();
+
+    @Autowired
+    public DayChangedServiceImpl(ChannelPropertyService channelPropertyService, CommandPool commandPool, JmsSender jmsSender, NimipaivaService nimipaivaService, PropertyService propertyService, StatsService statsService, UrlLoggerService urlLoggerService) {
+        this.channelPropertyService = channelPropertyService;
+        this.commandPool = commandPool;
+        this.jmsSender = jmsSender;
+        this.nimipaivaService = nimipaivaService;
+        this.propertyService = propertyService;
+        this.statsService = statsService;
+        this.urlLoggerService = urlLoggerService;
+    }
+
+    public DayChangedServiceImpl() {
+
+        channelPropertyService = null;
+        urlLoggerService = null;
+        statsService = null;
+        propertyService = null;
+        commandPool = null;
+        jmsSender = null;
+        nimipaivaService = null;
+    }
 
     @PostConstruct
     private void startRunner() {
@@ -78,7 +100,7 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
         }
     }
 
-    public String getDailyStats(Channel channel) {
+    private String getDailyStats(Channel channel) {
         DateTime yesterday = DateTime.now().minusDays(1);
         StatsMapper statsMapper = statsService.getDailyStatsForChannel(yesterday, channel.getChannelName());
 

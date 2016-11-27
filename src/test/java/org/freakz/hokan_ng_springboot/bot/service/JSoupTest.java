@@ -1,6 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.service;
 
-import org.freakz.hokan_ng_springboot.bot.util.StaticStrings;
+import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +16,7 @@ import java.net.URLConnection;
 
 /**
  * Created by Petri Airio (petri.j.airio@gmail.com) on 1.9.2015.
+ * -
  */
 public class JSoupTest {
 

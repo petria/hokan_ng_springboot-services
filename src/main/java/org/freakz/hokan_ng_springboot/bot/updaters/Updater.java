@@ -1,11 +1,11 @@
 package org.freakz.hokan_ng_springboot.bot.updaters;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandPool;
-import org.freakz.hokan_ng_springboot.bot.cmdpool.CommandRunnable;
-import org.freakz.hokan_ng_springboot.bot.exception.HokanException;
-import org.freakz.hokan_ng_springboot.bot.exception.HokanHostOsNotSupportedException;
-import org.freakz.hokan_ng_springboot.bot.models.UpdaterStatus;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
+import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
+import org.freakz.hokan_ng_springboot.bot.common.exception.HokanException;
+import org.freakz.hokan_ng_springboot.bot.common.exception.HokanHostOsNotSupportedException;
+import org.freakz.hokan_ng_springboot.bot.common.models.UpdaterStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;

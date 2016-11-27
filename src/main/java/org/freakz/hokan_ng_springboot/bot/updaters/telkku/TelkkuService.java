@@ -1,8 +1,8 @@
 package org.freakz.hokan_ng_springboot.bot.updaters.telkku;
 
-import org.freakz.hokan_ng_springboot.bot.jpa.entity.Channel;
-import org.freakz.hokan_ng_springboot.bot.models.TelkkuProgram;
-import org.freakz.hokan_ng_springboot.bot.models.TvNowData;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
+import org.freakz.hokan_ng_springboot.bot.common.models.TelkkuProgram;
+import org.freakz.hokan_ng_springboot.bot.common.models.TvNowData;
 
 import java.util.Date;
 import java.util.List;
