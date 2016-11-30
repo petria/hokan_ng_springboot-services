@@ -5,19 +5,19 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.freakz.hokan_ng_springboot.bot.common.enums.CommandLineArgs;
 import org.freakz.hokan_ng_springboot.bot.common.util.CommandLineArgsParser;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.jms.ConnectionFactory;
 import java.util.Map;
 
-@SpringBootApplication
+@Configuration
+@EnableAutoConfiguration
 @EnableJms
-@EnableJpaRepositories
-@EnableTransactionManagement
+@ComponentScan({"org.freakz.hokan_ng_springboot.bot"})
 @Slf4j
 public class HokanNgSpringBootServices {
 
