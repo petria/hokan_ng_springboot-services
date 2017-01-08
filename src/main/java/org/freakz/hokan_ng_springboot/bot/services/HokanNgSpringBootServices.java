@@ -38,7 +38,7 @@ public class HokanNgSpringBootServices {
             JMS_BROKER_URL = url;
         }
         log.debug("JMS_BROKER_URL: {}", JMS_BROKER_URL);
-
+        System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(HokanNgSpringBootServices.class, args);
     }
 

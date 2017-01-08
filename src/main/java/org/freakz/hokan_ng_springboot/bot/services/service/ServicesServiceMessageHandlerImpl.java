@@ -82,8 +82,22 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     @Autowired
     private UrlCatchService urlCatchService;
 
+    public ServicesServiceMessageHandlerImpl(ApplicationContext applicationContext, CurrencyService currencyService, IMDBService imdbService, MetarDataService metarDataService, NimipaivaService nimipaivaService, TelkkuService telkkuService, TopicService topicService, SanakirjaOrgTranslateService translateService, UpdaterManagerService updaterManagerService, UrlCatchService urlCatchService) {
+        this.applicationContext = applicationContext;
+        this.currencyService = currencyService;
+        IMDBService = imdbService;
+        this.metarDataService = metarDataService;
+        this.nimipaivaService = nimipaivaService;
+        this.telkkuService = telkkuService;
+        this.topicService = topicService;
+        this.translateService = translateService;
+        this.updaterManagerService = updaterManagerService;
+        this.urlCatchService = urlCatchService;
+    }
+
 
     private boolean findHandlersMethod(ServiceRequest request, ServiceResponse response) {
+        log.debug("passkkkk");
         String[] names = applicationContext.getBeanDefinitionNames();
         for (String beanName : names) {
             Object obj = applicationContext.getBean(beanName);
