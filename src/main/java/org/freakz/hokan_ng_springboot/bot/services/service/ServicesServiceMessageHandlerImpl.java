@@ -97,7 +97,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
 
     private boolean findHandlersMethod(ServiceRequest request, ServiceResponse response) {
-        log.debug("passkkkk");
         String[] names = applicationContext.getBeanDefinitionNames();
         for (String beanName : names) {
             Object obj = applicationContext.getBean(beanName);
