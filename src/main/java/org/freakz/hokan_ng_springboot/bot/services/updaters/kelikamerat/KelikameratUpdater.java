@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 /**
@@ -122,9 +123,20 @@ public class KelikameratUpdater extends Updater {
         Elements elements2 = doc.getElementsByClass("date-time");
         if (elements2.size() > 0) {
             String timestamp = elements2.get(0).text().substring(12);
-            String pattern = "dd.MM.yyyy HH:mm:ss";
+
+
+            String pattern1 = "dd.MM.yyyy HH:mm:ss";
+            String pattern2 = "dd.MM.yyyy H:mm:ss";
 //            DateTime dateTime = DateTime.parse(timestamp, DateTimeFormat.forPattern(pattern));
-            LocalDateTime localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(pattern));
+
+            LocalDateTime localDateTime;
+
+            try {
+                localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(pattern1));
+            } catch (DateTimeParseException exception) {
+                localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(pattern2));
+            }
+
             data.setTime(localDateTime);
         }
 

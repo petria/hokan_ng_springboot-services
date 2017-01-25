@@ -4,6 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  * Created by Petri Airio on 18.6.2015.
  */
@@ -34,6 +38,19 @@ public class KelikameratWeatherTest {
 
     @Test
     public void foo() {
+        String timestamp = "25.01.2017 8:23:11";
+        String pattern1 = "dd.MM.yyyy HH:mm:ss";
+        String pattern2 = "dd.MM.yyyy H:mm:ss";
+//            DateTime dateTime = DateTime.parse(timestamp, DateTimeFormat.forPattern(pattern));
+
+        LocalDateTime localDateTime;
+
+        try {
+            localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(pattern1));
+        } catch (DateTimeParseException exception) {
+            localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(pattern2));
+        }
+
         Assert.assertTrue(true);
     }
 
