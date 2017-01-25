@@ -8,7 +8,6 @@ import org.freakz.hokan_ng_springboot.bot.common.models.LunchMenu;
 import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.LunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
-import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.time.LocalDateTime;
 
 /**
  * Created by Petri Airio on 12.2.2016.
@@ -28,7 +28,7 @@ public class HerkkupisteLunchPlaceHandler implements LunchRequestHandler {
 
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_HERKKUPISTE)
-    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
         response.setLunchPlace(lunchPlaceRequest);
         String url = lunchPlaceRequest.getUrl();
         Document doc;

@@ -15,6 +15,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * Created by Petri Airio on 14.4.2016.
@@ -47,7 +48,7 @@ public class AlvariLunchPlaceHandler implements LunchRequestHandler {
 
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_ALVARI)
-    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
         response.setLunchPlace(lunchPlaceRequest);
         String menuText = fetchLunch();
         if (menuText != null) {

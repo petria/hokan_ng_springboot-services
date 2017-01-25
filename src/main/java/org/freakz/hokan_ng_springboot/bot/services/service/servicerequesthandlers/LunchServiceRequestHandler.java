@@ -8,10 +8,10 @@ import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchService;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -36,7 +36,7 @@ public class LunchServiceRequestHandler {
     public void handleLunchRequest(ServiceRequest request, ServiceResponse response) {
         log.debug("Handling: {}", request);
         LunchPlace place = (LunchPlace) request.getParameters()[0];
-        DateTime day = (DateTime) request.getParameters()[1];
+        LocalDateTime day = (LocalDateTime) request.getParameters()[1];
         LunchData lunchData = lunchService.getLunchForDay(place, day);
         response.setResponseData(request.getType().getResponseDataKey(), lunchData);
     }

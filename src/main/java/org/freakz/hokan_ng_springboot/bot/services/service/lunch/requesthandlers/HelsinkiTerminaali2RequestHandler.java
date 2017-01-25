@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +86,7 @@ public class HelsinkiTerminaali2RequestHandler implements LunchRequestHandler {
 
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_HKI_TERMINAALI2)
-    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
         response.setLunchPlace(lunchPlaceRequest);
         List<String> urlList = getWeeklyPDFMenuUrls(lunchPlaceRequest.getUrl());
         for (String url : urlList) {

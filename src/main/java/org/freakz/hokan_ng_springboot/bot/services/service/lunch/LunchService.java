@@ -2,8 +2,8 @@ package org.freakz.hokan_ng_springboot.bot.services.service.lunch;
 
 import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
-import org.joda.time.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface LunchService {
 
-    LunchData getLunchForDay(LunchPlace place, DateTime day);
+    LunchData getLunchForDay(LunchPlace place, LocalDateTime day);
 
     List<LunchPlace> getLunchPlaces();
 

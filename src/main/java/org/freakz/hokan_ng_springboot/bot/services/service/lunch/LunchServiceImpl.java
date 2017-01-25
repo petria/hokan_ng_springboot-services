@@ -4,13 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.LunchPlaceHandler;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class LunchServiceImpl implements LunchService {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private boolean findHandlersMethod(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+    private boolean findHandlersMethod(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
         String[] names = applicationContext.getBeanDefinitionNames();
         for (String beanName : names) {
             Object obj = applicationContext.getBean(beanName);
@@ -56,7 +56,7 @@ public class LunchServiceImpl implements LunchService {
     }
 
     @Override
-    public LunchData getLunchForDay(LunchPlace place, DateTime day) {
+    public LunchData getLunchForDay(LunchPlace place, LocalDateTime day) {
         LunchData lunchData = new LunchData();
         if (!findHandlersMethod(place, lunchData, day)) {
             log.warn("Could find handler for: {}", place);

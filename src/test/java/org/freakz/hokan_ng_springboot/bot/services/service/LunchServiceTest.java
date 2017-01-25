@@ -4,13 +4,10 @@ import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
-import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.FiiluLunchRequestHandler;
-import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HarmooniLunchPlaceHandler;
-import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HelsinkiTerminaali2RequestHandler;
-import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HerkkupisteLunchPlaceHandler;
-import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.VesilinnaLunchPlaceHandler;
-import org.joda.time.DateTime;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.*;
 import org.junit.Test;
+
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +21,7 @@ public class LunchServiceTest {
     public void testHarmooniFetch() {
         LunchRequestHandler lunchRequestHandler = new HarmooniLunchPlaceHandler();
         LunchData response = new LunchData();
-        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HARMOONI, response, DateTime.now().minusDays(1));
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HARMOONI, response, LocalDateTime.now().minusDays(1));
         assertEquals(LunchPlace.LOUNAS_INFO_HARMOONI, response.getLunchPlace());
     }
 
@@ -32,7 +29,7 @@ public class LunchServiceTest {
     public void testHelsinkiTerminaali2() {
         LunchRequestHandler lunchRequestHandler = new HelsinkiTerminaali2RequestHandler();
         LunchData response = new LunchData();
-        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HKI_TERMINAALI2, response, DateTime.now());
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HKI_TERMINAALI2, response, LocalDateTime.now());
         assertEquals(LunchPlace.LOUNAS_INFO_HKI_TERMINAALI2, response.getLunchPlace());
 
     }
@@ -41,7 +38,7 @@ public class LunchServiceTest {
     public void testHerkkupiste() {
         LunchRequestHandler lunchRequestHandler = new HerkkupisteLunchPlaceHandler();
         LunchData response = new LunchData();
-        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HERKKUPISTE, response, DateTime.now());
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HERKKUPISTE, response, LocalDateTime.now());
         assertEquals(LunchPlace.LOUNAS_INFO_HERKKUPISTE, response.getLunchPlace());
     }
 
@@ -57,7 +54,7 @@ public class LunchServiceTest {
     public void testFiilu() {
         LunchRequestHandler lunchRequestHandler = new FiiluLunchRequestHandler();
         LunchData response = new LunchData();
-        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_FIILU, response, DateTime.now());
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_FIILU, response, LocalDateTime.now());
         assertEquals(LunchPlace.LOUNAS_INFO_FIILU, response.getLunchPlace());
     }
 
@@ -65,7 +62,7 @@ public class LunchServiceTest {
     public void testVesilinna() {
         LunchRequestHandler lunchRequestHandler = new VesilinnaLunchPlaceHandler();
         LunchData response = new LunchData();
-        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_VESILINNA, response, DateTime.now());
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_VESILINNA, response, LocalDateTime.now());
         assertEquals(LunchPlace.LOUNAS_INFO_VESILINNA, response.getLunchPlace());
     }
 

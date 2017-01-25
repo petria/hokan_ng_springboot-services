@@ -9,7 +9,6 @@ import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.LunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.wwwfetcher.WWWPageFetcher;
-import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +16,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class FiiluLunchRequestHandler implements LunchRequestHandler {
 
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_FIILU)
-    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, DateTime day) {
+    public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
         response.setLunchPlace(lunchPlaceRequest);
         List<String> menu = fetchLunch(lunchPlaceRequest.getUrl());
         parseMenu(menu, response);
