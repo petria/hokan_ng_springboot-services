@@ -28,13 +28,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * Created by Petri Airio on 22.9.2015.
@@ -101,12 +98,15 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
     }
 
     private String getDailyStats(Channel channel) {
-        DateTime yesterday = DateTime.now().minusDays(1);
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         StatsMapper statsMapper = statsService.getDailyStatsForChannel(yesterday, channel.getChannelName());
 
         if (!statsMapper.hasError()) {
             List<StatsData> statsDatas = statsMapper.getStatsData();
-            String res = StringStuff.formatTime(yesterday.toDate(), StringStuff.STRING_STUFF_DF_DDMMYYYY) + " word stats:";
+            ZonedDateTime zdt = ZonedDateTime.of(yesterday, ZoneId.systemDefault());
+            GregorianCalendar cal = GregorianCalendar.from(zdt); // TODO
+
+            String res = StringStuff.formatTime(cal.getTime(), StringStuff.STRING_STUFF_DF_DDMMYYYY) + " word stats:";
             int i = 1;
             int countTotal = 0;
             for (StatsData statsData : statsDatas) {
@@ -220,7 +220,7 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
     }
 
     private String getNimipäivät() {
-        List<String> nimiPvmList = nimipaivaService.getNamesForDay(DateTime.now()).getNames();
+        List<String> nimiPvmList = nimipaivaService.getNamesForDay(LocalDateTime.now()).getNames();
         String ret = "";
         for (String nimi : nimiPvmList) {
             if (ret.length() > 0) {
@@ -232,9 +232,13 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
     }
 
     private String getDailyUrls(String channelName) {
-        DateTime time = DateTime.now().minusDays(1);
+        LocalDateTime time = LocalDateTime.now().minusDays(1);
         List counts = urlLoggerService.findTopSenderByChannelAndCreatedBetween(channelName, TimeUtil.getStartAndEndTimeForDay(time));
-        String ret = StringStuff.formatTime(time.toDate(), StringStuff.STRING_STUFF_DF_DDMMYYYY) + " url  stats: ";
+
+        ZonedDateTime zdt = ZonedDateTime.of(time, ZoneId.systemDefault());
+        GregorianCalendar cal = GregorianCalendar.from(zdt); // TODO
+        String ret = StringStuff.formatTime(cal.getTime(), StringStuff.STRING_STUFF_DF_DDMMYYYY) + " url  stats: ";
+
         if (counts.size() == 0) {
             ret += "no urls!!";
             return ret;

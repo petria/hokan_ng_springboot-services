@@ -7,18 +7,7 @@ import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
-import org.freakz.hokan_ng_springboot.bot.common.models.ChannelSetTopic;
-import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
-import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
-import org.freakz.hokan_ng_springboot.bot.common.models.HoroHolder;
-import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
-import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
-import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratWeatherData;
-import org.freakz.hokan_ng_springboot.bot.common.models.MetarData;
-import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
-import org.freakz.hokan_ng_springboot.bot.common.models.TelkkuProgram;
-import org.freakz.hokan_ng_springboot.bot.common.models.TranslateResponse;
-import org.freakz.hokan_ng_springboot.bot.common.models.TvNowData;
+import org.freakz.hokan_ng_springboot.bot.common.models.*;
 import org.freakz.hokan_ng_springboot.bot.common.service.translate.SanakirjaOrgTranslateService;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.currency.CurrencyService;
@@ -32,13 +21,13 @@ import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterData;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterManagerService;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.horo.HoroUpdater;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.telkku.TelkkuService;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -198,7 +187,7 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.NIMIPAIVA_DAY_REQUEST)
     public void handleNimipaivaDayRequest(ServiceRequest request, ServiceResponse response) {
-        DateTime day = (DateTime) request.getParameters()[0];
+        LocalDateTime day = (LocalDateTime) request.getParameters()[0];
         NimipaivaData nimipaivaData = nimipaivaService.getNamesForDay(day);
         response.setResponseData(request.getType().getResponseDataKey(), nimipaivaData);
     }

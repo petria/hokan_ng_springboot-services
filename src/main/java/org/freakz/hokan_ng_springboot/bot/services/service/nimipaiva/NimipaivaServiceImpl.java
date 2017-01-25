@@ -9,12 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
 import org.freakz.hokan_ng_springboot.bot.common.util.FileUtil;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
-import org.joda.time.DateTime;
-import org.joda.time.IllegalFieldValueException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class NimipaivaServiceImpl implements NimipaivaService {
 
     private static final String NIMIPAIVAT_TXT = "/Nimipaivat.txt";
 
-    private Map<DateTime, NimipaivaData> dateTimeNamesMap = new HashMap<>();
+    private Map<LocalDateTime, NimipaivaData> dateTimeNamesMap = new HashMap<>();
 
     @PostConstruct
     public void loadNames() {
@@ -38,14 +37,12 @@ public class NimipaivaServiceImpl implements NimipaivaService {
                 String[] split1 = row.split("\\. ");
                 if (split1.length == 2) {
                     String[] date = split1[0].split("\\.");
-                    try {
-                        DateTime dateTime = DateTime.now().withDayOfMonth(Integer.parseInt(date[0])).withMonthOfYear(Integer.parseInt(date[1]));
-                        String[] names = split1[1].split(", ");
-                        NimipaivaData nimipaivaData = new NimipaivaData(dateTime, Arrays.asList(names));
-                        dateTimeNamesMap.put(dateTime, nimipaivaData);
-                    } catch (IllegalFieldValueException e) {
-                        log.error("??");
-                    }
+
+//                        DateTime dateTime = DateTime.now().withDayOfMonth(Integer.parseInt(date[0])).withMonthOfYear(Integer.parseInt(date[1]));
+                    LocalDateTime localDateTime = LocalDateTime.now().withDayOfMonth(Integer.parseInt(date[0])).withMonth(Integer.parseInt(date[1]));
+                    String[] names = split1[1].split(", ");
+                    NimipaivaData nimipaivaData = new NimipaivaData(localDateTime, Arrays.asList(names));
+                    dateTimeNamesMap.put(localDateTime, nimipaivaData);
                 }
             }
         } catch (IOException e) {
@@ -53,12 +50,12 @@ public class NimipaivaServiceImpl implements NimipaivaService {
         }
     }
 
-    private NimipaivaData findByDay(DateTime day) {
+    private NimipaivaData findByDay(LocalDateTime day) {
         int dayOfMont = day.getDayOfMonth();
-        int monthOfYear = day.getMonthOfYear();
+        int monthOfYear = day.getMonthValue();
         for (NimipaivaData nimipaivaData : dateTimeNamesMap.values()) {
             int dayOfMont2 = nimipaivaData.getDay().getDayOfMonth();
-            int monthOfYear2 = nimipaivaData.getDay().getMonthOfYear();
+            int monthOfYear2 = nimipaivaData.getDay().getMonthValue();
             if (dayOfMont == dayOfMont2 && monthOfYear == monthOfYear2) {
                 return nimipaivaData;
             }
@@ -78,7 +75,7 @@ public class NimipaivaServiceImpl implements NimipaivaService {
     }
 
     @Override
-    public NimipaivaData getNamesForDay(DateTime day) {
+    public NimipaivaData getNamesForDay(LocalDateTime day) {
         NimipaivaData nimipaivaData = findByDay(day);
         if (nimipaivaData != null) {
             return nimipaivaData;

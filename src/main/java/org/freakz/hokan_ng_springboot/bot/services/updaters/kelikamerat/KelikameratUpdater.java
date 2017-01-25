@@ -5,8 +5,6 @@ import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratUrl;
 import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratWeatherData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.Updater;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,12 +12,9 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Created by Petri Airio on 22.6.2015.
@@ -128,8 +123,9 @@ public class KelikameratUpdater extends Updater {
         if (elements2.size() > 0) {
             String timestamp = elements2.get(0).text().substring(12);
             String pattern = "dd.MM.yyyy HH:mm:ss";
-            DateTime dateTime = DateTime.parse(timestamp, DateTimeFormat.forPattern(pattern));
-            data.setTime(dateTime);
+//            DateTime dateTime = DateTime.parse(timestamp, DateTimeFormat.forPattern(pattern));
+            LocalDateTime localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern(pattern));
+            data.setTime(localDateTime);
         }
 
         return data;

@@ -33,7 +33,6 @@
         <start-class>org.freakz.hokan_ng_springboot.bot.services.HokanNgSpringBootServices</start-class>
         <amq.version>5.14.0</amq.version>
         <jsoup.version>1.9.2</jsoup.version>
-        <joda-time.version>2.9.4</joda-time.version>
         <logback.version>1.1.9</logback.version>
         <lombok.version>1.16.12</lombok.version>
     </properties>
