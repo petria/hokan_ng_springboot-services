@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,10 +40,18 @@ public class NimipaivaServiceImpl implements NimipaivaService {
                     String[] date = split1[0].split("\\.");
 
 //                        DateTime dateTime = DateTime.now().withDayOfMonth(Integer.parseInt(date[0])).withMonthOfYear(Integer.parseInt(date[1]));
-                    LocalDateTime localDateTime = LocalDateTime.now().withDayOfMonth(Integer.parseInt(date[0])).withMonth(Integer.parseInt(date[1]));
-                    String[] names = split1[1].split(", ");
-                    NimipaivaData nimipaivaData = new NimipaivaData(localDateTime, Arrays.asList(names));
-                    dateTimeNamesMap.put(localDateTime, nimipaivaData);
+                    try {
+                        int day = Integer.parseInt(date[0]);
+                        int month = Integer.parseInt(date[1]);
+                        LocalDateTime localDateTime = LocalDateTime.now().withMonth(month);
+                        localDateTime = localDateTime.withDayOfMonth(day);
+                        String[] names = split1[1].split(", ");
+                        NimipaivaData nimipaivaData = new NimipaivaData(localDateTime, Arrays.asList(names));
+                        dateTimeNamesMap.put(localDateTime, nimipaivaData);
+
+                    } catch (DateTimeException ex) {
+                        log.error(ex.getMessage() + " :: " + row);
+                    }
                 }
             }
         } catch (IOException e) {
