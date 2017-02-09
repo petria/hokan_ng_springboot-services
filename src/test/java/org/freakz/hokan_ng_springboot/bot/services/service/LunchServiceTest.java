@@ -4,7 +4,9 @@ import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
-import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.*;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.FiiluLunchRequestHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HarmooniLunchPlaceHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HerkkupisteLunchPlaceHandler;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -25,7 +27,7 @@ public class LunchServiceTest {
         assertEquals(LunchPlace.LOUNAS_INFO_HARMOONI, response.getLunchPlace());
     }
 
-    @Test
+/*    @Test
     public void testHelsinkiTerminaali2() {
         LunchRequestHandler lunchRequestHandler = new HelsinkiTerminaali2RequestHandler();
         LunchData response = new LunchData();
@@ -33,6 +35,7 @@ public class LunchServiceTest {
         assertEquals(LunchPlace.LOUNAS_INFO_HKI_TERMINAALI2, response.getLunchPlace());
 
     }
+    */
 
     @Test
     public void testHerkkupiste() {
@@ -58,13 +61,13 @@ public class LunchServiceTest {
         assertEquals(LunchPlace.LOUNAS_INFO_FIILU, response.getLunchPlace());
     }
 
-    @Test
+/*    @Test
     public void testVesilinna() {
         LunchRequestHandler lunchRequestHandler = new VesilinnaLunchPlaceHandler();
         LunchData response = new LunchData();
         lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_VESILINNA, response, LocalDateTime.now());
         assertEquals(LunchPlace.LOUNAS_INFO_VESILINNA, response.getLunchPlace());
-    }
+    }*/
 
 /*  @Test
   public void testAlvari() {
