@@ -31,7 +31,7 @@ public class AlkoSearchServiceTest {
     public void testSearchNoVolumeForAllProducts() {
         AlkoSearchResults alkoSearchResults = searchService.alkoSearch("kalia");
         Assert.assertNotNull(alkoSearchResults.getResults());
-        Assert.assertEquals(2, alkoSearchResults.getResults().size());
+        Assert.assertEquals(1, alkoSearchResults.getResults().size());
     }
 
     @Test
