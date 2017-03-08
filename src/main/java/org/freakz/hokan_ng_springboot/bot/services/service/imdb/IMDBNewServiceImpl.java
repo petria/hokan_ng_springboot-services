@@ -1,19 +1,18 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.imdb;
 
 
-import com.omertron.imdbapi.ImdbApi;
-import com.omertron.imdbapi.ImdbException;
+//import com.omertron.imdbapi.ImdbApi;
+//import com.omertron.imdbapi.ImdbException;
+
 import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
 import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
-
-import java.util.Map;
 
 /**
  * Created by Petri Airio (petri.j.airio@gmail.com) 14/11/2016 / 14.51
  */
 public class IMDBNewServiceImpl implements IMDBNewService {
 
-    private final ImdbApi imdbApi = new ImdbApi();
+//    private final ImdbApi imdbApi = new ImdbApi();
 
     @Override
     public String parseSceneMovieName(String sceneName) {
@@ -37,14 +36,14 @@ public class IMDBNewServiceImpl implements IMDBNewService {
 
     @Override
     public IMDBSearchResults imdbSearch(String title) {
-        try {
+/*        try {
             Map<String, Object> result = imdbApi.getSearchRawMap(title);
             IMDBSearchResults searchResults = new IMDBSearchResults();
             searchResults.setRawResults(result);
             return searchResults;
         } catch (ImdbException e) {
             e.printStackTrace();
-        }
+        }*/
         return null;
     }
 
