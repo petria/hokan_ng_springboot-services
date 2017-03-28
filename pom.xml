@@ -17,9 +17,15 @@
     <repositories>
 
         <repository>
-            <id>hokannew</id>
+            <id>release-local</id>
             <name>hokannew-releases</name>
             <url>http://artifactory.airiot.fi/artifactory/libs-release-local</url>
+        </repository>
+
+        <repository>
+            <id>snapshot</id>
+            <name>snapshots</name>
+            <url>http://artifactory.airiot.fi/artifactory/libs-snapshot</url>
         </repository>
 
     </repositories>
