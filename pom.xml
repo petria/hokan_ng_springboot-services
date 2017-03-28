@@ -17,15 +17,9 @@
     <repositories>
 
         <repository>
-            <id>release-local</id>
+            <id>hokannew</id>
             <name>hokannew-releases</name>
             <url>http://artifactory.airiot.fi/artifactory/libs-release-local</url>
-        </repository>
-
-        <repository>
-            <id>snapshot</id>
-            <name>snapshots</name>
-            <url>http://artifactory.airiot.fi/artifactory/libs-snapshot</url>
         </repository>
 
     </repositories>
@@ -63,12 +57,12 @@
             <version>19.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.moviejukebox</groupId>
-            <artifactId>api-imdb</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
-        </dependency>
-
+        <!--        <dependency>
+                    <groupId>com.moviejukebox</groupId>
+                    <artifactId>api-imdb</artifactId>
+                    <version>1.5.1-SNAPSHOT</version>
+                </dependency>
+        -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-htmlunit-driver</artifactId>

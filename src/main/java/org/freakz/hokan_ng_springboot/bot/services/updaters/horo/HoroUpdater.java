@@ -11,11 +11,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * User: petria
@@ -59,20 +56,27 @@ public class HoroUpdater extends Updater {
         return this.getHoro((String) args[0]);
     }
 
+    public Document getDocument() throws IOException {
+        return Jsoup.connect("http://www.iltalehti.fi/viihde/horoskooppi1_ho.shtml").userAgent(StaticStrings.HTTP_USER_AGENT).get();
+    }
 
     public List<HoroHolder> updateIL() throws Exception {
         List<HoroHolder> horos = new ArrayList<>();
-        Document doc = Jsoup.connect("http://www.iltalehti.fi/viihde/horoskooppi1_ho.shtml").userAgent(StaticStrings.HTTP_USER_AGENT).get();
+        Document doc = getDocument();
         Elements container = doc.getElementsByAttributeValue("id", "container_keski");
         Elements pees = container.select("p");
         int i = 0;
-        for (int horo = 1; horo < 25; horo += 2) {
-//      Element ee1 = pees.get(horo);
+        for (Element pee : pees) {
+            String text = pee.text();
+            log.debug("{}", text);
+        }
+/*        for (int horo = 1; horo < 25; horo += 2) {
+      Element ee1 = pees.get(horo);
             Element ee2 = pees.get(horo + 1);
             HoroHolder hh = new HoroHolder(i, ee2.text());
             i++;
             horos.add(hh);
-        }
+        }*/
         return horos;
     }
 
