@@ -55,8 +55,8 @@ public class UrlCatchServiceImpl implements UrlCatchService {
     @Override
     public void catchUrls(IrcMessageEvent ircMessageEvent) {
         Network network = networkService.getNetwork(ircMessageEvent.getNetwork());
-        Channel channel = channelService.findByNetworkAndChannelName(network, ircMessageEvent.getChannel());
-        catchUrls(ircMessageEvent, channel);
+//        Channel channel = channelService.findByNetworkAndChannelName(network, ircMessageEvent.getChannel());
+//        catchUrls(ircMessageEvent, channel);  tODO
     }
 
     private long logUrl(IrcMessageEvent iEvent, String url) {
