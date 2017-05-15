@@ -100,7 +100,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
                     NotifyRequest notifyRequest = new NotifyRequest();
                     notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
                     notifyRequest.setTargetChannelId(channel.getId());
-                    jmsSender.send(HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
+                    jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
                 }
             }
         }
@@ -159,7 +159,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
                 NotifyRequest notifyRequest = new NotifyRequest();
                 notifyRequest.setNotifyMessage(title);
                 notifyRequest.setTargetChannelId(ch.getId());
-                jmsSender.send(HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
+                jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
             }
         } else {
             log.info("Could not find title for url: " + url);

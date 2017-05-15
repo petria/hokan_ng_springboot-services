@@ -31,7 +31,14 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Petri Airio on 22.9.2015.
@@ -166,7 +173,7 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
             NotifyRequest notifyRequest = new NotifyRequest();
             notifyRequest.setNotifyMessage(String.format("%s\n%s\n%s\n%s", topic, sunRises, dailyStats, dailyUrls));
             notifyRequest.setTargetChannelId(channel.getId());
-            jmsSender.send(HokanModule.HokanIo.getQueueName(), "STATS_NOTIFY_REQUEST", notifyRequest, false);
+            jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "STATS_NOTIFY_REQUEST", notifyRequest, false);
         }
         return true;
     }

@@ -21,7 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: petria
@@ -268,7 +276,7 @@ public class TelkkuServiceImpl implements TelkkuService, CommandRunnable {
             NotifyRequest request = new NotifyRequest();
             request.setTargetChannelId(n.channel.getId());
             request.setNotifyMessage(note);
-            jmsSender.send(HokanModule.HokanIo.getQueueName(), "TV_NOTIFY_REQUEST", request, false);
+            jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "TV_NOTIFY_REQUEST", request, false);
             n.program.setNotifyDone(true);
         }
     }
