@@ -1,6 +1,7 @@
 package org.freakz.hokan_ng_springboot.bot.services.jms;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.SpringJmsReceiver;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
@@ -29,7 +30,7 @@ public class ServicesJmsReceiver extends SpringJmsReceiver {
 
     @Override
     public String getDestinationName() {
-        return "HokanNGServicesQueue";
+        return HokanModule.HokanServices.getQueueName();
     }
 
 
