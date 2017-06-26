@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Petri Airio on 25.1.2016.
- * -
+ * </p>
  */
 public class LunchServiceTest {
 
