@@ -8,6 +8,7 @@ import org.freakz.hokan_ng_springboot.bot.services.service.annotation.LunchPlace
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class AntellLunchPlaceHandler implements LunchRequestHandler {
             log.error("Could not fetch lunch from {}", url, e);
             return;
         }
+        Elements rows = doc.getElementsByClass("outer-table");
 
         int foo = 0;
     }
