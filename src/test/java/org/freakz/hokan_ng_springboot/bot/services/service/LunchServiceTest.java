@@ -48,11 +48,11 @@ public class LunchServiceTest {
     }
 
     @Test
-  public void testQulkuri() {
-    LunchRequestHandler lunchRequestHandler = new QulkuriLunchPlaceHandler();
-    LunchData response = new LunchData();
+    public void testQulkuri() {
+        LunchRequestHandler lunchRequestHandler = new QulkuriLunchPlaceHandler();
+        LunchData response = new LunchData();
         lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_QULKURI, response, LocalDateTime.now());
-    assertEquals(LunchPlace.LOUNAS_INFO_QULKURI, response.getLunchPlace());
+        assertEquals(LunchPlace.LOUNAS_INFO_QULKURI, response.getLunchPlace());
     }
 
     //    @Test
