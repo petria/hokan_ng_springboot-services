@@ -4,6 +4,7 @@ import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.AntellLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HarmooniLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HerkkupisteLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.QulkuriLunchPlaceHandler;
@@ -53,6 +54,13 @@ public class LunchServiceTest {
         assertEquals(LunchPlace.LOUNAS_INFO_QULKURI, response.getLunchPlace());
     }
 
+    @Test
+    public void testAntell() {
+        LunchRequestHandler lunchRequestHandler = new AntellLunchPlaceHandler();
+        LunchData response = new LunchData();
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_ANTELL, response, LocalDateTime.now());
+        assertEquals(LunchPlace.LOUNAS_INFO_ANTELL, response.getLunchPlace());
+    }
 
 /*    @Test
     public void testVesilinna() {
