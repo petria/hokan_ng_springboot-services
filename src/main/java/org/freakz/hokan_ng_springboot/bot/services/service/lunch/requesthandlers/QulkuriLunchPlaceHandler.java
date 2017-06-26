@@ -10,6 +10,7 @@ import org.freakz.hokan_ng_springboot.bot.services.service.annotation.LunchPlace
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
@@ -44,14 +45,62 @@ public class QulkuriLunchPlaceHandler implements LunchRequestHandler {
             log.error("Could not fetch lunch from {}", url, e);
             return;
         }
-        Elements elements = doc.getElementsByClass("art-postcontent");
-        Elements days = elements.select("h4[style=text-align: center;]");
-        Elements lunches = elements.select("p[style=text-align: center;]");
-        for (int xx = 0; xx < 5; xx++) {
+
+        Elements rows = doc.getElementsByClass("row");
+        Element element = rows.get(1);
+        Elements byTag = element.getElementsByTag("p");
+        String text1 = byTag.get(0).text();
+        String text2 = byTag.get(1).text();
+
+        LunchDay lunchDay = LunchDay.MONDAY;
+        LunchMenu lunchMenu = new LunchMenu(String.format("%s / %s", text1, text2));
+        response.getMenu().put(lunchDay, lunchMenu);
+
+        element = rows.get(2);
+        byTag = element.getElementsByTag("p");
+        text1 = byTag.get(0).text();
+        text2 = byTag.get(1).text();
+
+        lunchDay = LunchDay.TUESDAY;
+        lunchMenu = new LunchMenu(String.format("%s / %s", text1, text2));
+        response.getMenu().put(lunchDay, lunchMenu);
+
+
+        element = rows.get(3);
+        byTag = element.getElementsByTag("p");
+        text1 = byTag.get(0).text();
+        text2 = byTag.get(1).text();
+
+        lunchDay = LunchDay.WEDNESDAY;
+        lunchMenu = new LunchMenu(String.format("%s / %s", text1, text2));
+        response.getMenu().put(lunchDay, lunchMenu);
+
+
+        element = rows.get(4);
+        byTag = element.getElementsByTag("p");
+        text1 = byTag.get(0).text();
+        text2 = byTag.get(1).text();
+
+        lunchDay = LunchDay.THURSDAY;
+        lunchMenu = new LunchMenu(String.format("%s / %s", text1, text2));
+        response.getMenu().put(lunchDay, lunchMenu);
+
+        element = rows.get(5);
+        byTag = element.getElementsByTag("p");
+        text1 = byTag.get(0).text();
+        text2 = byTag.get(1).text();
+
+        lunchDay = LunchDay.FRIDAY;
+        lunchMenu = new LunchMenu(String.format("%s / %s", text1, text2));
+        response.getMenu().put(lunchDay, lunchMenu);
+
+
+        int foo = 0;
+/*        for (int xx = 0; xx < 5; xx++) {
             LunchDay lunchDay = LunchDay.getFromWeekdayString(days.get(xx).text());
             LunchMenu lunchMenu = new LunchMenu(lunches.get(xx).text().replace(" – – – – – – Tai – – – – – –", ","));
             response.getMenu().put(lunchDay, lunchMenu);
-        }
+        }*/
     }
 
 }
