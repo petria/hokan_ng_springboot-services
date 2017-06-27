@@ -30,6 +30,7 @@ public class HoroUpdaterTest {
         Assert.assertNotNull(hous);
         HoroHolder holder = hous.get("Oinas");
         String oinasExpected = "OINAS 21.3.-19.4. Arki ei ole nyt sinua varten. Haaveilet jostakin unelmasta, joka liittyy matkailuun. Haluaisit olla omasta elämästäsi enemmän vastuussa, nyt jokin asia ei vain toimi.";
+        System.out.println(holder.toString());
         Assert.assertEquals(oinasExpected, holder.getHoroscopeText());
     }
 

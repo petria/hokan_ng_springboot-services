@@ -73,7 +73,6 @@ public class HoroUpdater extends Updater {
         Document doc = getDocument();
         Elements container = doc.getElementsByAttributeValue("id", "container_keski");
         Elements pees = container.select("p");
-        int iu = 0;
         for (Element pee : pees) {
             String text = pee.text();
             for (int i = 0; i < HORO_NAMES.length; i++) {
@@ -83,13 +82,6 @@ public class HoroUpdater extends Updater {
             }
             log.debug("{}", text);
         }
-/*        for (int horo = 1; horo < 25; horo += 2) {
-      Element ee1 = pees.get(horo);
-            Element ee2 = pees.get(horo + 1);
-            HoroHolder hh = new HoroHolder(i, ee2.text());
-            i++;
-            horos.add(hh);
-        }*/
         return horos;
     }
 
