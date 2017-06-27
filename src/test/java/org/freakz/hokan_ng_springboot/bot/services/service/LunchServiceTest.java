@@ -62,21 +62,6 @@ public class LunchServiceTest {
         assertEquals(LunchPlace.LOUNAS_INFO_ANTELL, response.getLunchPlace());
     }
 
-/*    @Test
-    public void testVesilinna() {
-        LunchRequestHandler lunchRequestHandler = new VesilinnaLunchPlaceHandler();
-        LunchData response = new LunchData();
-        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_VESILINNA, response, LocalDateTime.now());
-        assertEquals(LunchPlace.LOUNAS_INFO_VESILINNA, response.getLunchPlace());
-    }*/
-
-/*  @Test
-  public void testAlvari() {
-    LunchRequestHandler lunchRequestHandler = new AlvariLunchPlaceHandler();
-    LunchData response = new LunchData();
-    lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_ALVARI, response, DateTime.now());
-    assertEquals(LunchPlace.LOUNAS_INFO_ALVARI, response.getLunchPlace());
-  }*/
 
     private String stripLunchRow(String row, String title) {
         String g = row.replaceAll("Street gourmet grilli ..... |Nordic Buffet .... |Päivän keittolounas .... ", "");
