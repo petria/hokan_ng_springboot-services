@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Petri Airio on 22.2.2017.
@@ -26,9 +26,9 @@ public class HoroUpdaterTest {
                 return Jsoup.parse(input, "ISO-8859-1");
             }
         };
-        List<HoroHolder> hous = updater.updateIL();
+        Map<String, HoroHolder> hous = updater.updateIL();
         Assert.assertNotNull(hous);
-        HoroHolder holder = hous.get(0);
+        HoroHolder holder = hous.get("Oinas");
         String oinasExpected = "OINAS 21.3.-19.4. Arki ei ole nyt sinua varten. Haaveilet jostakin unelmasta, joka liittyy matkailuun. Haluaisit olla omasta elämästäsi enemmän vastuussa, nyt jokin asia ei vain toimi.";
         Assert.assertEquals(oinasExpected, holder.getHoroscopeText());
     }

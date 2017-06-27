@@ -12,7 +12,13 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: petria
@@ -31,7 +37,8 @@ public class HoroUpdater extends Updater {
                     "Vaaka", "Skorpioni", "Jousimies", "Kauris",
                     "Vesimies", "Kalat"};
 
-    private List<HoroHolder> horos;
+    //    private List<HoroHolder> horos;
+    private Map<String, HoroHolder> horos;
 
     public HoroUpdater() {
     }
@@ -45,7 +52,7 @@ public class HoroUpdater extends Updater {
 
     @Override
     public void doUpdateData() throws Exception {
-        List<HoroHolder> horos = updateIL();
+        Map<String, HoroHolder> horos = updateIL();
         if (horos != null) {
             this.horos = horos;
         }
@@ -60,14 +67,20 @@ public class HoroUpdater extends Updater {
         return Jsoup.connect("http://www.iltalehti.fi/viihde/horoskooppi1_ho.shtml").userAgent(StaticStrings.HTTP_USER_AGENT).get();
     }
 
-    public List<HoroHolder> updateIL() throws Exception {
-        List<HoroHolder> horos = new ArrayList<>();
+    public Map<String, HoroHolder> updateIL() throws Exception {
+        Map<String, HoroHolder> horos = new HashMap<>();
+
         Document doc = getDocument();
         Elements container = doc.getElementsByAttributeValue("id", "container_keski");
         Elements pees = container.select("p");
-        int i = 0;
+        int iu = 0;
         for (Element pee : pees) {
             String text = pee.text();
+            for (int i = 0; i < HORO_NAMES.length; i++) {
+                if (text.toLowerCase().startsWith(HORO_NAMES[i].toLowerCase())) {
+                    horos.put(HORO_NAMES[i], new HoroHolder(i, text));
+                }
+            }
             log.debug("{}", text);
         }
 /*        for (int horo = 1; horo < 25; horo += 2) {
@@ -84,7 +97,7 @@ public class HoroUpdater extends Updater {
         String horoTxt = "Mugalabuglala baubuaagugug tsimszalabimpero!";
         if (horos.size() != 0) {
             List<String> textList = new ArrayList<>();
-            for (HoroHolder hh : horos) {
+            for (HoroHolder hh : horos.values()) {
                 String txt = hh.getHoroscopeText();
                 String[] split = txt.split("\\. ");
                 for (String ss : split) {
@@ -123,7 +136,7 @@ public class HoroUpdater extends Updater {
         if (horoIdx != -1 && horos != null) {
             HoroHolder holder;
             try {
-                holder = horos.get(horoIdx);
+                holder = horos.get(HORO_NAMES[horoIdx]);
             } catch (IndexOutOfBoundsException ex) {
                 holder = generateHolder(horoIdx);
             }
