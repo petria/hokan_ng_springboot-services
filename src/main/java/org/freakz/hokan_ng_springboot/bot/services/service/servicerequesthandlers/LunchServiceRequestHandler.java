@@ -6,6 +6,7 @@ import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
+import org.freakz.hokan_ng_springboot.bot.common.models.LunchPlaceData;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Petri Airio on 28.1.2016.
@@ -22,8 +24,12 @@ import java.util.List;
 @Slf4j
 public class LunchServiceRequestHandler {
 
+    private final LunchService lunchService;
+
     @Autowired
-    private LunchService lunchService;
+    public LunchServiceRequestHandler(LunchService lunchService) {
+        this.lunchService = lunchService;
+    }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.LUNCH_PLACES_REQUEST)
     public void handleLunchPlacesServiceRequest(ServiceRequest request, ServiceResponse response) {
@@ -35,10 +41,14 @@ public class LunchServiceRequestHandler {
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.LUNCH_REQUEST)
     public void handleLunchRequest(ServiceRequest request, ServiceResponse response) {
         log.debug("Handling: {}", request);
-        LunchPlace place = (LunchPlace) request.getParameters()[0];
+        Set<LunchPlace> places = (Set<LunchPlace>) request.getParameters()[0];
         LocalDateTime day = (LocalDateTime) request.getParameters()[1];
-        LunchData lunchData = lunchService.getLunchForDay(place, day);
-        response.setResponseData(request.getType().getResponseDataKey(), lunchData);
+        LunchPlaceData lunchPlaceData = new LunchPlaceData();
+        for (LunchPlace place : places) {
+            LunchData lunchData = lunchService.getLunchForDay(place, day);
+            lunchPlaceData.getLunchDataMap().put(place, lunchData);
+        }
+        response.setResponseData(request.getType().getResponseDataKey(), lunchPlaceData);
     }
 
 }
