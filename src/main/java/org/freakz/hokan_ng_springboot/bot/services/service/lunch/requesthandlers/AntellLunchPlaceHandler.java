@@ -79,7 +79,5 @@ public class AntellLunchPlaceHandler implements LunchRequestHandler {
         response.getMenu().put(LunchDay.THURSDAY, new LunchMenu(toMenu));
         response.getMenu().put(LunchDay.FRIDAY, new LunchMenu(peMenu));
 
-
-        int foo = 0;
     }
 }

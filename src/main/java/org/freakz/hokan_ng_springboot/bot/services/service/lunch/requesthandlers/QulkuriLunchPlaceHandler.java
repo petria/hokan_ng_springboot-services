@@ -94,13 +94,6 @@ public class QulkuriLunchPlaceHandler implements LunchRequestHandler {
         lunchMenu = new LunchMenu(String.format("%s / %s", text1, text2));
         response.getMenu().put(lunchDay, lunchMenu);
 
-
-        int foo = 0;
-/*        for (int xx = 0; xx < 5; xx++) {
-            LunchDay lunchDay = LunchDay.getFromWeekdayString(days.get(xx).text());
-            LunchMenu lunchMenu = new LunchMenu(lunches.get(xx).text().replace(" – – – – – – Tai – – – – – –", ","));
-            response.getMenu().put(lunchDay, lunchMenu);
-        }*/
     }
 
 }
