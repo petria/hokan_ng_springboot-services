@@ -37,7 +37,8 @@ public class HoroUpdater extends Updater {
                     "Vaaka", "Skorpioni", "Jousimies", "Kauris",
                     "Vesimies", "Kalat"};
 
-    //    private List<HoroHolder> horos;
+    private final String horoRowMatcher = "oinas.*|härkä.*|kaksoset.*|rapu.*|leijona.*|neitsyt.*|vaaka.*|skorpioni.*|jousimies.*|kauris.*|vesimies.*|kalat.*";
+
     private Map<String, HoroHolder> horos;
 
     public HoroUpdater() {
@@ -75,12 +76,10 @@ public class HoroUpdater extends Updater {
         Elements pees = container.select("p");
         for (Element pee : pees) {
             String text = pee.text();
-            for (int i = 0; i < HORO_NAMES.length; i++) {
-                if (text.toLowerCase().startsWith(HORO_NAMES[i].toLowerCase())) {
-                    horos.put(HORO_NAMES[i], new HoroHolder(i, text));
-                }
+            if (StringStuff.match(text, horoRowMatcher, true)) {
+                String firstWord = text.split(" ")[0].toLowerCase();
+                horos.put(firstWord, new HoroHolder(text));
             }
-            log.debug("{}", text);
         }
         return horos;
     }
@@ -111,7 +110,7 @@ public class HoroUpdater extends Updater {
                 }
             }
         }
-        return new HoroHolder(horoIdx, horoTxt);
+        return new HoroHolder(horoTxt);
     }
 
     public HoroHolder getHoro(String horo) {
@@ -128,7 +127,7 @@ public class HoroUpdater extends Updater {
         if (horoIdx != -1 && horos != null) {
             HoroHolder holder;
             try {
-                holder = horos.get(HORO_NAMES[horoIdx]);
+                holder = horos.get(HORO_NAMES[horoIdx].toLowerCase());
             } catch (IndexOutOfBoundsException ex) {
                 holder = generateHolder(horoIdx);
             }
