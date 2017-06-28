@@ -30,7 +30,7 @@ public class HarmooniLunchPlaceHandler implements LunchRequestHandler {
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_HARMOONI)
     public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
-        response.setLunchPlace(lunchPlaceRequest);
+//        response.setLunchPlace(lunchPlaceRequest);
         String url = lunchPlaceRequest.getUrl();
         Document doc;
         try {

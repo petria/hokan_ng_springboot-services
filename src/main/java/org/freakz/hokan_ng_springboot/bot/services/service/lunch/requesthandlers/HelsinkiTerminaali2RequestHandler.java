@@ -87,7 +87,7 @@ public class HelsinkiTerminaali2RequestHandler implements LunchRequestHandler {
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_HKI_TERMINAALI2)
     public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
-        response.setLunchPlace(lunchPlaceRequest);
+//        response.setLunchPlace(lunchPlaceRequest);
         List<String> urlList = getWeeklyPDFMenuUrls(lunchPlaceRequest.getUrl());
         for (String url : urlList) {
             String menu = readPDFMenu(url);
