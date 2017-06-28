@@ -37,7 +37,7 @@ public class HoroUpdater extends Updater {
                     "Vaaka", "Skorpioni", "Jousimies", "Kauris",
                     "Vesimies", "Kalat"};
 
-    private final String horoRowMatcher = "oinas.*|härkä.*|kaksoset.*|rapu.*|leijona.*|neitsyt.*|vaaka.*|skorpioni.*|jousimies.*|kauris.*|vesimies.*|kalat.*";
+    private final String horoRowMatcher = "oinas.*|h.rk..*|kaksoset.*|rapu.*|leijona.*|neitsyt.*|vaaka.*|skorpioni.*|jousimies.*|kauris.*|vesimies.*|kalat.*";
 
     private Map<String, HoroHolder> horos;
 
