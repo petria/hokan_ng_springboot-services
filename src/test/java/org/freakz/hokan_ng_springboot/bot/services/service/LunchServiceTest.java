@@ -7,11 +7,13 @@ import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchRequestHan
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.AntellLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HarmooniLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HerkkupisteLunchPlaceHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HoxLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.QulkuriLunchPlaceHandler;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -60,6 +62,15 @@ public class LunchServiceTest {
         LunchData response = new LunchData();
         lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_ANTELL, response, LocalDateTime.now());
         assertNotNull(response);
+    }
+
+    @Test
+    public void testHox() {
+        LunchRequestHandler lunchRequestHandler = new HoxLunchPlaceHandler();
+        LunchData response = new LunchData();
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_HOX, response, LocalDateTime.now());
+        assertNotNull(response);
+        assertEquals(5, response.getMenu().size());
     }
 
 
