@@ -37,7 +37,7 @@ public class HoroUpdater extends Updater {
                     "Vaaka", "Skorpioni", "Jousimies", "Kauris",
                     "Vesimies", "Kalat"};
 
-    private final String horoRowMatcher = "oinas.*|h.rk..*|kaksoset.*|rapu.*|leijona.*|neitsyt.*|vaaka.*|skorpioni.*|jousimies.*|kauris.*|vesimies.*|kalat.*";
+    private final String horoRowMatcher = "oinas.*|h.rk..*|kaksonen.*|rapu.*|leijona.*|neitsyt.*|vaaka.*|skorpioni.*|jousimies.*|kauris.*|vesimies.*|kalat.*";
 
     private Map<String, HoroHolder> horos;
 
@@ -65,7 +65,7 @@ public class HoroUpdater extends Updater {
     }
 
     public Document getDocument() throws IOException {
-        return Jsoup.connect("http://www.iltalehti.fi/viihde/horoskooppi1_ho.shtml").userAgent(StaticStrings.HTTP_USER_AGENT).get();
+        return Jsoup.connect("http://www.iltalehti.fi/horoskooppi/?ref=kn").userAgent(StaticStrings.HTTP_USER_AGENT).get();
     }
 
     public Map<String, HoroHolder> updateIL() throws Exception {
