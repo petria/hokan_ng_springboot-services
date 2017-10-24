@@ -28,15 +28,15 @@ public class ServicesRestController {
     @Autowired
     private LunchService lunchService;
 
-    @RequestMapping(method = RequestMethod.POST, value = BASE_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
-    ServiceRestResponse doLunchRequest(@RequestBody ServiceRestRequest serviceRestRequest) {
+    @RequestMapping(method = RequestMethod.POST, value = BASE_PATH, produces = MediaType.TEXT_PLAIN_VALUE)
+    private String doLunchRequest(@RequestBody ServiceRestRequest serviceRestRequest) {
         ServiceRestResponse response = new ServiceRestResponse();
 
         String place = serviceRestRequest.getRequest();
         Set<LunchPlace> matchingLunchPlaces = LunchPlace.getMatchingLunchPlaces(place);
         if (matchingLunchPlaces.size() == 0) {
             response.setResponse("No matching lunch place found with: " + place);
-            return response;
+            return response.getResponse();
         }
 
         String responseString = "";
@@ -49,7 +49,7 @@ public class ServicesRestController {
 
         response.setResponse(responseString);
 
-        return response;
+        return response.getResponse();
 
     }
 
