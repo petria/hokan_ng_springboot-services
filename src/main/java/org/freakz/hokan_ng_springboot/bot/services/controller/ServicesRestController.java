@@ -44,7 +44,7 @@ public class ServicesRestController {
             final LunchData lunchForDay = lunchService.getLunchForDay(lunchPlace, LocalDateTime.now());
             LunchDay lunchDay = LunchDay.getFromDateTime(LocalDateTime.now());
             final LunchMenu lunchMenu = lunchForDay.getMenu().get(lunchDay);
-            responseString += String.format("%s :: %s", lunchPlace.getName(), lunchMenu.getMenu());
+            responseString += String.format("%s :: %s\n", lunchPlace.getName(), lunchMenu.getMenu());
         }
 
         response.setResponse(responseString);
