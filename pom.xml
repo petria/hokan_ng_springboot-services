@@ -22,6 +22,12 @@
             <url>http://artifactory.airiot.fi/artifactory/libs-release-local</url>
         </repository>
 
+        <repository>
+            <id>snapshots</id>
+            <name>airiot.fi-snapshots</name>
+            <url>http://artifactory.airiot.fi/artifactory/libs-snapshot</url>
+        </repository>
+
     </repositories>
 
     <properties>
@@ -38,6 +44,12 @@
     </properties>
 
     <dependencies>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.freakz</groupId>
@@ -57,12 +69,12 @@
             <version>19.0</version>
         </dependency>
 
-        <!--        <dependency>
-                    <groupId>com.moviejukebox</groupId>
-                    <artifactId>api-imdb</artifactId>
-                    <version>1.5.1-SNAPSHOT</version>
-                </dependency>
-        -->
+        <dependency>
+            <groupId>com.moviejukebox</groupId>
+            <artifactId>api-imdb</artifactId>
+            <version>1.6-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-htmlunit-driver</artifactId>
