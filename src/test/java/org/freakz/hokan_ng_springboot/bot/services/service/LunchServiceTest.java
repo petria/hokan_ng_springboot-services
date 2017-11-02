@@ -9,6 +9,7 @@ import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HerkkupisteLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HoxLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.QulkuriLunchPlaceHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.TaikuriRuokalistaLunchPlaceHandler;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -73,6 +74,15 @@ public class LunchServiceTest {
         assertEquals(5, response.getMenu().size());
     }
 
+    @Test
+    public void testTaikuriRuokaLista() {
+        LunchRequestHandler lunchRequestHandler = new TaikuriRuokalistaLunchPlaceHandler();
+        LunchData response = new LunchData();
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_TAIKURI_RUOKALISTA, response, LocalDateTime.now());
+        assertNotNull(response);
+        assertEquals(5, response.getMenu().size());
+
+    }
 
     private String stripLunchRow(String row, String title) {
         String g = row.replaceAll("Street gourmet grilli ..... |Nordic Buffet .... |Päivän keittolounas .... ", "");
