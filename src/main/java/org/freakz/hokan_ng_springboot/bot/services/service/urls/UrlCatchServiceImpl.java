@@ -78,6 +78,11 @@ public class UrlCatchServiceImpl implements UrlCatchService {
 
     private void catchUrls(IrcMessageEvent iEvent, Channel channel) {
         String msg = iEvent.getMessage();
+        boolean askWanha = false;
+        if (msg.contains("wanha?")) {
+            askWanha = true;
+        }
+
         String regexp = "(https?://|www\\.)\\S+";
 
         Pattern p = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE);
@@ -87,18 +92,22 @@ public class UrlCatchServiceImpl implements UrlCatchService {
             long isWanha = logUrl(iEvent, url);
             String ignoreTitles = "fbcdn-sphotos.*|.*(avi|bz|gz|gif|exe|iso|jpg|jpeg|mp3|mp4|mkv|mpeg|mpg|mov|pdf|png|torrent|zip|7z|tar)";
 
-            String wanhaAdd = "";
+            StringBuilder wanhaAdd = new StringBuilder();
             for (int i = 0; i < isWanha; i++) {
-                wanhaAdd += "!";
+                wanhaAdd.append("!");
             }
             if (!StringStuff.match(url, ignoreTitles, true)) {
                 log.info("Finding title: " + url);
-                getTitleNew(url, channel, isWanha > 0, wanhaAdd);
+                getTitleNew(url, channel, isWanha > 0, wanhaAdd.toString());
             } else {
                 log.info("SKIP finding title: " + url);
                 if (isWanha > 0) {
                     NotifyRequest notifyRequest = new NotifyRequest();
-                    notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
+                    if (askWanha) {
+                        notifyRequest.setNotifyMessage(url + " | joo oli wanha!");
+                    } else {
+                        notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
+                    }
                     notifyRequest.setTargetChannelId(channel.getId());
                     jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
                 }
@@ -125,7 +134,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         String title = null;
         if (titleElements.size() > 0) {
             title = titleElements.get(0).text();
-            title = title.replaceAll("\n|\t", "");
+            title = title.replaceAll("[\n\t]", "");
         }
         if (title != null) {
             title = StringStuff.htmlEntitiesToText(title);
