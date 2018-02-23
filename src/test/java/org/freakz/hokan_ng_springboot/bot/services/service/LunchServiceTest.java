@@ -9,6 +9,7 @@ import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HerkkupisteLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.HoxLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.QulkuriLunchPlaceHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.ShalimarLunchPlaceHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers.TaikuriRuokalistaLunchPlaceHandler;
 import org.junit.Test;
 
@@ -40,6 +41,14 @@ public class LunchServiceTest {
 
     }
     */
+
+    @Test
+    public void testShalimar() {
+        LunchRequestHandler lunchRequestHandler = new ShalimarLunchPlaceHandler();
+        LunchData response = new LunchData();
+        lunchRequestHandler.handleLunchPlace(LunchPlace.LOUNAS_INFO_SHALIMAR, response, LocalDateTime.now());
+        assertNotNull(response);
+    }
 
     @Test
     public void testHerkkupiste() {
