@@ -25,7 +25,7 @@ import java.util.Iterator;
 public class ShalimarLunchPlaceHandler implements LunchRequestHandler {
 
     @Override
-    @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_ANTELL)
+    @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_SHALIMAR)
     public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {
         String url = lunchPlaceRequest.getUrl();
         Document doc;
