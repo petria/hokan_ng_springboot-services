@@ -16,6 +16,7 @@ import org.freakz.hokan_ng_springboot.bot.common.jpa.service.NetworkService;
 import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,19 +124,44 @@ public class UrlCatchServiceImpl implements UrlCatchService {
     }
 
     private void getTitleNew(final String url, final Channel ch, final boolean isWanha, final String wanhaAadd) {
-        org.jsoup.nodes.Document doc;
-        try {
-            doc = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            log.error("Can't get title for: {}", url);
-            return;
-        }
-        Elements titleElements = doc.getElementsByTag("title");
         String title = null;
-        if (titleElements.size() > 0) {
-            title = titleElements.get(0).text();
-            title = title.replaceAll("[\n\t]", "");
+
+        if (url.contains("www.youtube.com/watch?v=s") || url.contains("://youtu.be/")) {
+            org.jsoup.nodes.Document doc;
+            try {
+                doc = Jsoup.connect(url).get();
+                Elements scripts = doc.getElementsByTag("script");
+                for (Element element : scripts) {
+                    String text = element.html();
+                    if (text.contains("document.title")) {
+                        for (String lines : text.split("\n")) {
+                            if (lines.contains("document.title")) {
+                                title = lines.trim().replaceFirst("document.title = \"", "").replaceAll("\";", "");
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                //
+            }
+
+        } else {
+            org.jsoup.nodes.Document doc;
+            try {
+                doc = Jsoup.connect(url).get();
+            } catch (IOException e) {
+                log.error("Can't get title for: {}", url);
+                return;
+            }
+            Elements titleElements = doc.getElementsByTag("title");
+            if (titleElements.size() > 0) {
+                title = titleElements.get(0).text();
+                title = title.replaceAll("[\n\t]", "");
+            }
+
         }
+
+
         if (title != null) {
             title = StringStuff.htmlEntitiesToText(title);
             title = title.replaceAll("\t", "");

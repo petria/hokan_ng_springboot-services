@@ -103,5 +103,31 @@ public class JSoupTest {
 
     }
 
+    @Test
+    public void testYoutubeTitleFetch() {
+        String url = "https://www.youtube.com/watch?v=sDfIkXf3uzA";
+        if (url.contains("www.youtube.com/watch?v=s")) {
+            org.jsoup.nodes.Document doc;
+            try {
+                doc = Jsoup.connect(url).get();
+                Elements scripts = doc.getElementsByTag("script");
+                for (Element element : scripts) {
+                    String text = element.html();
+                    if (text.contains("document.title")) {
+                        for (String lines : text.split("\n")) {
+                            if (lines.contains("document.title")) {
+                                lines = lines.trim().replaceFirst("document.title = \"", "").replaceAll("\";", "");
+                                int foo = 0;
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                //            log.error("Can't get title for: {}", url);
+                return;
+            }
+        }
+
+    }
 
 }
