@@ -126,7 +126,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
     private void getTitleNew(final String url, final Channel ch, final boolean isWanha, final String wanhaAadd) {
         String title = null;
 
-        if (url.contains("www.youtube.com/watch?v=s") || url.contains("://youtu.be/")) {
+        if (url.contains("www.youtube.com/watch") || url.contains("://youtu.be/")) {
             org.jsoup.nodes.Document doc;
             try {
                 doc = Jsoup.connect(url).get();
