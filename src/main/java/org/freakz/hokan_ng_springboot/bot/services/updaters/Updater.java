@@ -1,11 +1,12 @@
 package org.freakz.hokan_ng_springboot.bot.services.updaters;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
 import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
 import org.freakz.hokan_ng_springboot.bot.common.exception.HokanException;
 import org.freakz.hokan_ng_springboot.bot.common.exception.HokanHostOsNotSupportedException;
 import org.freakz.hokan_ng_springboot.bot.common.models.UpdaterStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -19,8 +20,9 @@ import java.util.GregorianCalendar;
  * @author Petri Airio <petri.j.airio@gmail.com>
  */
 @Component
-@Slf4j
 public abstract class Updater implements DataUpdater, CommandRunnable {
+
+    private static final Logger log = LoggerFactory.getLogger(Updater.class);
 
     protected long updateCount = 0;
 

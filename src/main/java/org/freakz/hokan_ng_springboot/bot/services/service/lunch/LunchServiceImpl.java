@@ -1,9 +1,10 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.lunch;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.LunchPlaceHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ import java.util.List;
  * Created by Petri Airio on 21.1.2016.
  * -
  */
-@Slf4j
 @Service
 public class LunchServiceImpl implements LunchService {
+
+    private static final Logger log = LoggerFactory.getLogger(LunchServiceImpl.class);
 
     @Autowired
     private ApplicationContext applicationContext;

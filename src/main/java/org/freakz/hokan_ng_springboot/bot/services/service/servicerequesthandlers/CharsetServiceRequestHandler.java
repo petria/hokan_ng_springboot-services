@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.servicerequesthandlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
@@ -18,7 +17,6 @@ import java.io.IOException;
  * Created by Petri Airio on 29.3.2016. -
  */
 @Component
-@Slf4j
 public class CharsetServiceRequestHandler {
 
     private final FileUtil fileUtil;

@@ -1,11 +1,12 @@
 package org.freakz.hokan_ng_springboot.bot.services.updaters;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
 import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
 import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
 import org.freakz.hokan_ng_springboot.bot.common.models.UpdaterStatus;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,9 @@ import java.util.Map;
  * @author Petri Airio <petri.j.airio@gmail.com>
  */
 @Service
-@Slf4j
 public class UpdateManagerServiceImpl implements UpdaterManagerService, CommandRunnable {
+
+    private static final Logger log = LoggerFactory.getLogger(UpdateManagerServiceImpl.class);
 
     @Autowired
     private ApplicationContext context;

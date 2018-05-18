@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.updaters.kelikamerat;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratUrl;
 import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratWeatherData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
@@ -15,14 +14,17 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Petri Airio on 22.6.2015.
  */
 @Component
-//@Scope("prototype")
-@Slf4j
 public class KelikameratUpdater extends Updater {
 
     private static final String BASE_ULR = "http://www.kelikamerat.info";
@@ -86,7 +88,7 @@ public class KelikameratUpdater extends Updater {
             this.dataFetched += doc.html().length();
             this.itemsFetched++;
         } catch (IOException e) {
-            log.error("Can't update data: {}", url.getStationUrl());
+            //            log.error("Can't update data: {}", url.getStationUrl());
             return null;
         }
         String titleText = doc.getElementsByTag("title").get(0).text();

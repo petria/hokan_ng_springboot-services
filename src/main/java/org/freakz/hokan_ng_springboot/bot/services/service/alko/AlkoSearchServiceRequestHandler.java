@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.alko;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
@@ -23,7 +22,6 @@ import java.util.List;
  * Created by Petri Airio (petri.j.airio@gmail.com) 22/11/2016 / 8.55
  */
 @Service
-@Slf4j
 public class AlkoSearchServiceRequestHandler implements AlkoSearchService {
 
     private WWWPageFetcher wwwPageFetcher;

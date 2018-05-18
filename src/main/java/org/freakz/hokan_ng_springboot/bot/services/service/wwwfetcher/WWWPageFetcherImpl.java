@@ -3,9 +3,10 @@ package org.freakz.hokan_ng_springboot.bot.services.service.wwwfetcher;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
@@ -16,8 +17,9 @@ import java.util.concurrent.TimeUnit;
  * -
  */
 @Service
-@Slf4j
 public class WWWPageFetcherImpl implements WWWPageFetcher {
+
+    private static final Logger log = LoggerFactory.getLogger(WWWPageFetcherImpl.class);
 
     private final LoadingCache<CacheParameters, String> cache;
 

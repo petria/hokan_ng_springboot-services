@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandPool;
 import org.freakz.hokan_ng_springboot.bot.common.cmdpool.CommandRunnable;
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
@@ -23,6 +22,8 @@ import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +46,9 @@ import java.util.Map;
  * -
  */
 @Service
-@Slf4j
 public class DayChangedServiceImpl implements DayChangedService, CommandRunnable {
+
+    private static final Logger log = LoggerFactory.getLogger(DayChangedServiceImpl.class);
 
     private final ChannelPropertyService channelPropertyService;
 

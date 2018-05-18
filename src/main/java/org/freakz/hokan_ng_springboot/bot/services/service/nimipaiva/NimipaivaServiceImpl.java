@@ -5,10 +5,11 @@ package org.freakz.hokan_ng_springboot.bot.services.service.nimipaiva;
  * -
  */
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
 import org.freakz.hokan_ng_springboot.bot.common.util.FileUtil;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -20,8 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Slf4j
 public class NimipaivaServiceImpl implements NimipaivaService {
+
+    private static final Logger log = LoggerFactory.getLogger(NimipaivaServiceImpl.class);
 
     private static final String NIMIPAIVAT_TXT = "/Nimipaivat.txt";
 

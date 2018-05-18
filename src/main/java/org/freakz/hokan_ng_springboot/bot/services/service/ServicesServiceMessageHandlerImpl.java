@@ -1,13 +1,20 @@
 package org.freakz.hokan_ng_springboot.bot.services.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsServiceMessageHandler;
-import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
-import org.freakz.hokan_ng_springboot.bot.common.models.*;
+import org.freakz.hokan_ng_springboot.bot.common.models.ChannelSetTopic;
+import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
+import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
+import org.freakz.hokan_ng_springboot.bot.common.models.HoroHolder;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
+import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
+import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratWeatherData;
+import org.freakz.hokan_ng_springboot.bot.common.models.MetarData;
+import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
+import org.freakz.hokan_ng_springboot.bot.common.models.TranslateResponse;
 import org.freakz.hokan_ng_springboot.bot.common.service.translate.SanakirjaOrgTranslateService;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.currency.CurrencyService;
@@ -20,7 +27,8 @@ import org.freakz.hokan_ng_springboot.bot.services.updaters.DataUpdater;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterData;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterManagerService;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.horo.HoroUpdater;
-import org.freakz.hokan_ng_springboot.bot.services.updaters.telkku.TelkkuService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -29,7 +37,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,9 +44,11 @@ import java.util.List;
  * -
  */
 @Service
-@Slf4j
 @SuppressWarnings("unchecked")
 public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(ServicesServiceMessageHandlerImpl.class);
+
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -56,8 +65,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     @Autowired
     private NimipaivaService nimipaivaService;
 
-    @Autowired
-    private TelkkuService telkkuService;
 
     @Autowired
     private TopicService topicService;
@@ -71,13 +78,14 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     @Autowired
     private UrlCatchService urlCatchService;
 
-    public ServicesServiceMessageHandlerImpl(ApplicationContext applicationContext, CurrencyService currencyService, IMDBService imdbService, MetarDataService metarDataService, NimipaivaService nimipaivaService, TelkkuService telkkuService, TopicService topicService, SanakirjaOrgTranslateService translateService, UpdaterManagerService updaterManagerService, UrlCatchService urlCatchService) {
+    public ServicesServiceMessageHandlerImpl(ApplicationContext applicationContext, CurrencyService currencyService, IMDBService imdbService,
+            MetarDataService metarDataService, NimipaivaService nimipaivaService, TopicService topicService, SanakirjaOrgTranslateService translateService,
+            UpdaterManagerService updaterManagerService, UrlCatchService urlCatchService) {
         this.applicationContext = applicationContext;
         this.currencyService = currencyService;
         IMDBService = imdbService;
         this.metarDataService = metarDataService;
         this.nimipaivaService = nimipaivaService;
-        this.telkkuService = telkkuService;
         this.topicService = topicService;
         this.translateService = translateService;
         this.updaterManagerService = updaterManagerService;
@@ -197,34 +205,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
         String nameStr = (String) request.getParameters()[0];
         NimipaivaData theDay = nimipaivaService.findDayForName(nameStr);
         response.setResponseData(request.getType().getResponseDataKey(), theDay);
-    }
-
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.TV_DAY_REQUEST)
-    public void handleTvDayRequest(ServiceRequest request, ServiceResponse response) {
-        Channel channel = (Channel) request.getParameters()[0];
-        Date date = (Date) request.getParameters()[1];
-        List<TelkkuProgram> tvDayData = telkkuService.getChannelDailyNotifiedPrograms(channel, date);
-        response.setResponseData(request.getType().getResponseDataKey(), tvDayData);
-    }
-
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.TV_FIND_REQUEST)
-    public void handleTvFindRequest(ServiceRequest request, ServiceResponse response) {
-        String programs = (String) request.getParameters()[0];
-        List<TelkkuProgram> programList = telkkuService.findPrograms(programs);
-        response.setResponseData(request.getType().getResponseDataKey(), programList);
-    }
-
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.TV_INFO_REQUEST)
-    public void handleTvInfoRequest(ServiceRequest request, ServiceResponse response) {
-        int id = (int) request.getParameters()[0];
-        TelkkuProgram program = telkkuService.findProgramById(id);
-        response.setResponseData(request.getType().getResponseDataKey(), program);
-    }
-
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.TV_NOW_REQUEST)
-    public void handleTvNowRequest(ServiceRequest request, ServiceResponse response) {
-        TvNowData tvNowData = telkkuService.getTvNowData();
-        response.setResponseData(request.getType().getResponseDataKey(), tvNowData);
     }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.TRANSLATE_REQUEST)

@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.updaters.horo;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.HoroHolder;
 import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
@@ -28,8 +27,6 @@ import java.util.Map;
  * @author Petri Airio <petri.j.airio@gmail.com>
  */
 @Component
-//@Scope("singleton")
-@Slf4j
 public class HoroUpdater extends Updater {
 
     public final static String[] HORO_NAMES =

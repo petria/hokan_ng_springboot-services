@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.servicerequesthandlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
@@ -9,6 +8,8 @@ import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchPlaceData;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.lunch.LunchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +22,9 @@ import java.util.Set;
  * -
  */
 @Component
-@Slf4j
 public class LunchServiceRequestHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(LunchServiceRequestHandler.class);
 
     private final LunchService lunchService;
 

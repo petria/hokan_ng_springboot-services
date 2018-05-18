@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.LunchDay;
 import org.freakz.hokan_ng_springboot.bot.common.enums.LunchPlace;
 import org.freakz.hokan_ng_springboot.bot.common.models.LunchData;
@@ -12,6 +11,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,8 +25,9 @@ import java.util.Iterator;
  * Created by airiope on 26.6.2017.
  */
 @Component
-@Slf4j
 public class AntellLunchPlaceHandler implements LunchRequestHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(AntellLunchPlaceHandler.class);
 
     private static String[] markers =
             {"Maanantai", "Tiistai", "Keskiviikko"};

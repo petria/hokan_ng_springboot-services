@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +10,6 @@ import java.time.format.DateTimeParseException;
 /**
  * Created by Petri Airio on 18.6.2015.
  */
-@Slf4j
 public class KelikameratWeatherTest {
 
     String[] urls =

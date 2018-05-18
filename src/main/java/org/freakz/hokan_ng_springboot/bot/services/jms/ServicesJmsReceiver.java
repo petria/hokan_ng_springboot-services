@@ -1,11 +1,12 @@
 package org.freakz.hokan_ng_springboot.bot.services.jms;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.SpringJmsReceiver;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsServiceMessageHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Component;
  * -
  */
 @Component
-@Slf4j
 public class ServicesJmsReceiver extends SpringJmsReceiver {
+
+    private static final Logger log = LoggerFactory.getLogger(ServicesJmsReceiver.class);
 
     private final JmsSender jmsSender;
 

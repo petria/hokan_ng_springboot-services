@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.freakz.hokan_ng_springboot.bot.common.enums.CommandLineArgs;
 import org.freakz.hokan_ng_springboot.bot.common.util.CommandLineArgsParser;
@@ -18,7 +17,6 @@ import java.util.Map;
 @EnableAutoConfiguration
 @EnableJms
 @ComponentScan({"org.freakz.hokan_ng_springboot.bot"})
-@Slf4j
 public class HokanNgSpringBootServices {
 
     private static String JMS_BROKER_URL = "tcp://localhost:61616";
@@ -37,7 +35,7 @@ public class HokanNgSpringBootServices {
         if (url != null) {
             JMS_BROKER_URL = url;
         }
-        log.debug("JMS_BROKER_URL: {}", JMS_BROKER_URL);
+        //        log.debug("JMS_BROKER_URL: {}", JMS_BROKER_URL);
         System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(HokanNgSpringBootServices.class, args);
     }

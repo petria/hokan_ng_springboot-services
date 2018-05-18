@@ -1,9 +1,10 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.metar;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.MetarData;
 import org.freakz.hokan_ng_springboot.bot.common.util.FileUtil;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,9 @@ import java.util.regex.Pattern;
  * @author Petri Airio <petri.j.airio@gmail.com>
  */
 @Service
-@Slf4j
 public class MetarDataServiceImpl implements MetarDataService {
+
+    private static final Logger log = LoggerFactory.getLogger(MetarDataServiceImpl.class);
 
     @Autowired
     private FileUtil fileUtil;

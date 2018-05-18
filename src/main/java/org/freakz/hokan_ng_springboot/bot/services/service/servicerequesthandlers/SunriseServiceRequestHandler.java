@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.servicerequesthandlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
@@ -17,7 +16,6 @@ import java.util.List;
  * -
  */
 @Component
-@Slf4j
 public class SunriseServiceRequestHandler {
 
     private final DayChangedService dayChangedService;

@@ -1,12 +1,13 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.currency;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
 import org.freakz.hokan_ng_springboot.bot.common.util.StaticStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -20,11 +21,11 @@ import java.util.Map;
  * Created by Petri Airio on 2.9.2015.
  */
 @Service
-@Slf4j
 public class GoogleCurrencyService implements CurrencyService {
 
-    private Map<String, GoogleCurrency> currencyMap = new HashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(GoogleCurrencyService.class);
 
+    private Map<String, GoogleCurrency> currencyMap = new HashMap<>();
 
     @PostConstruct
     private void getCurrencies() {

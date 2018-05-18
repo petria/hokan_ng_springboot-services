@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.servicerequesthandlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
@@ -10,6 +9,8 @@ import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMes
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,8 +18,9 @@ import org.springframework.stereotype.Component;
  * -
  */
 @Component
-@Slf4j
 public class IlmatieteenlaitosRequestHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(IlmatieteenlaitosRequestHandler.class);
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.ILMATIETEENLAITOS_HOURLY_REQUEST)
     public void handleHourlyRequest(ServiceRequest request, ServiceResponse response) {

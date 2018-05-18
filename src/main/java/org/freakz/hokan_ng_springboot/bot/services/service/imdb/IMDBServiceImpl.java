@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.imdb;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
 import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
  * -
  */
 @Service
-@Slf4j
 public class IMDBServiceImpl implements IMDBService {
 
     @Override

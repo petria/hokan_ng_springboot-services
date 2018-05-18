@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.lunch.requesthandlers;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
@@ -18,6 +17,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -34,9 +35,9 @@ import java.util.List;
  * -
  */
 @Component
-@Slf4j
 public class HelsinkiTerminaali2RequestHandler implements LunchRequestHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(HelsinkiTerminaali2RequestHandler.class);
 
     private static final String BASE_ULR = "http://www.sspfinland.fi/";
     private static final String[] DAYS = {"MAANANTAI", "TIISTAI", "KESKIVIIKKO", "TORSTAI", "PERJANTAI", "LAUANTAI", "SUNNUNTAI", "HINNASTO"};

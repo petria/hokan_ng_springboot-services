@@ -1,8 +1,9 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.topics;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.models.ChannelSetTopic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Scope("singleton")
 @Service
-@Slf4j
 public class TopicServiceImpl implements TopicService {
+
+    private static final Logger log = LoggerFactory.getLogger(TopicServiceImpl.class);
 
     private Map<String, ChannelSetTopic> topicMap = new ConcurrentHashMap<>();
 

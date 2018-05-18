@@ -1,6 +1,5 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.urls;
 
-import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
@@ -18,6 +17,8 @@ import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,9 @@ import java.util.regex.Pattern;
  * -
  */
 @Service
-@Slf4j
 public class UrlCatchServiceImpl implements UrlCatchService {
+
+    private static final Logger log = LoggerFactory.getLogger(UrlCatchServiceImpl.class);
 
     private final ChannelPropertyRepositoryService channelPropertyService;
 
