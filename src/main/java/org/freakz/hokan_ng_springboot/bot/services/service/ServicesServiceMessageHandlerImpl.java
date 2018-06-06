@@ -7,6 +7,7 @@ import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.common.models.ChannelSetTopic;
 import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
+import org.freakz.hokan_ng_springboot.bot.common.models.FindCityResults;
 import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
 import org.freakz.hokan_ng_springboot.bot.common.models.HoroHolder;
 import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
@@ -19,6 +20,7 @@ import org.freakz.hokan_ng_springboot.bot.common.service.translate.SanakirjaOrgT
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.currency.CurrencyService;
 import org.freakz.hokan_ng_springboot.bot.services.service.imdb.IMDBService;
+import org.freakz.hokan_ng_springboot.bot.services.service.locations.LocationsService;
 import org.freakz.hokan_ng_springboot.bot.services.service.metar.MetarDataService;
 import org.freakz.hokan_ng_springboot.bot.services.service.nimipaiva.NimipaivaService;
 import org.freakz.hokan_ng_springboot.bot.services.service.topics.TopicService;
@@ -49,7 +51,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     private static final Logger log = LoggerFactory.getLogger(ServicesServiceMessageHandlerImpl.class);
 
-
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -58,6 +59,9 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @Autowired
     private IMDBService IMDBService;
+
+    @Autowired
+    private LocationsService locationsService;
 
     @Autowired
     private MetarDataService metarDataService;
@@ -162,6 +166,15 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     public void handleCurrencyListRequest(ServiceRequest request, ServiceResponse response) {
         List<GoogleCurrency> currencyList = currencyService.getGoogleCurrencies();
         response.setResponseData(request.getType().getResponseDataKey(), currencyList);
+    }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.FIND_CITY_REQUEST)
+    public void handleFindCityRequest(ServiceRequest request, ServiceResponse response) {
+        String cityArg = (String) request.getParameters()[0];
+        log.debug("Find city: {}", cityArg);
+        FindCityResults results = new FindCityResults();
+        results.setWorldCityDataList(locationsService.findMatchingCities(cityArg));
+        response.setResponseData(request.getType().getResponseDataKey(), results);
     }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.HORO_REQUEST)
