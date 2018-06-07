@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -27,31 +29,34 @@ import java.util.List;
 @Component
 public class KelikameratUpdater extends Updater {
 
-    private static final String BASE_ULR = "http://www.kelikamerat.info";
+    private static final Logger log = LoggerFactory.getLogger(KelikameratUpdater.class);
+
+    private static final String BASE_ULR = "https://www.kelikamerat.info";
 
     private static final String[] KELIKAMERAT_URLS =
             {
-                    "http://www.kelikamerat.info/kelikamerat/Etel%C3%A4-Karjala",
-                    "http://www.kelikamerat.info/kelikamerat/Etel%C3%A4-Pohjanmaa",
-                    "http://www.kelikamerat.info/kelikamerat/Etel%C3%A4-Savo",
-                    "http://www.kelikamerat.info/kelikamerat/Kainuu",
-                    "http://www.kelikamerat.info/kelikamerat/Kanta-H%C3%A4me",
-                    "http://www.kelikamerat.info/kelikamerat/Keski-Pohjanmaa",
-                    "http://www.kelikamerat.info/kelikamerat/Keski-Suomi",
-                    "http://www.kelikamerat.info/kelikamerat/Kymenlaakso",
-                    "http://www.kelikamerat.info/kelikamerat/Lappi",
-                    "http://www.kelikamerat.info/kelikamerat/P%C3%A4ij%C3%A4t-H%C3%A4me",
-                    "http://www.kelikamerat.info/kelikamerat/Pirkanmaa",
-                    "http://www.kelikamerat.info/kelikamerat/Pohjanmaa",
-                    "http://www.kelikamerat.info/kelikamerat/Pohjois-Karjala",
-                    "http://www.kelikamerat.info/kelikamerat/Pohjois-Pohjanmaa",
-                    "http://www.kelikamerat.info/kelikamerat/Pohjois-Savo",
-                    "http://www.kelikamerat.info/kelikamerat/Satakunta",
-                    "http://www.kelikamerat.info/kelikamerat/Uusimaa",
-                    "http://www.kelikamerat.info/kelikamerat/Varsinais-Suomi"
+                    "https://www.kelikamerat.info/kelikamerat/Etel%C3%A4-Karjala",
+                    "https://www.kelikamerat.info/kelikamerat/Etel%C3%A4-Pohjanmaa",
+                    "https://www.kelikamerat.info/kelikamerat/Etel%C3%A4-Savo",
+                    "https://www.kelikamerat.info/kelikamerat/Kainuu",
+                    "https://www.kelikamerat.info/kelikamerat/Kanta-H%C3%A4me",
+                    "https://www.kelikamerat.info/kelikamerat/Keski-Pohjanmaa",
+                    "https://www.kelikamerat.info/kelikamerat/Keski-Suomi",
+                    "https://www.kelikamerat.info/kelikamerat/Kymenlaakso",
+                    "https://www.kelikamerat.info/kelikamerat/Lappi",
+                    "https://www.kelikamerat.info/kelikamerat/P%C3%A4ij%C3%A4t-H%C3%A4me",
+                    "https://www.kelikamerat.info/kelikamerat/Pirkanmaa",
+                    "https://www.kelikamerat.info/kelikamerat/Pohjanmaa",
+                    "https://www.kelikamerat.info/kelikamerat/Pohjois-Karjala",
+                    "https://www.kelikamerat.info/kelikamerat/Pohjois-Pohjanmaa",
+                    "https://www.kelikamerat.info/kelikamerat/Pohjois-Savo",
+                    "https://www.kelikamerat.info/kelikamerat/Satakunta",
+                    "https://www.kelikamerat.info/kelikamerat/Uusimaa",
+                    "https://www.kelikamerat.info/kelikamerat/Varsinais-Suomi"
             };
 
     private List<KelikameratUrl> stationUrls;
+
     private List<KelikameratWeatherData> weatherDataList;
 
     public void updateStations() throws IOException {
@@ -126,10 +131,9 @@ public class KelikameratUpdater extends Updater {
         if (elements2.size() > 0) {
             String timestamp = elements2.get(0).text().substring(12);
 
-
             String pattern1 = "dd.MM.yyyy HH:mm:ss";
             String pattern2 = "dd.MM.yyyy H:mm:ss";
-//            DateTime dateTime = DateTime.parse(timestamp, DateTimeFormat.forPattern(pattern));
+            //            DateTime dateTime = DateTime.parse(timestamp, DateTimeFormat.forPattern(pattern));
 
             LocalDateTime localDateTime;
 
@@ -156,11 +160,12 @@ public class KelikameratUpdater extends Updater {
         }
         List<KelikameratWeatherData> weatherDataList = new ArrayList<>();
         for (KelikameratUrl url : this.stationUrls) {
+            //            log.debug("Handle url: {}", url);
             KelikameratWeatherData data = updateKelikameratWeatherData(url);
             if (data != null) {
                 weatherDataList.add(data);
             }
-//      log.debug("{}", String.format("%s: %1.2f °C", data.getPlaceFromUrl(), data.getAir()));
+            //      log.debug("{}", String.format("%s: %1.2f °C", data.getPlaceFromUrl(), data.getAir()));
         }
         this.itemCount = weatherDataList.size();
         this.weatherDataList = weatherDataList;
@@ -169,7 +174,7 @@ public class KelikameratUpdater extends Updater {
     @Override
     public Object doGetData(Object... args) {
         if (this.weatherDataList != null) {
-//      return sortData(this.weatherDataList, true);
+            //      return sortData(this.weatherDataList, true);
             return this.weatherDataList;
         }
         return null;
@@ -200,8 +205,8 @@ public class KelikameratUpdater extends Updater {
         return v;
     }
 
-
     public static class KelikameratWeatherComparator implements Comparator {
+
         private boolean reverse;
 
         public KelikameratWeatherComparator(boolean reverse) {
