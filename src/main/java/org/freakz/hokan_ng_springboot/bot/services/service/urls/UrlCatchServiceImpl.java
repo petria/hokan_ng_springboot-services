@@ -128,17 +128,20 @@ public class UrlCatchServiceImpl implements UrlCatchService {
     private void getTitleNew(final String url, final Channel ch, final boolean isWanha, final String wanhaAadd) {
         String title = null;
 
-        if (url.contains("www.youtube.com/watch") || url.contains("://youtu.be/")) {
+        if (url.contains("www.youtube.com") || url.contains("://youtu.be/")) {
             org.jsoup.nodes.Document doc;
             try {
                 doc = Jsoup.connect(url).get();
                 Elements scripts = doc.getElementsByTag("script");
                 for (Element element : scripts) {
                     String text = element.html();
-                    if (text.contains("document.title")) {
-                        for (String lines : text.split("\n")) {
-                            if (lines.contains("document.title")) {
-                                title = lines.trim().replaceFirst("document.title = \"", "").replaceAll("\";", "");
+                    System.out.printf("%s", text);
+                    if (text.contains("var ytplayer =")) {
+                        int idx1 = text.indexOf(",\"title\":\"");
+                        if (idx1 != -1) {
+                            int idx2 = text.indexOf("\"", idx1 + 10);
+                            if (idx2 != -1) {
+                                title = text.substring(idx1 + 10, idx2);
                             }
                         }
                     }
