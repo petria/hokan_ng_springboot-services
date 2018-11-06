@@ -6,14 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
 
 /**
  * Created by Petri Airio on 8.3.2017.
  */
-@Service
+//@Service
 public class CommandReader implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(CommandReader.class);
