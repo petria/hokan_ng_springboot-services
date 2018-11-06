@@ -72,8 +72,9 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         } else {
             entity = new Url(url, iEvent.getSender(), iEvent.getChannel(), new Date());
         }
-        urlRepository.save(entity);
-        log.info("Logged URL: {}", entity);
+
+        Url saved = urlRepository.save(entity);
+        log.info("Logged URL: {}", saved);
         return isWanha;
 
     }
