@@ -5,7 +5,6 @@ import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.IrcLog;
-import org.freakz.hokan_ng_springboot.bot.common.jpa.repository.ChannelRepository;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.service.IrcLogService;
 import org.freakz.hokan_ng_springboot.bot.common.models.StartAndEndTime;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
