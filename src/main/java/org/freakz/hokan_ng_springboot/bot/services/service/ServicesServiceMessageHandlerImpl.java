@@ -25,6 +25,7 @@ import org.freakz.hokan_ng_springboot.bot.services.service.metar.MetarDataServic
 import org.freakz.hokan_ng_springboot.bot.services.service.nimipaiva.NimipaivaService;
 import org.freakz.hokan_ng_springboot.bot.services.service.topics.TopicService;
 import org.freakz.hokan_ng_springboot.bot.services.service.urls.UrlCatchService;
+import org.freakz.hokan_ng_springboot.bot.services.service.wholelinetricker.WholeLineTriggers;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.DataUpdater;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterData;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterManagerService;
@@ -81,6 +82,9 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @Autowired
     private UrlCatchService urlCatchService;
+
+    @Autowired
+    private WholeLineTriggers wholeLineTriggers;
 
     public ServicesServiceMessageHandlerImpl(ApplicationContext applicationContext, CurrencyService currencyService, IMDBService imdbService,
             MetarDataService metarDataService, NimipaivaService nimipaivaService, TopicService topicService, SanakirjaOrgTranslateService translateService,
@@ -245,6 +249,12 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
         }
         response.setResponseData(request.getType().getResponseDataKey(), startedUpdaters);
     }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.WHOLE_LINE_TRIGGER)
+    public void handleWholeLineTrigger(ServiceRequest request, ServiceResponse response) {
+        wholeLineTriggers.checkWholeLineTrigger(request.getIrcMessageEvent());
+    }
+
 
     @Override
     public void handleJmsEnvelope(JmsEnvelope envelope) throws Exception {
