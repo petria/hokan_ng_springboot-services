@@ -54,7 +54,7 @@ public class IrcLogServiceImpl implements IrcLogService {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         PatternLayoutEncoder ple = new PatternLayoutEncoder();
 
-        ple.setPattern("%time %msg%n");
+        ple.setPattern("%msg%n");
         ple.setContext(lc);
         ple.start();
         FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
