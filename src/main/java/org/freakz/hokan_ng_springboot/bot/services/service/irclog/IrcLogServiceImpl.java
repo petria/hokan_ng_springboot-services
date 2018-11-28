@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,17 +24,21 @@ public class IrcLogServiceImpl implements IrcLogService {
 
 
     @Override
-    public void logChannelMessage(String network, String channel, String message) {
-        String key = String.format("%s%s", network, channel);
+    public void logChannelMessage(LocalDateTime localDateTime, String network, String channel, String message) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        String day = formatter.format(localDateTime);
+        String key = String.format("%s%s%s", network, channel, day);
         Logger logger = channelLoggers.get(key);
         if (logger == null) {
-            String path = createPath(network, channel);
+            String path = createPath(network, channel, day);
             logger = createLoggerFor(key, path);
+            channelLoggers.put(key, logger);
         }
         logger.info(message);
     }
 
-    private String createPath(String network, String channel) {
+    private String createPath(String network, String channel, String day) {
         String path = "logs/" + network + "/" + channel + "/";
         File file = new File(path);
         if (!file.exists()) {
@@ -42,11 +46,7 @@ public class IrcLogServiceImpl implements IrcLogService {
             log.debug("Created log dir: {} -- {}", file.getAbsolutePath(), ok);
         }
 
-        LocalDate localDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-        String today = formatter.format(localDate);
-
-        return path + today + ".log";
+        return path + day + ".log";
     }
 
 

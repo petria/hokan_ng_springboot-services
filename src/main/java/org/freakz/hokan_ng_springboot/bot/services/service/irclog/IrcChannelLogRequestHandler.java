@@ -4,13 +4,12 @@ import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
-import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Component
 public class IrcChannelLogRequestHandler {
@@ -18,6 +17,8 @@ public class IrcChannelLogRequestHandler {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(IrcLogServiceImpl.class);
 
     private final IrcLogService ircLogService;
+
+    private LocalDateTimeProvider localDateTimeProvider = null;
 
     @Autowired
     public IrcChannelLogRequestHandler(IrcLogService ircLogService) {
@@ -29,9 +30,22 @@ public class IrcChannelLogRequestHandler {
         log.debug("Handle log request");
         IrcMessageEvent event = request.getIrcMessageEvent();
 
-        String time = StringStuff.formatTime(new Date(), StringStuff.STRING_STUFF_DF_HHMMSS);
+        LocalDateTime ldt = getLocalDateTime();
+        String time = String.format("%02d:%02d", ldt.getHour(), ldt.getMinute());
+
         String message = String.format("%s %s: %s", time, event.getSender(), event.getMessage());
-        ircLogService.logChannelMessage(event.getNetwork().toLowerCase(), event.getChannel().toLowerCase(), message);
+
+        ircLogService.logChannelMessage(ldt, event.getNetwork().toLowerCase(), event.getChannel().toLowerCase(), message);
     }
 
+    private LocalDateTime getLocalDateTime() {
+        if (localDateTimeProvider != null) {
+            return localDateTimeProvider.getLocalDateTime();
+        }
+        return LocalDateTime.now();
+    }
+
+    public void setLocalDateTimeProvider(LocalDateTimeProvider localDateTimeProvider) {
+        this.localDateTimeProvider = localDateTimeProvider;
+    }
 }
