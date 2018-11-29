@@ -27,11 +27,11 @@ public class IrcChannelLogTest {
         dateList.add(LocalDate.)
         */
         List<LocalDateTime> list = new ArrayList<>();
-        list.add(LocalDateTime.of(2018, 11, 8, 23, 59));
-        list.add(LocalDateTime.of(2018, 11, 8, 23, 59));
-        list.add(LocalDateTime.of(2018, 11, 9, 0, 0));
-        list.add(LocalDateTime.of(2018, 11, 9, 0, 1));
-        list.add(LocalDateTime.of(2018, 11, 9, 0, 2));
+        list.add(LocalDateTime.of(2018, 11, 8, 23, 59, 10, 1));
+        list.add(LocalDateTime.of(2018, 11, 8, 23, 59, 20, 12));
+        list.add(LocalDateTime.of(2018, 11, 9, 0, 0, 30, 111));
+        list.add(LocalDateTime.of(2018, 11, 9, 0, 1, 40, 133));
+        list.add(LocalDateTime.of(2018, 11, 9, 0, 2, 59, 999));
 
         Iterator<LocalDateTime> iterator = list.iterator();
 

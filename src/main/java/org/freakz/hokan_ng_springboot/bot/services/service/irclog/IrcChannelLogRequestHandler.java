@@ -31,7 +31,7 @@ public class IrcChannelLogRequestHandler {
         IrcMessageEvent event = request.getIrcMessageEvent();
 
         LocalDateTime ldt = getLocalDateTime();
-        String time = String.format("%02d:%02d", ldt.getHour(), ldt.getMinute());
+        String time = String.format("%02d:%02d:%02d", ldt.getHour(), ldt.getMinute(), ldt.getSecond());
 
         String message = String.format("%s %s: %s", time, event.getSender(), event.getMessage());
 
