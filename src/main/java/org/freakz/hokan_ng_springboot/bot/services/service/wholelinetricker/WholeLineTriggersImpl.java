@@ -5,7 +5,6 @@ import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.IrcLog;
-import org.freakz.hokan_ng_springboot.bot.common.jpa.service.IrcLogService;
 import org.freakz.hokan_ng_springboot.bot.common.models.StartAndEndTime;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.common.util.Uptime;
@@ -26,13 +25,10 @@ import java.util.*;
 @Scope("singleton")
 public class WholeLineTriggersImpl implements WholeLineTriggers {
 
-    private final IrcLogService ircLogService;
-
     private final JmsSender jmsSender;
 
     @Autowired
-    WholeLineTriggersImpl(IrcLogService ircLogService, JmsSender jmsSender) {
-        this.ircLogService = ircLogService;
+    WholeLineTriggersImpl(JmsSender jmsSender) {
         this.jmsSender = jmsSender;
     }
 
@@ -156,7 +152,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         int startRnd = 1 + (int) (Math.random() * 3);
         LocalDateTime now = LocalDateTime.now(); //LocalDateTime.of(2017,11, 22, 17, 0);
         StartAndEndTime between = new StartAndEndTime(now.minusDays(startRnd), now.minusDays(startRnd - 3));
-        final List<IrcLog> logs = ircLogService.findByTimeStampBetweenAndTargetContaining(between, channel);
+        final List<IrcLog> logs = null;// TODO ircLogService.findByTimeStampBetweenAndTargetContaining(between, channel);
         List<String> allSentences = new ArrayList<>();
         for (IrcLog log : logs) {
             String message = log.getMessage();
@@ -191,11 +187,11 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     private void checkJospa(IrcMessageEvent iEvent) {
         if (iEvent.getMessage().startsWith("jospa")) {
             String rndWord = "joo"; // TODO ChannelLogger.getInstance().getRandomWord();
-            try {
+/*            try {
                 rndWord = getRandomSentence(iEvent.getChannel());
             } catch (Exception e) {
                 //
-            }
+            }*/
             String reply = "Jospa " + rndWord;
             processReply(iEvent, _olpo + reply);
         }

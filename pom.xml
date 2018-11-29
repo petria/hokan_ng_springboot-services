@@ -22,6 +22,9 @@
         <logback.version>1.1.9</logback.version>
         <lombok.version>1.16.12</lombok.version>
         <java.version>10</java.version>
+
+        <hokan.common.version>2.0.2-final</hokan.common.version>
+
     </properties>
 
     <dependencies>
@@ -35,7 +38,7 @@
         <dependency>
             <groupId>org.freakz</groupId>
             <artifactId>hokan_ng_springboot-common</artifactId>
-            <version>2.0.1-final</version>
+            <version>${hokan.common.version}</version>
         </dependency>
 
         <dependency>
