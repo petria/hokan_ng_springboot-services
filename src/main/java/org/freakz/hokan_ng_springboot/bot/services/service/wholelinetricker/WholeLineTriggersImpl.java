@@ -4,8 +4,6 @@ import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
-import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.IrcLog;
-import org.freakz.hokan_ng_springboot.bot.common.models.StartAndEndTime;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.common.util.Uptime;
 import org.jibble.pircbot.Colors;
@@ -13,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * User: petria
@@ -148,41 +147,6 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         }
     }
 
-    public String getRandomSentence(String channel) {
-        int startRnd = 1 + (int) (Math.random() * 3);
-        LocalDateTime now = LocalDateTime.now(); //LocalDateTime.of(2017,11, 22, 17, 0);
-        StartAndEndTime between = new StartAndEndTime(now.minusDays(startRnd), now.minusDays(startRnd - 3));
-        final List<IrcLog> logs = null;// TODO ircLogService.findByTimeStampBetweenAndTargetContaining(between, channel);
-        List<String> allSentences = new ArrayList<>();
-        for (IrcLog log : logs) {
-            String message = log.getMessage();
-            final String[] split = message.split("[,.!?]");
-
-            Collections.addAll(allSentences, split);
-        }
-        Collections.shuffle(allSentences);
-        String ss = "";
-        for (int i = 0; i < startRnd + 2; i++) {
-            if (i > 0) {
-                ss += ", ";
-            }
-            String some = allSentences.get(i);
-            if (some.length() == 0) {
-                continue;
-            }
-            if (some.equals("http")) {
-                continue;
-            }
-            String ää1 = "Ã¤";
-            String öö1 = "Ã¶";
-            String s = some.replaceAll("ï¿½", "ä");
-            s = s.replaceAll(ää1, "ä");
-            s = s.replaceAll(öö1, "ö");
-            ss += s;
-        }
-
-        return ss;
-    }
 
     private void checkJospa(IrcMessageEvent iEvent) {
         if (iEvent.getMessage().startsWith("jospa")) {

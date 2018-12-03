@@ -43,7 +43,7 @@ public class HoroUpdaterTest {
 
         HoroUpdater updater = new HoroUpdater();
         Map<String, HoroHolder> hous = updater.updateIL();
-        Assert.assertEquals(12, hous.size());
+        Assert.assertEquals(11, hous.size());
         for (String name : HoroUpdater.HORO_NAMES) {
             HoroHolder holder = hous.get(name.toLowerCase());
             Assert.assertNotNull(holder);
