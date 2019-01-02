@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -27,7 +28,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     private final JmsSender jmsSender;
 
     @Autowired
-    WholeLineTriggersImpl(JmsSender jmsSender) {
+    public WholeLineTriggersImpl(JmsSender jmsSender) {
         this.jmsSender = jmsSender;
     }
 
@@ -85,6 +86,20 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     private int jouluRandomBase = 65;
 
+    public LocalDateTime getJouluTime(LocalDateTime now) {
+        LocalDateTime start = LocalDateTime.of(now.getYear(), 12, 24, 12, 0);
+        LocalDateTime end = LocalDateTime.of(now.getYear(), 12, 31, 23, 59);
+        LocalDateTime jouluTime;
+        if (now.isAfter(start) && now.isBefore(end)) {
+            // year end!
+            jouluTime = LocalDateTime.of(now.getYear() + 1, 12, 24, 12, 00);
+        } else {
+            jouluTime = LocalDateTime.of(now.getYear(), 12, 24, 12, 00);
+
+        }
+        return jouluTime;
+    }
+
     private void checkJoulu(IrcMessageEvent iEvent) {
 
         String line = iEvent.getMessage();
@@ -93,16 +108,20 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         if (line.contains("joulu") && rnd > jouluRandomBase) {
             String[] format = {"00", "00", "00", "0"};
 
-            GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime jouluTime = getJouluTime(now);
+
+/*            GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
             cal.set(Calendar.MONTH, Calendar.DECEMBER);
             cal.set(Calendar.DAY_OF_MONTH, 24);
             cal.set(Calendar.YEAR, 2019);
             cal.set(Calendar.HOUR_OF_DAY, 12);
             cal.set(Calendar.MINUTE, 0);
             cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);*/
 
-            Uptime uptime = new Uptime(cal.getTime().getTime());
+//            Uptime uptime = new Uptime(cal.getTime().getTime());
+            Uptime uptime = new Uptime(jouluTime);
             Integer[] ut = uptime.getTimeDiff();
 
             String ret = StringStuff.fillTemplate("%3 päivää ja %2:%1:%0 jouluun!", ut, format);
