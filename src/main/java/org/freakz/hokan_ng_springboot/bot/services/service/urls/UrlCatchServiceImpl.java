@@ -106,15 +106,18 @@ public class UrlCatchServiceImpl implements UrlCatchService {
                 getTitleNew(url, channel, isWanha > 0, wanhaAdd.toString());
             } else {
                 log.info("SKIP finding title: " + url);
-                if (isWanha > 0) {
-                    NotifyRequest notifyRequest = new NotifyRequest();
-                    if (askWanha) {
-                        notifyRequest.setNotifyMessage(url + " | joo oli wanha!");
-                    } else {
-                        notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
+                boolean titles = channelPropertyService.getChannelPropertyAsBoolean(channel, PropertyName.PROP_CHANNEL_DO_URL_TITLES, false);
+                if (titles) {
+                    if (isWanha > 0) {
+                        NotifyRequest notifyRequest = new NotifyRequest();
+                        if (askWanha) {
+                            notifyRequest.setNotifyMessage(url + " | joo oli wanha!");
+                        } else {
+                            notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
+                        }
+                        notifyRequest.setTargetChannelId(channel.getId());
+                        jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
                     }
-                    notifyRequest.setTargetChannelId(channel.getId());
-                    jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
                 }
             }
         }
