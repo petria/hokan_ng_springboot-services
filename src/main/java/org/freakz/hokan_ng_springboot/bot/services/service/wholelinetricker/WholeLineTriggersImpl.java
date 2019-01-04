@@ -74,7 +74,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
                 reply = "Päivää!";
             } else if (hour > 16 && hour <= 23) {
                 reply = "Iltaa!";
-            } else if (hour > 23 && hour <= 5) {
+            } else if (hour > 23) {
                 reply = "Yotä!";
             }
         }
@@ -92,9 +92,9 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         LocalDateTime jouluTime;
         if (now.isAfter(start) && now.isBefore(end)) {
             // year end!
-            jouluTime = LocalDateTime.of(now.getYear() + 1, 12, 24, 12, 00);
+            jouluTime = LocalDateTime.of(now.getYear() + 1, 12, 24, 12, 0);
         } else {
-            jouluTime = LocalDateTime.of(now.getYear(), 12, 24, 12, 00);
+            jouluTime = LocalDateTime.of(now.getYear(), 12, 24, 12, 0);
 
         }
         return jouluTime;
@@ -167,19 +167,6 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     }
 
 
-    private void checkJospa(IrcMessageEvent iEvent) {
-        if (iEvent.getMessage().startsWith("jospa")) {
-            String rndWord = "joo"; // TODO ChannelLogger.getInstance().getRandomWord();
-/*            try {
-                rndWord = getRandomSentence(iEvent.getChannel());
-            } catch (Exception e) {
-                //
-            }*/
-            String reply = "Jospa " + rndWord;
-            processReply(iEvent, _olpo + reply);
-        }
-    }
-
     private String[] splitByWord(String line) {
         int idx = line.indexOf(" ");
         if (idx != -1) {
@@ -196,7 +183,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             int rndLevel = 500;
             int rnd = (int) (Math.random() * 1000);
 
-            if (iEvent.getMessage().toLowerCase().matches(".*(viina|viini|bisse|olut|viina|kalja|huikka|ryypätä|pillu|panna|perse).*")) {
+            if (iEvent.getMessage().toLowerCase().matches(".*(viina|viini|bisse|olut|kalja|huikka|ryypätä|pillu|panna|perse).*")) {
                 rndLevel = 5000;
             }
             if (iEvent.getMessage().toLowerCase().indexOf("linux") > 0) {
@@ -264,6 +251,22 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         }
     }
 
+    public void checkDrugs(IrcMessageEvent iEvent) {
+        int rndLevel = 500;
+        int rnd = (int) (Math.random() * 1000);
+        if (rnd > rndLevel) {
+            String msg = iEvent.getMessage().toLowerCase();
+            if (msg.matches(".*(huume|huumeita|humei).*")) {
+                String randomDruk = StringStuff.getRandomString("piri", "esso", "hepo", "vauhti", "buda", "hasis", "lakka", "kukka");
+                int randomPrice = 10 + (int) (Math.random() * 100);
+                String randomUnit = StringStuff.getRandomString("kg", "g", "ug", "mg", "kilo");
+                String randomMani = StringStuff.getRandomString("markkaa", "euroa", "mk", "€", "£", "$");
+                String reply = String.format("%s: %s nyt vai %d%s/%s!", iEvent.getSender(), randomDruk, randomPrice, randomMani, randomUnit);
+                processReply(iEvent, _olpo + reply);
+            }
+        }
+    }
+
     private void checkOlisko(IrcMessageEvent iEvent) {
         String msg = iEvent.getMessage().toLowerCase();
         if (msg.matches("olisko .*|oliskohan .*")) {
@@ -324,8 +327,6 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         notifyRequest.setNotifyMessage(reply);
         notifyRequest.setTargetChannelId(iEvent.getChannelId());
         jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "WHOLE_LINE_TRIGGER_NOTIFY_REQUEST", notifyRequest, false);
-
-//        this.core.handleSendMessage(iEvent.getChannel(), reply);
     }
 
     private static long _lastReply = 0;
@@ -336,6 +337,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         long diff = now - _lastReply;
 
 //        checkJospa(iEvent);
+        checkDrugs(iEvent);
         checkPerkeleVittu(iEvent);
         checkJoulu(iEvent);
         checkJuhannus(iEvent);
@@ -351,5 +353,6 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             _lastReply = now;
         }
     }
+
 
 }
