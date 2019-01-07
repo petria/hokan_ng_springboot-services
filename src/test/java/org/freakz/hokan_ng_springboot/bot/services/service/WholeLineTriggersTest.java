@@ -5,6 +5,8 @@ import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsMessage;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
+import org.freakz.hokan_ng_springboot.bot.services.service.timeservice.TimeDifferenceService;
+import org.freakz.hokan_ng_springboot.bot.services.service.timeservice.TimeDifferenceServiceImpl;
 import org.freakz.hokan_ng_springboot.bot.services.service.wholelinetricker.WholeLineTriggersImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +28,13 @@ public class WholeLineTriggersTest {
     @Mock
     private JmsSender jmsSender;
 
+//    @Mock
+//    private TimeDifferenceService timeDifferenceService;
+
     @Test
     public void testJouluTime() {
 
-        WholeLineTriggersImpl wholeLineTriggers = new WholeLineTriggersImpl(null);
+        WholeLineTriggersImpl wholeLineTriggers = new WholeLineTriggersImpl(null, null);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime start = LocalDateTime.of(now.getYear(), 12, 25, 12, 0);
 
@@ -37,6 +42,19 @@ public class WholeLineTriggersTest {
         System.out.printf("%s\n", jouluTime.toString());
 
 
+    }
+
+    @Test
+    public void testJoulu() {
+
+        when(iEvent.getSender()).thenReturn("s0meOne");
+        when(iEvent.getMessage()).thenReturn("onks joulu joulu");
+
+        TimeDifferenceService timeDifferenceService = new TimeDifferenceServiceImpl();
+        WholeLineTriggersImpl wholeLineTriggers = new WholeLineTriggersImpl(jmsSender, timeDifferenceService);
+        for (int i = 0; i < 100; i++) {
+            wholeLineTriggers.checkJoulu(iEvent);
+        }
     }
 
     @Test
@@ -59,7 +77,8 @@ public class WholeLineTriggersTest {
             public void sendJmsMessage(Destination destination, JmsMessage jmsMessage) {
 
             }
-        });
+        }, null);
+
         when(iEvent.getSender()).thenReturn("s0meOne");
         when(iEvent.getMessage()).thenReturn("onks huumeit ?");
 

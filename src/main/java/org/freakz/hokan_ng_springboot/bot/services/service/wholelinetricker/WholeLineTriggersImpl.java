@@ -4,8 +4,10 @@ import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
+import org.freakz.hokan_ng_springboot.bot.common.models.TimeDifferenceData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.common.util.Uptime;
+import org.freakz.hokan_ng_springboot.bot.services.service.timeservice.TimeDifferenceService;
 import org.jibble.pircbot.Colors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,10 +28,12 @@ import java.util.GregorianCalendar;
 public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     private final JmsSender jmsSender;
+    private final TimeDifferenceService timeDifferenceService;
 
     @Autowired
-    public WholeLineTriggersImpl(JmsSender jmsSender) {
+    public WholeLineTriggersImpl(JmsSender jmsSender, TimeDifferenceService timeDifferenceService) {
         this.jmsSender = jmsSender;
+        this.timeDifferenceService = timeDifferenceService;
     }
 
     private String _olpo = "";
@@ -100,31 +104,19 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         return jouluTime;
     }
 
-    private void checkJoulu(IrcMessageEvent iEvent) {
+
+    public void checkJoulu(IrcMessageEvent iEvent) {
 
         String line = iEvent.getMessage();
 
         int rnd = 1 + (int) (Math.random() * 100);
         if (line.contains("joulu") && rnd > jouluRandomBase) {
-            String[] format = {"00", "00", "00", "0"};
-
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime jouluTime = getJouluTime(now);
+            TimeDifferenceData timeDifference = timeDifferenceService.getTimeDifference(now, jouluTime);
+            long[] ut = timeDifference.getDiffs();
 
-/*            GregorianCalendar cal = (GregorianCalendar) Calendar.getInstance();
-            cal.set(Calendar.MONTH, Calendar.DECEMBER);
-            cal.set(Calendar.DAY_OF_MONTH, 24);
-            cal.set(Calendar.YEAR, 2019);
-            cal.set(Calendar.HOUR_OF_DAY, 12);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);*/
-
-//            Uptime uptime = new Uptime(cal.getTime().getTime());
-            Uptime uptime = new Uptime(jouluTime);
-            Integer[] ut = uptime.getTimeDiff();
-
-            String ret = StringStuff.fillTemplate("%3 päivää ja %2:%1:%0 jouluun!", ut, format);
+            String ret = String.format("%d kuukautta %d päivää ja %2d:%2d:%2d jouluun!", ut[4], ut[3], ut[2], ut[1], ut[0]);
 
             processReply(iEvent, _olpo + ret);
             jouluRandomBase = 120;
