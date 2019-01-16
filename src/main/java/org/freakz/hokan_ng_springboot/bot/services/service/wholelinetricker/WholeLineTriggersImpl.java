@@ -244,11 +244,11 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     }
 
     public void checkDrugs(IrcMessageEvent iEvent) {
-        int rndLevel = 500;
+        int rndLevel = 200;
         int rnd = (int) (Math.random() * 1000);
         if (rnd > rndLevel) {
             String msg = iEvent.getMessage().toLowerCase();
-            if (msg.matches(".*(huume|huumeita|humei).*")) {
+            if (msg.matches(".*(huume|huumeita|humei|piri|esso|buda|vauhti|hasis|kukka|lakka).*")) {
                 String randomDruk = StringStuff.getRandomString("piri", "esso", "hepo", "vauhti", "buda", "hasis", "lakka", "kukka");
                 int randomPrice = 10 + (int) (Math.random() * 100);
                 String randomUnit = StringStuff.getRandomString("kg", "g", "ug", "mg", "kilo");
