@@ -253,7 +253,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
                 int randomPrice = 10 + (int) (Math.random() * 100);
                 String randomUnit = StringStuff.getRandomString("kg", "g", "ug", "mg", "kilo");
                 String randomMani = StringStuff.getRandomString("markkaa", "euroa", "mk", "€", "£", "$");
-                String reply = String.format("%s: %s nyt vai %d%s/%s!", iEvent.getSender(), randomDruk, randomPrice, randomMani, randomUnit);
+                String reply = String.format("%s: %s nyt vain %d%s/%s!", iEvent.getSender(), randomDruk, randomPrice, randomMani, randomUnit);
                 processReply(iEvent, _olpo + reply);
             }
         }
@@ -271,6 +271,14 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
         }
     }
+
+    private void checkVTEC(IrcMessageEvent iEvent) {
+        String msg = iEvent.getMessage().toLowerCase();
+        if (msg.contains("vtec")) {
+            processReply(iEvent, _olpo + iEvent.getSender() + ": VTEC YO!");
+        }
+    }
+
 
     private final static String[] stonez1 = {"kivi", "paperi", "sakset"};
     private final static String[] stonez2 = {"paperi", "sakset", "kivi"};
@@ -339,6 +347,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         checkOlisko(iEvent);
         checkStonePaper(iEvent);
         checkMuisti(iEvent);
+        checkVTEC(iEvent);
 
         if (diff > 1500) {
             checkHuomenta(iEvent);
