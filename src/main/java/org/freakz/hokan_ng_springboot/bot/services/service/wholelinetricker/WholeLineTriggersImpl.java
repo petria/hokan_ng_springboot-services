@@ -116,7 +116,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             TimeDifferenceData timeDifference = timeDifferenceService.getTimeDifference(now, jouluTime);
             long[] ut = timeDifference.getDiffs();
 
-            String ret = String.format("%d kuukautta %d päivää ja %2d:%2d:%2d jouluun!", ut[4], ut[3], ut[2], ut[1], ut[0]);
+            String ret = String.format("%d kuukautta %d päivää ja %02d:%02d:%02d jouluun!", ut[4], ut[3], ut[2], ut[1], ut[0]);
 
             processReply(iEvent, _olpo + ret);
             jouluRandomBase = 120;
