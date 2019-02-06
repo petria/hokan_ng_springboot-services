@@ -181,7 +181,7 @@ public class KelikameratUpdater extends Updater {
         }
 
         log.debug("Update done, success: {} / failed: {}", success, failed);
-
+        Collections.sort(weatherDataList);
         this.itemCount = weatherDataList.size();
         this.weatherDataList = weatherDataList;
     }
