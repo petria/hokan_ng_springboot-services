@@ -16,12 +16,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Petri Airio on 22.6.2015.
@@ -79,8 +74,13 @@ public class KelikameratUpdater extends Updater {
 
     private Float parseFloat(String str) {
         String f = str.split(" ")[0];
-        if (f != null && f.length() > 0 && !f.equals("-")) {
-            return Float.parseFloat(f);
+        if (f != null) {
+            //&& f.length() > 0 && !f.equals("-"))
+            if (f.equals("-")) {
+                return null;
+            } else {
+                return Float.parseFloat(f);
+            }
         } else {
             return null;
         }
@@ -107,19 +107,26 @@ public class KelikameratUpdater extends Updater {
 
         KelikameratWeatherData data = new KelikameratWeatherData();
         data.setPlace(titleText);
+        log.debug("place: {}", titleText);
+
         data.setUrl(url);
 
         int idx = url.getStationUrl().lastIndexOf("/");
         data.setPlaceFromUrl(StringStuff.htmlEntitiesToText(url.getStationUrl().substring(idx + 1)));
 
         String air = tbody.child(0).child(1).text();
-        data.setAir(parseFloat(air));
+        Float airFloat = parseFloat(air);
+        if (airFloat == null) {
+            return null;
+        }
+        data.setAir(airFloat);
 
         String road = tbody.child(1).child(1).text();
         data.setRoad(parseFloat(road));
 
         String ground = tbody.child(2).child(1).text();
         data.setGround(parseFloat(ground));
+        log.debug("air: {} - road: {} - ground: {}", air);
 
         String humidity = tbody.child(3).child(1).text();
         data.setHumidity(parseFloat(humidity));
@@ -159,14 +166,22 @@ public class KelikameratUpdater extends Updater {
             updateStations();
         }
         List<KelikameratWeatherData> weatherDataList = new ArrayList<>();
+        int success = 0;
+        int failed = 0;
         for (KelikameratUrl url : this.stationUrls) {
             //            log.debug("Handle url: {}", url);
             KelikameratWeatherData data = updateKelikameratWeatherData(url);
             if (data != null) {
                 weatherDataList.add(data);
+                success++;
+            } else {
+                failed++;
             }
             //      log.debug("{}", String.format("%s: %1.2f °C", data.getPlaceFromUrl(), data.getAir()));
         }
+
+        log.debug("Update done, success: {} / failed: {}", success, failed);
+
         this.itemCount = weatherDataList.size();
         this.weatherDataList = weatherDataList;
     }
