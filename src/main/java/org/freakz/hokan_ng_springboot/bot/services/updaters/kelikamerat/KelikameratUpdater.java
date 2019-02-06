@@ -107,7 +107,7 @@ public class KelikameratUpdater extends Updater {
 
         KelikameratWeatherData data = new KelikameratWeatherData();
         data.setPlace(titleText);
-        log.debug("place: {}", titleText);
+//        log.debug("place: {}", titleText);
 
         data.setUrl(url);
 
@@ -126,7 +126,7 @@ public class KelikameratUpdater extends Updater {
 
         String ground = tbody.child(2).child(1).text();
         data.setGround(parseFloat(ground));
-        log.debug("air: {} - road: {} - ground: {}", air);
+        //      log.debug("air: {} - road: {} - ground: {}", air);
 
         String humidity = tbody.child(3).child(1).text();
         data.setHumidity(parseFloat(humidity));
