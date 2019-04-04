@@ -38,6 +38,17 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     private String _olpo = "";
 
+    private void checkPilalla(IrcMessageEvent iEvent) {
+        int rnd = 1 + (int) (Math.random() * 100);
+        if (rnd < 85) {
+            return;
+        }
+        String line = iEvent.getMessage().toLowerCase();
+        if (line.contains("pilalla")) {
+            processReply(iEvent, _olpo + iEvent.getSender() + ": kaikkee paskaa tilalla!");
+        }
+    }
+
     private void checkPerkeleVittu(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
         if (rnd < 85) {
@@ -337,7 +348,8 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         long diff = now - _lastReply;
 
 //        checkJospa(iEvent);
-        checkDrugs(iEvent);
+//        checkDrugs(iEvent);
+        checkPilalla(iEvent);
         checkPerkeleVittu(iEvent);
         checkJoulu(iEvent);
         checkJuhannus(iEvent);
