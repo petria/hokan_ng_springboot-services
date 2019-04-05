@@ -45,7 +45,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         }
         String line = iEvent.getMessage().toLowerCase();
         if (line.contains("pilalla")) {
-            processReply(iEvent, _olpo + iEvent.getSender() + ": kaikkee paskaa tilalla!");
+            processReply(iEvent, _olpo + iEvent.getSender() + ": pelkkää paskaa tilalla!");
         }
     }
 
