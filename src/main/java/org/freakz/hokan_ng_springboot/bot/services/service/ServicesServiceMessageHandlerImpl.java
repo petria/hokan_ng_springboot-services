@@ -5,17 +5,8 @@ import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsServiceMessageHandler;
-import org.freakz.hokan_ng_springboot.bot.common.models.ChannelSetTopic;
-import org.freakz.hokan_ng_springboot.bot.common.models.DataUpdaterModel;
-import org.freakz.hokan_ng_springboot.bot.common.models.FindCityResults;
-import org.freakz.hokan_ng_springboot.bot.common.models.GoogleCurrency;
-import org.freakz.hokan_ng_springboot.bot.common.models.HoroHolder;
-import org.freakz.hokan_ng_springboot.bot.common.models.IMDBDetails;
-import org.freakz.hokan_ng_springboot.bot.common.models.IMDBSearchResults;
-import org.freakz.hokan_ng_springboot.bot.common.models.KelikameratWeatherData;
-import org.freakz.hokan_ng_springboot.bot.common.models.MetarData;
-import org.freakz.hokan_ng_springboot.bot.common.models.NimipaivaData;
-import org.freakz.hokan_ng_springboot.bot.common.models.TranslateResponse;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.DataValuesService;
+import org.freakz.hokan_ng_springboot.bot.common.models.*;
 import org.freakz.hokan_ng_springboot.bot.common.service.translate.SanakirjaOrgTranslateService;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.currency.CurrencyService;
@@ -57,6 +48,9 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @Autowired
     private CurrencyService currencyService;
+
+    @Autowired
+    private DataValuesService dataValuesService;
 
     @Autowired
     private IMDBService IMDBService;
@@ -129,6 +123,32 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
             }
         }
         return false;
+    }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.WEATHER_REQUEST)
+    public void gluggaCalculate(ServiceRequest request, ServiceResponse response) {
+        String message = request.getIrcMessageEvent().getMessage().toLowerCase();
+        if (message.matches(".*glugga.*")) {
+            String nick = request.getIrcMessageEvent().getSender().toLowerCase();
+            String network = request.getIrcMessageEvent().getNetwork().toLowerCase();
+            String key = "GLUGGA_COUNT";
+
+            log.debug("Got glugga from: {}", nick);
+
+            String value = dataValuesService.getValue(nick, network, key);
+            if (value == null) {
+                value = "1";
+            } else {
+                int count = Integer.parseInt(value);
+                count++;
+                value = "" + count;
+            }
+            log.debug("{} glugga count: {}", nick, value);
+            dataValuesService.setValue(nick, network, key, value);
+
+        }
+
+
     }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.WEATHER_REQUEST)
