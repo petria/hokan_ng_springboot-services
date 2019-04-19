@@ -125,17 +125,18 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
         return false;
     }
 
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.WEATHER_REQUEST)
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.GLUGGA_COUNT_REQUEST)
     public void gluggaCalculate(ServiceRequest request, ServiceResponse response) {
         String message = request.getIrcMessageEvent().getMessage().toLowerCase();
         if (message.matches(".*glugga.*")) {
             String nick = request.getIrcMessageEvent().getSender().toLowerCase();
+            String channel = request.getIrcMessageEvent().getChannel().toLowerCase();
             String network = request.getIrcMessageEvent().getNetwork().toLowerCase();
             String key = "GLUGGA_COUNT";
 
             log.debug("Got glugga from: {}", nick);
 
-            String value = dataValuesService.getValue(nick, network, key);
+            String value = dataValuesService.getValue(nick, channel, network, key);
             if (value == null) {
                 value = "1";
             } else {
@@ -144,7 +145,7 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
                 value = "" + count;
             }
             log.debug("{} glugga count: {}", nick, value);
-            dataValuesService.setValue(nick, network, key, value);
+            dataValuesService.setValue(nick, channel, network, key, value);
 
         }
 

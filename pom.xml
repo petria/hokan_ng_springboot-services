@@ -23,7 +23,7 @@
         <lombok.version>1.16.12</lombok.version>
         <java.version>10</java.version>
 
-        <hokan.common.version>2.0.3-final</hokan.common.version>
+        <hokan.common.version>2.0.4-final</hokan.common.version>
 
     </properties>
 
