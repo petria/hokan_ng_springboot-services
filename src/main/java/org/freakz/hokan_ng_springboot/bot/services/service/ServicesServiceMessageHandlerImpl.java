@@ -128,7 +128,7 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.GLUGGA_COUNT_REQUEST)
     public void gluggaCalculate(ServiceRequest request, ServiceResponse response) {
         String message = request.getIrcMessageEvent().getMessage().toLowerCase();
-        if (message.matches(".*glugga.*")) {
+        if (message.matches(".*(\\*glugga\\*|\\*glug\\*).*")) {
             String nick = request.getIrcMessageEvent().getSender().toLowerCase();
             String channel = request.getIrcMessageEvent().getChannel().toLowerCase();
             String network = request.getIrcMessageEvent().getNetwork().toLowerCase();
