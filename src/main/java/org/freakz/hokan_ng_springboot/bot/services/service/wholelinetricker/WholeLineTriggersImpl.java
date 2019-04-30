@@ -354,7 +354,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         checkJoulu(iEvent);
         checkJuhannus(iEvent);
         checkPitasko(iEvent);
-        checkSpede(iEvent);
+//        checkSpede(iEvent);
         checkSilli(iEvent);
         checkOlisko(iEvent);
         checkStonePaper(iEvent);
