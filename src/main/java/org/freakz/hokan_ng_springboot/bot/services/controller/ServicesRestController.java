@@ -54,7 +54,7 @@ public class ServicesRestController {
 
     private void processReply(String reply) {
 
-        List<Channel> channelList = channelPropertyService.getChannelsWithProperty(PropertyName.PROP_CHANNEL_DO_TORRENTS, "ON");
+        List<Channel> channelList = channelPropertyService.getChannelsWithProperty(PropertyName.PROP_CHANNEL_DO_TORRENTS, ".*");
         for (Channel channel : channelList) {
             NotifyRequest notifyRequest = new NotifyRequest();
             notifyRequest.setNotifyMessage(reply);
