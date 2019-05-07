@@ -55,11 +55,13 @@ public class ServicesRestController {
     private void processReply(String reply) {
 
         List<Channel> channelList = channelPropertyService.getChannelsWithProperty(PropertyName.PROP_CHANNEL_DO_TORRENTS, ".*");
+        log.debug("Channels to send torrent message: {}", channelList.size());
         for (Channel channel : channelList) {
             NotifyRequest notifyRequest = new NotifyRequest();
             notifyRequest.setNotifyMessage(reply);
             notifyRequest.setTargetChannelId(channel.getId());
             jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "TORRENT_NOTIFY_REQUEST", notifyRequest, false);
+            log.debug("TORRENT_NOTIFY_REQUEST: " + notifyRequest.getTargetChannelId());
         }
 
     }
