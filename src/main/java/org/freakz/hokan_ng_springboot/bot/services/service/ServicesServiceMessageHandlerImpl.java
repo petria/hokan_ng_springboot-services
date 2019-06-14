@@ -110,7 +110,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
                     ServiceRequestType requestType = serviceMessageHandler.ServiceRequestType();
                     if (requestType == request.getType()) {
                         try {
-//              log.debug("Method: {} -> {}", m, requestType);
                             m.invoke(obj, request, response);
                             return true;
                         } catch (Exception e) {

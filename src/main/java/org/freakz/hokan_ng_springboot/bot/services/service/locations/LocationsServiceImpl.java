@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -38,7 +37,7 @@ public class LocationsServiceImpl implements LocationsService {
         return count;
     }
 
-    @PostConstruct
+    //    @PostConstruct
     public void init() {
         Thread t = new Thread(() -> {
             final int count = fetchLocations();
