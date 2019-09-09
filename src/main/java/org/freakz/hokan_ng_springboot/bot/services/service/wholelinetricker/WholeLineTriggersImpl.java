@@ -8,7 +8,6 @@ import org.freakz.hokan_ng_springboot.bot.common.models.TimeDifferenceData;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.common.util.Uptime;
 import org.freakz.hokan_ng_springboot.bot.services.service.timeservice.TimeDifferenceService;
-import org.jibble.pircbot.Colors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -48,6 +47,21 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             processReply(iEvent, _olpo + iEvent.getSender() + ": pelkkää paskaa tilalla!");
         }
     }
+
+    private void checkYhdet(IrcMessageEvent iEvent) {
+        int rnd = 1 + (int) (Math.random() * 100);
+        if (rnd < 65) {
+            return;
+        }
+        String line = iEvent.getMessage().toLowerCase();
+        if (line.contains("yhdet") || line.contains("yhdelle")) {
+            rnd = 8 + (int) (Math.random() * 20);
+            processReply(iEvent, _olpo + iEvent.getSender() + ": (" + rnd + ")");
+        }
+
+    }
+
+
 
     private void checkPerkeleVittu(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
@@ -225,7 +239,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         int rnd = (int) (Math.random() * 1000);
 
         if (rnd > rndLevel && iEvent.getMessage().toLowerCase().contains("spede")) {
-            processReply(iEvent, _olpo + Colors.BOLD + "*voi rähmä - spedeläps*");
+//            processReply(iEvent, _olpo + Colors.BOLD + "*voi rähmä - spedeläps*");
         }
 
     }
@@ -250,7 +264,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         }
 
         if (rnd > rndLevel && kala) {
-            processReply(iEvent, _olpo + Colors.BOLD + "*2KG SIIKA!*");
+//            processReply(iEvent, _olpo + Colors.BOLD + "*2KG SIIKA!*");
         }
     }
 
@@ -350,22 +364,24 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 //        checkJospa(iEvent);
 //        checkDrugs(iEvent);
         checkPilalla(iEvent);
-        checkPerkeleVittu(iEvent);
-        checkJoulu(iEvent);
-        checkJuhannus(iEvent);
-        checkPitasko(iEvent);
+//        checkPerkeleVittu(iEvent);
+//        checkJoulu(iEvent);
+//        checkJuhannus(iEvent);
+//        checkPitasko(iEvent);
 //        checkSpede(iEvent);
-        checkSilli(iEvent);
-        checkOlisko(iEvent);
-        checkStonePaper(iEvent);
-        checkMuisti(iEvent);
-        checkVTEC(iEvent);
+//        checkSilli(iEvent);
+//        checkOlisko(iEvent);
+//        checkStonePaper(iEvent);
+//        checkMuisti(iEvent);
+//        checkVTEC(iEvent);
+        checkYhdet(iEvent);
 
         if (diff > 1500) {
             checkHuomenta(iEvent);
             _lastReply = now;
         }
     }
+
 
 
 }
