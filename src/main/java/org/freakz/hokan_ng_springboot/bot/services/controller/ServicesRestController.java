@@ -1,7 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.services.controller;
 
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
-import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
@@ -10,7 +9,6 @@ import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyServ
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

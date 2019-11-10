@@ -18,7 +18,6 @@ import org.freakz.hokan_ng_springboot.bot.common.service.StatsService;
 import org.freakz.hokan_ng_springboot.bot.common.util.StringStuff;
 import org.freakz.hokan_ng_springboot.bot.common.util.TimeUtil;
 import org.freakz.hokan_ng_springboot.bot.services.service.nimipaiva.NimipaivaService;
-import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -29,17 +28,13 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
+import java.util.*;
 
 /**
  * Created by Petri Airio on 22.9.2015.
@@ -154,8 +149,12 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
             String topic = "";
             if (parseProperty(property, "topic") != null) {
                 String dailyNimip = getNimipäivät();
-                int week = DateTime.now().getWeekOfWeekyear();
-                topic = String.format("---=== Day changed to: %s (W%d) :: %s ===---", dayChangedTo, week, dailyNimip);
+
+                LocalDate date = LocalDate.now();
+                TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+                int weekNumber = date.get(woy);
+//                int week = LocalDateTime.now(). DateTime.now().getWeekOfWeekyear();
+                topic = String.format("---=== Day changed to: %s (W%d) :: %s ===---", dayChangedTo, weekNumber, dailyNimip);
             }
 
             String sunRises = "";

@@ -10,7 +10,6 @@ import org.freakz.hokan_ng_springboot.bot.common.models.*;
 import org.freakz.hokan_ng_springboot.bot.common.service.translate.SanakirjaOrgTranslateService;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.currency.CurrencyService;
-import org.freakz.hokan_ng_springboot.bot.services.service.imdb.IMDBService;
 import org.freakz.hokan_ng_springboot.bot.services.service.locations.LocationsService;
 import org.freakz.hokan_ng_springboot.bot.services.service.metar.MetarDataService;
 import org.freakz.hokan_ng_springboot.bot.services.service.nimipaiva.NimipaivaService;
@@ -53,7 +52,7 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     private DataValuesService dataValuesService;
 
     @Autowired
-    private IMDBService IMDBService;
+    private org.freakz.hokan_ng_springboot.bot.services.service.imdb.IMDBService IMDBService;
 
     @Autowired
     private LocationsService locationsService;
@@ -80,9 +79,9 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
     @Autowired
     private WholeLineTriggers wholeLineTriggers;
 
-    public ServicesServiceMessageHandlerImpl(ApplicationContext applicationContext, CurrencyService currencyService, IMDBService imdbService,
-            MetarDataService metarDataService, NimipaivaService nimipaivaService, TopicService topicService, SanakirjaOrgTranslateService translateService,
-            UpdaterManagerService updaterManagerService, UrlCatchService urlCatchService) {
+    public ServicesServiceMessageHandlerImpl(ApplicationContext applicationContext, CurrencyService currencyService, org.freakz.hokan_ng_springboot.bot.services.service.imdb.IMDBService imdbService,
+                                             MetarDataService metarDataService, NimipaivaService nimipaivaService, TopicService topicService, SanakirjaOrgTranslateService translateService,
+                                             UpdaterManagerService updaterManagerService, UrlCatchService urlCatchService) {
         this.applicationContext = applicationContext;
         this.currencyService = currencyService;
         IMDBService = imdbService;
