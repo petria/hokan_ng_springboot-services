@@ -44,5 +44,22 @@ public class SMSSenderServiceImpl implements SMSSenderService {
         return null;
     }
 
+    @Override
+    public String getSMSCredits() {
+        try {
+            String url = String.format("https://api.budgetsms.net/checkcredit/?username=%s&userid=%s&handle=%s",
+                    config.getSmsSendUsername(),
+                    config.getSmsSendUserId(),
+                    config.getSmsSendHandle());
+            Document doc = Jsoup.connect(url).get();
+            Elements body = doc.getElementsByTag("body");
+            String answer = body.text();
+            return answer;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

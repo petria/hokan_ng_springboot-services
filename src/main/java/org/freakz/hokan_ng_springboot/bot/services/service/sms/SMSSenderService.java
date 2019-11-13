@@ -4,4 +4,6 @@ public interface SMSSenderService {
 
     String sendSMS(String from, String to, String message);
 
+    String getSMSCredits();
+
 }

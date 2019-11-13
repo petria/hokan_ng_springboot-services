@@ -21,7 +21,7 @@ public class SendSMSRequestHandler {
         this.smsSenderService = smsSenderService;
     }
 
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SEND_SMS_SERVICE_REQUEST)
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SMS_SEND_SERVICE_REQUEST)
     public void handleIrcChannelLogRequest(ServiceRequest request, ServiceResponse response) {
         SendSMSRequest smsRequest = (SendSMSRequest) request.getParameters()[0];
         String answer = smsSenderService.sendSMS("_Hokan_", smsRequest.getTarget(), smsRequest.getMessage());
