@@ -44,6 +44,7 @@ public class SMSSenderServiceImpl implements SMSSenderService {
 
     @Override
     public String getSMSCredits() {
+        log.debug("Check SMS credits");
         try {
             String url = String.format("https://api.budgetsms.net/checkcredit/?username=%s&userid=%s&handle=%s",
                     config.getSmsSendUsername(),
