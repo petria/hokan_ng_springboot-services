@@ -33,11 +33,9 @@ public class SMSSenderServiceImpl implements SMSSenderService {
                     config.getSmsSendUserId(),
                     config.getSmsSendHandle(),
                     URLEncoder.encode(message, "UTF-8"), from, to);
-//            log.debug("URL: {}", url);
             Document doc = Jsoup.connect(url).get();
             Elements body = doc.getElementsByTag("body");
-            String answer = body.text();
-            return answer;
+            return body.text();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,8 +51,7 @@ public class SMSSenderServiceImpl implements SMSSenderService {
                     config.getSmsSendHandle());
             Document doc = Jsoup.connect(url).get();
             Elements body = doc.getElementsByTag("body");
-            String answer = body.text();
-            return answer;
+            return body.text();
         } catch (IOException e) {
             e.printStackTrace();
         }

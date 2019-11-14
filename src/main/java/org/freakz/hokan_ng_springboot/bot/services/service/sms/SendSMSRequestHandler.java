@@ -22,7 +22,7 @@ public class SendSMSRequestHandler {
     }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SMS_SEND_SERVICE_REQUEST)
-    public void handleIrcChannelLogRequest(ServiceRequest request, ServiceResponse response) {
+    public void handleSMSSendRequest(ServiceRequest request, ServiceResponse response) {
         SendSMSRequest smsRequest = (SendSMSRequest) request.getParameters()[0];
         String answer = smsSenderService.sendSMS("_Hokan_", smsRequest.getTarget(), smsRequest.getMessage());
         log.debug("SMS answer: {}", answer);
@@ -31,4 +31,13 @@ public class SendSMSRequestHandler {
         }
     }
 
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SMS_CREDIT_SERVICE_REQUEST)
+    public void handleSMSCreditRequest(ServiceRequest request, ServiceResponse response) {
+        SendSMSRequest smsRequest = (SendSMSRequest) request.getParameters()[0];
+        String answer = smsSenderService.getSMSCredits();
+        log.debug("SMS credits: {}", answer);
+        if (answer != null) {
+            response.setResponseData(request.getType().getResponseDataKey(), answer);
+        }
+    }
 }
