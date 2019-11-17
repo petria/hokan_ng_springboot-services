@@ -178,7 +178,6 @@ public class SendSMSRequestHandler {
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.SMS_CREDIT_SERVICE_REQUEST)
     public void handleSMSCreditRequest(ServiceRequest request, ServiceResponse response) {
-        SendSMSRequest smsRequest = (SendSMSRequest) request.getParameters()[0];
         String answer = smsSenderService.getSMSCredits();
         log.debug("SMS credits: {}", answer);
         if (answer != null) {
