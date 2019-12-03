@@ -40,7 +40,7 @@ public class HoroFetchServiceImpl implements HoroFetchService {
 
     String[] days = {"", "maanantai", "tiistai", "keskiviikko", "torstai", "perjantai", "launtai", "sunnuntai"};
 
-    private void fetchHoroData() throws IOException {
+    private String fetchHoroData(String horo) throws IOException {
         LocalDate now = LocalDate.now();
         int day = now.getDayOfMonth();
         int month = now.getMonth().getValue();
@@ -55,16 +55,19 @@ public class HoroFetchServiceImpl implements HoroFetchService {
             String title = horoTitles.get(i).text();
             String text = horoTexts.get(i).text();
             System.out.printf("%s : %s\n", title, text);
+            if (title.toLowerCase().contains(horo.toLowerCase())) {
+                return title + " :: " + text;
+            }
         }
         // https://anna.fi/horoskoopit/paivahoroskoopit/paivan-horoskooppi-perjantai-1-11
-
+        return null;
     }
 
 
     @Override
     public String getHoro(String horo) {
         try {
-            fetchHoroData();
+            return fetchHoroData(horo);
         } catch (IOException e) {
             e.printStackTrace();
         }

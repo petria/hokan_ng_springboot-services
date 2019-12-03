@@ -19,7 +19,6 @@ import org.freakz.hokan_ng_springboot.bot.services.service.wholelinetricker.Whol
 import org.freakz.hokan_ng_springboot.bot.services.updaters.DataUpdater;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterData;
 import org.freakz.hokan_ng_springboot.bot.services.updaters.UpdaterManagerService;
-import org.freakz.hokan_ng_springboot.bot.services.updaters.horo.HoroUpdater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,15 +197,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
         FindCityResults results = new FindCityResults();
         results.setWorldCityDataList(locationsService.findMatchingCities(cityArg));
         response.setResponseData(request.getType().getResponseDataKey(), results);
-    }
-
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.HORO_REQUEST)
-    public void handleHoroRequest(ServiceRequest request, ServiceResponse response) {
-        HoroUpdater horoUpdater = (HoroUpdater) updaterManagerService.getUpdater("horoUpdater");
-        UpdaterData updaterData = new UpdaterData();
-        horoUpdater.getData(updaterData, request.getParameters());
-        HoroHolder hh = (HoroHolder) updaterData.getData();
-        response.setResponseData(request.getType().getResponseDataKey(), hh);
     }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.IMDB_DETAILED_INFO_REQUEST)
