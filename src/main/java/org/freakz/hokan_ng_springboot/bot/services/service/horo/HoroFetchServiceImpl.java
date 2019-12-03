@@ -13,31 +13,6 @@ import java.time.LocalDate;
 @Slf4j
 public class HoroFetchServiceImpl implements HoroFetchService {
 
-    public void setProxy(boolean useProxy) {
-        String httpProxyHost = "";
-        String httpProxyPort = "";
-        String httpsProxyHost = "";
-        String httpsProxyPort = "";
-        String httpsProxyUser = "";
-        String httpsProxyPassword = "";
-        if (useProxy) {
-            httpProxyHost = "fi.client-swg.oneadr.net";
-            httpProxyPort = "8080";
-            httpsProxyHost = "fi.client-swg.oneadr.net";
-            httpsProxyPort = "8080";
-            httpsProxyUser = "Z003322";
-            httpsProxyPassword = "Dii69Paa";
-
-        }
-        System.setProperty("http.proxyHost", httpProxyHost);
-        System.setProperty("http.proxyPort", httpProxyPort);
-
-        System.setProperty("https.proxyHost", httpsProxyHost);
-        System.setProperty("https.proxyPort", httpsProxyPort);
-        System.setProperty("https.proxyUser", httpsProxyUser);
-        System.setProperty("https.proxyPassword", httpsProxyPassword);
-    }
-
     String[] days = {"", "maanantai", "tiistai", "keskiviikko", "torstai", "perjantai", "launtai", "sunnuntai"};
 
     private String fetchHoroData(String horo) throws IOException {
@@ -47,7 +22,7 @@ public class HoroFetchServiceImpl implements HoroFetchService {
         String weekday = days[now.getDayOfWeek().getValue()];
         String url = String.format("https://anna.fi/horoskoopit/paivahoroskoopit/paivan-horoskooppi-%s-%d-%d", weekday, day, month);
         log.debug("Horo url: {}", url);
-        setProxy(true);
+
         Document document = Jsoup.connect(url).get();
         Elements horoTitles = document.getElementsByClass("content__body").select("h2");
         Elements horoTexts = document.getElementsByClass("content__body").select("p");
