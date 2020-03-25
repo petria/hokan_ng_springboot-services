@@ -16,7 +16,7 @@
 
     <properties>
         <jsoup.version>1.11.2</jsoup.version>
-        <java.version>13</java.version>
+        <java.version>12</java.version>
         <hokan.common.version>2.0.4-final</hokan.common.version>
         <selenium-htmlunit-driver.version>2.52.0</selenium-htmlunit-driver.version>
     </properties>

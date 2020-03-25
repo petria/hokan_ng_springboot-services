@@ -174,7 +174,7 @@ public class DayChangedServiceImpl implements DayChangedService, CommandRunnable
             NotifyRequest notifyRequest = new NotifyRequest();
             notifyRequest.setNotifyMessage(String.format("%s\n%s\n%s\n%s", topic, sunRises, dailyStats, dailyUrls));
             notifyRequest.setTargetChannelId(channel.getId());
-            jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "STATS_NOTIFY_REQUEST", notifyRequest, false);
+            jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "WHOLE_LINE_TRIGGER_NOTIFY_REQUEST", notifyRequest, false);
         }
         return true;
     }
