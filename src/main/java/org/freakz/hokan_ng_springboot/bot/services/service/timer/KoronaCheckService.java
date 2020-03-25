@@ -23,10 +23,10 @@ import java.util.Map;
 @Slf4j
 public class KoronaCheckService {
 
+
     private final ChannelPropertyService channelPropertyService;
 
     private final JmsSender jmsSender;
-    int count = 0;
     private Map<String, InfectedStats> ownerToStatsMap = new HashMap<>();
     private int currentInfected = 0;
     private int currentHealed = 0;
@@ -64,8 +64,8 @@ public class KoronaCheckService {
 
     private String getKoronas() {
         try {
-//            String url = "https://korona.kans.io/";
-            String url = "http://62.78.224.147/korona.html";
+            String url = "https://korona.kans.io/";
+//            String url = "http://62.78.224.147/korona.html";
 
             // 62.78.224.147
             Document doc = Jsoup.connect(url).get();
@@ -91,7 +91,6 @@ public class KoronaCheckService {
 
     @Scheduled(initialDelay = 5 * 1000, fixedRate = 10 * 1000)
     public void onTimer() {
-        count++;
         updateCurrentStats();
         InfectedStats oldStats = getInfectedStats("INTERNAL");
         InfectedStats ns = calcInfectedStatsDiffs(currentInfected, currentHealed, currentDead, oldStats);
@@ -115,7 +114,6 @@ public class KoronaCheckService {
             log.debug("notify: {}", notify);
             sendNotify(notify);
         }
-        sendNotify("Test");
     }
 
     private void setInfectedStats(String key, InfectedStats newStats) {
@@ -141,7 +139,7 @@ public class KoronaCheckService {
             currentInfected = Integer.parseInt(split[6]);
             currentHealed = Integer.parseInt(split[10]);
             currentDead = Integer.parseInt(split[13]);
-            log.debug("currentInfected: {} - currentHealed: {} -  currentDead: {}", currentInfected, currentHealed, currentDead);
+//            log.debug("currentInfected: {} - currentHealed: {} -  currentDead: {}", currentInfected, currentHealed, currentDead);
         }
     }
 
