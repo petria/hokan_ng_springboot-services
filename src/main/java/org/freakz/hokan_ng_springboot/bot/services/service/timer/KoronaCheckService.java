@@ -3,10 +3,15 @@ package org.freakz.hokan_ng_springboot.bot.services.service.timer;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.PropertyName;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyService;
+import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
+import org.jibble.pircbot.Colors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -23,10 +28,9 @@ import java.util.Map;
 @Slf4j
 public class KoronaCheckService {
 
-
     private final ChannelPropertyService channelPropertyService;
-
     private final JmsSender jmsSender;
+
     private Map<String, InfectedStats> ownerToStatsMap = new HashMap<>();
     private int currentInfected = 0;
     private int currentHealed = 0;
@@ -89,9 +93,13 @@ public class KoronaCheckService {
         return true;
     }
 
-    @Scheduled(initialDelay = 5 * 1000, fixedRate = 10 * 1000)
-    public void onTimer() {
+    @Scheduled(fixedRate = 10 * 1000)
+    public void updateTimer() {
         updateCurrentStats();
+    }
+
+    @Scheduled(fixedRate = 15 * 60 * 1000)
+    public void notifyTimer() {
         InfectedStats oldStats = getInfectedStats("INTERNAL");
         InfectedStats ns = calcInfectedStatsDiffs(currentInfected, currentHealed, currentDead, oldStats);
         setInfectedStats("INTERNAL", ns);
@@ -102,18 +110,39 @@ public class KoronaCheckService {
             String d2 = "";
             String d3 = "";
 
-            d1 = String.format(" - infected: %d (+%d)", ns.infected, ns.infectedDiff);
+            String b1 = "";
+            if (ns.d1) {
+                b1 = Colors.BOLD;
+            }
+            String b2 = "";
+            if (ns.d2) {
+                b2 = Colors.BOLD;
+            }
+            String b3 = "";
+            if (ns.d3) {
+                b3 = Colors.BOLD;
+            }
 
+            d1 = String.format(" - infected: %d (%s+%d%s)", ns.infected, b1, ns.infectedDiff, b1);
 
-            d2 = String.format(" - healed: %d (+%d)", ns.healed, ns.healedDiff);
+//            d2 = String.format(" - healed: %d (%s+%d%s)", ns.healed, b2, ns.healedDiff, b2);
 
-
-            d3 = String.format(" - dead: %d (+%d)", ns.dead, ns.deadDiff);
+            d3 = String.format(" - dead: %d (%s+%d%s)", ns.dead, b3, ns.deadDiff, b3);
 
             String notify = String.format("Korona update%s%s%s", d1, d2, d3);
-            log.debug("notify: {}", notify);
+            log.debug("Korona notify: {}", notify);
             sendNotify(notify);
         }
+    }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.KORONA_REQUEST)
+    public void handleKoronaCmdRequest(ServiceRequest request, ServiceResponse response) {
+        String nickId = (String) request.getParameters()[0];
+        InfectedStats oldStats = getInfectedStats(nickId);
+        InfectedStats ns = calcInfectedStatsDiffs(currentInfected, currentHealed, currentDead, oldStats);
+        setInfectedStats(nickId, ns);
+        Integer[] ret = {ns.infected, ns.healed, ns.dead, ns.infectedDiff, ns.healedDiff, ns.deadDiff};
+        response.setResponseData(request.getType().getResponseDataKey(), ret);
     }
 
     private void setInfectedStats(String key, InfectedStats newStats) {
