@@ -138,6 +138,7 @@ public class KoronaCheckService {
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.KORONA_REQUEST)
     public void handleKoronaCmdRequest(ServiceRequest request, ServiceResponse response) {
         String nickId = (String) request.getParameters()[0];
+        log.debug("Handle KoronaCMD: {}", nickId);
         InfectedStats oldStats = getInfectedStats(nickId);
         InfectedStats ns = calcInfectedStatsDiffs(currentInfected, currentHealed, currentDead, oldStats);
         setInfectedStats(nickId, ns);
