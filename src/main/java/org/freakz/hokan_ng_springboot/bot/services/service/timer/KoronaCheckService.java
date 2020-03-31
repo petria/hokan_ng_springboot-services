@@ -98,14 +98,14 @@ public class KoronaCheckService {
         updateCurrentStats();
     }
 
-    @Scheduled(fixedRate = 15 * 60 * 1000)
+    @Scheduled(fixedRate = 30 * 60 * 1000)
     public void notifyTimer() {
         InfectedStats oldStats = getInfectedStats("INTERNAL");
         InfectedStats ns = calcInfectedStatsDiffs(currentInfected, currentHealed, currentDead, oldStats);
         setInfectedStats("INTERNAL", ns);
 
         if (ns.d0) {
-            log.debug("d1: {} - d2: {} - d3: {}", ns.infectedDiff, ns.healedDiff, ns.deadDiff);
+            log.debug("c1: {} - c2: {} - c3: {} -- d1: {} - d2: {} - d3: {}", ns.infected, ns.healed, ns.dead, ns.infectedDiff, ns.healedDiff, ns.deadDiff);
             String d1 = "";
             String d2 = "";
             String d3 = "";
@@ -171,6 +171,11 @@ public class KoronaCheckService {
             currentDead = Integer.parseInt(split[13]);
 //            log.debug("currentInfected: {} - currentHealed: {} -  currentDead: {}", currentInfected, currentHealed, currentDead);
         }
+    }
+
+    public void test() {
+        notifyTimer();
+//        updateCurrentStats();
     }
 
     class InfectedStats {
