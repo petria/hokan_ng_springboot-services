@@ -143,7 +143,7 @@ public class KoronaCheckService {
 
             d3 = String.format(" - InWard: %d (%s+%d%s)", ns.inWard, b3, ns.inWardDiff, b3);
 
-            d4 = String.format(" - total: %d (%s+%d%s)", ns.total, b4, ns.totalDiff, b4);
+            d4 = String.format(" - Total hospitalised: %d (%s+%d%s)", ns.total, b4, ns.totalDiff, b4);
 
             String notify = String.format("Korona update%s%s%s%s", d1, d2, d3, d4);
             log.debug("Korona notify: {}", notify);
