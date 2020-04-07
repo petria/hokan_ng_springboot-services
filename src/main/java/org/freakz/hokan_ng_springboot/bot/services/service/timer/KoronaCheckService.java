@@ -12,14 +12,11 @@ import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.PropertyName;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyService;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.jibble.pircbot.Colors;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,31 +77,17 @@ public class KoronaCheckService {
         updateCurrentStatsJSON();
     }
 
-    private String getKoronas() {
-        try {
-            String url = "https://korona.kans.io/";
-//            String url = "http://62.78.224.147/korona.html";
-
-            // 62.78.224.147
-            Document doc = Jsoup.connect(url).get();
-            Elements body = doc.getElementsByTag("title");
-            return body.text();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private boolean sendNotify(String notify) {
-
+    private List<String> sendNotify(String notify) {
         List<Channel> channelList = channelPropertyService.getChannelsWithProperty(PropertyName.PROP_CHANNEL_DO_KORONA, "true");
+        List<String> notifySentTo = new ArrayList<>();
         for (Channel channel : channelList) {
             NotifyRequest notifyRequest = new NotifyRequest();
             notifyRequest.setNotifyMessage(notify);
             notifyRequest.setTargetChannelId(channel.getId());
+            notifySentTo.add(channel.getChannelName());
             jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "WHOLE_LINE_TRIGGER_NOTIFY_REQUEST", notifyRequest, false);
         }
-        return true;
+        return notifySentTo;
     }
 
     @Scheduled(fixedRate = 30 * 60 * 1000)
@@ -112,44 +95,58 @@ public class KoronaCheckService {
         InfectedStats oldStats = getInfectedStats("INTERNAL");
         InfectedStats ns = calcInfectedStatsDiffs(dead, inIcu, inWard, total, oldStats);
         setInfectedStats("INTERNAL", ns);
-
         if (ns.d0) {
-            log.debug("c1: {} - c2: {} - c3: {} - c4: {} -- d1: {} - d2: {} - d3: {} - d4: {}", ns.dead, ns.inIcu, ns.inWard, ns.total, ns.deadDiff, ns.inIcuDiff, ns.inWardDiff, ns.totalDiff);
-            String d1 = "";
-            String d2 = "";
-            String d3 = "";
-            String d4 = "";
-
-            String b1 = "";
-            if (ns.d1) {
-                b1 = Colors.BOLD;
-            }
-            String b2 = "";
-            if (ns.d2) {
-                b2 = Colors.BOLD;
-            }
-            String b3 = "";
-            if (ns.d3) {
-                b3 = Colors.BOLD;
-            }
-            String b4 = "";
-            if (ns.d4) {
-                b4 = Colors.BOLD;
-            }
-
-            d1 = String.format(" - Dead: %d (%s+%d%s)", ns.dead, b1, ns.deadDiff, b1);
-
-            d2 = String.format(" - InIcu: %d (%s+%d%s)", ns.inIcu, b2, ns.inIcuDiff, b2);
-
-            d3 = String.format(" - InWard: %d (%s+%d%s)", ns.inWard, b3, ns.inWardDiff, b3);
-
-            d4 = String.format(" - Total hospitalised: %d (%s+%d%s)", ns.total, b4, ns.totalDiff, b4);
-
-            String notify = String.format("Korona update%s%s%s%s", d1, d2, d3, d4);
-            log.debug("Korona notify: {}", notify);
-            sendNotify(notify);
+            doNotify(ns);
         }
     }
+
+    private List<String> doNotify(InfectedStats ns) {
+        log.debug("c1: {} - c2: {} - c3: {} - c4: {} -- d1: {} - d2: {} - d3: {} - d4: {}", ns.dead, ns.inIcu, ns.inWard, ns.total, ns.deadDiff, ns.inIcuDiff, ns.inWardDiff, ns.totalDiff);
+        String d1 = "";
+        String d2 = "";
+        String d3 = "";
+        String d4 = "";
+
+        String b1 = "";
+        if (ns.d1) {
+            b1 = Colors.BOLD;
+        }
+        String b2 = "";
+        if (ns.d2) {
+            b2 = Colors.BOLD;
+        }
+        String b3 = "";
+        if (ns.d3) {
+            b3 = Colors.BOLD;
+        }
+        String b4 = "";
+        if (ns.d4) {
+            b4 = Colors.BOLD;
+        }
+
+        d1 = String.format(" - Dead: %d (%s+%d%s)", ns.dead, b1, ns.deadDiff, b1);
+
+        d2 = String.format(" - InIcu: %d (%s+%d%s)", ns.inIcu, b2, ns.inIcuDiff, b2);
+
+        d3 = String.format(" - InWard: %d (%s+%d%s)", ns.inWard, b3, ns.inWardDiff, b3);
+
+        d4 = String.format(" - Total hospitalised: %d (%s+%d%s)", ns.total, b4, ns.totalDiff, b4);
+
+        String notify = String.format("Korona update%s%s%s%s", d1, d2, d3, d4);
+        log.debug("Korona notify: {}", notify);
+        return sendNotify(notify);
+    }
+
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.KORONA_NOTIFY_REQUEST)
+    public void handleKoronaNotifyCmdRequest(ServiceRequest request, ServiceResponse response) {
+        log.debug("Handle KoronaNotifyCMD");
+        InfectedStats oldStats = getInfectedStats("INTERNAL");
+        InfectedStats ns = calcInfectedStatsDiffs(dead, inIcu, inWard, total, oldStats);
+        setInfectedStats("INTERNAL", ns);
+        List<String> strings = doNotify(ns);
+        response.setResponseData(request.getType().getResponseDataKey(), strings);
+    }
+
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.KORONA_REQUEST)
     public void handleKoronaCmdRequest(ServiceRequest request, ServiceResponse response) {
