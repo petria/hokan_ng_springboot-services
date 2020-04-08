@@ -124,13 +124,30 @@ public class KoronaCheckService {
             b4 = Colors.BOLD;
         }
 
-        d1 = String.format(" - Dead: %d (%s+%d%s)", ns.dead, b1, ns.deadDiff, b1);
+        String s1 = "+";
+        if (ns.deadDiff < 0) {
+            s1 = "-";
+        }
+        String s2 = "+";
+        if (ns.inIcuDiff < 0) {
+            s2 = "-";
+        }
+        String s3 = "+";
+        if (ns.inWardDiff < 0) {
+            s3 = "-";
+        }
+        String s4 = "+";
+        if (ns.totalDiff < 0) {
+            s4 = "-";
+        }
 
-        d2 = String.format(" - InIcu: %d (%s+%d%s)", ns.inIcu, b2, ns.inIcuDiff, b2);
+        d1 = String.format(" - Dead: %d (%s%s%d%s)", ns.dead, b1, s1, ns.deadDiff, b1);
 
-        d3 = String.format(" - InWard: %d (%s+%d%s)", ns.inWard, b3, ns.inWardDiff, b3);
+        d2 = String.format(" - InIcu: %d (%s%s%d%s)", ns.inIcu, b2, s2, ns.inIcuDiff, b2);
 
-        d4 = String.format(" - Total hospitalised: %d (%s+%d%s)", ns.total, b4, ns.totalDiff, b4);
+        d3 = String.format(" - InWard: %d (%s%s%d%s)", ns.inWard, b3, s3, ns.inWardDiff, b3);
+
+        d4 = String.format(" - Total hospitalised: %d (%s%s%d%s)", ns.total, b4, s4, ns.totalDiff, b4);
 
         String notify = String.format("Korona update%s%s%s%s", d1, d2, d3, d4);
         log.debug("Korona notify: {}", notify);
