@@ -126,19 +126,19 @@ public class KoronaCheckService {
 
         String s1 = "+";
         if (ns.deadDiff < 0) {
-            s1 = "-";
+            s1 = "";
         }
         String s2 = "+";
         if (ns.inIcuDiff < 0) {
-            s2 = "-";
+            s2 = "";
         }
         String s3 = "+";
         if (ns.inWardDiff < 0) {
-            s3 = "-";
+            s3 = "";
         }
         String s4 = "+";
         if (ns.totalDiff < 0) {
-            s4 = "-";
+            s4 = "";
         }
 
         d1 = String.format(" - Dead: %d (%s%s%d%s)", ns.dead, b1, s1, ns.deadDiff, b1);
