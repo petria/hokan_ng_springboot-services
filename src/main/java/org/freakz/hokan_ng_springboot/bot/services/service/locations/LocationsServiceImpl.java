@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-@Service
+//@Service
 public class LocationsServiceImpl implements LocationsService {
 
     private static final Logger log = LoggerFactory.getLogger(LocationsServiceImpl.class);
