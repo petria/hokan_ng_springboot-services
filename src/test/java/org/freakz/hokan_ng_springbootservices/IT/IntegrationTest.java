@@ -2,6 +2,7 @@ package org.freakz.hokan_ng_springbootservices.IT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.freakz.hokan_ng_springboot.bot.services.config.RuntimeConfig;
+import org.freakz.hokan_ng_springboot.bot.services.service.distance.DistanceService;
 import org.freakz.hokan_ng_springboot.bot.services.service.horo.HoroFetchServiceImpl;
 import org.freakz.hokan_ng_springboot.bot.services.service.sms.SMSSenderService;
 import org.freakz.hokan_ng_springboot.bot.services.service.sms.SMSSenderServiceImpl;
@@ -46,10 +47,19 @@ public class IntegrationTest {
     //    @Test
     public void testCorona() {
         KoronaCheckService service = new KoronaCheckService(null, null, null);
-
         service.test();
-
     }
 
+
+    @Test
+    public void testDistanceService() {
+        DistanceService sut = new DistanceService();
+        String distance1 = sut.getDistance("Oulu", "Kempele");
+        String distance2 = sut.getDistance("Oulu", "Turku");
+        String distance3 = sut.getDistance("Oulu", "Lontoo");
+        String distance4 = sut.getDistance("Oufdflu", "Lontoo");
+
+        int foo = 0;
+    }
 
 }
