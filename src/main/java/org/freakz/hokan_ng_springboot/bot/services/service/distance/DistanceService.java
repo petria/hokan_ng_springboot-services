@@ -3,7 +3,7 @@ package org.freakz.hokan_ng_springboot.bot.services.service.distance;
 import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse2;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +18,7 @@ public class DistanceService {
 
 
   @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.MATKA_REQUEST)
-  public void handleServiceRequest(ServiceRequest request, ServiceResponse2<?> response) {
+  public void handleServiceRequest(ServiceRequest request, ServiceResponse response) {
     int foo = 0;
   }
 
