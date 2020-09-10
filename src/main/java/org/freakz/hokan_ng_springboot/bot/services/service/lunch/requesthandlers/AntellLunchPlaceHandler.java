@@ -31,6 +31,7 @@ public class AntellLunchPlaceHandler implements LunchRequestHandler {
 
     private static String[] markers =
             {"Maanantai", "Tiistai", "Keskiviikko"};
+
     @Override
     @LunchPlaceHandler(LunchPlace = LunchPlace.LOUNAS_INFO_ANTELL)
     public void handleLunchPlace(LunchPlace lunchPlaceRequest, LunchData response, LocalDateTime day) {

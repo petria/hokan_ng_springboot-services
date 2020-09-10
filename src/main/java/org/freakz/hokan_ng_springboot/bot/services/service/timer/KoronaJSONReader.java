@@ -44,7 +44,7 @@ public class KoronaJSONReader {
             }
         }
         if (h != null) {
-            log.debug("latest: {}", h);
+//            log.debug("latest: {}", h);
             return new Integer[]{h.getDead(), h.getInIcu(), h.getInWard(), h.getTotalHospitalised()};
         }
         return null;

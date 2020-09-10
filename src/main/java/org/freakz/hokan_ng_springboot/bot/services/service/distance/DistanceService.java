@@ -17,22 +17,22 @@ import java.io.IOException;
 public class DistanceService {
 
 
-  @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.MATKA_REQUEST)
-  public void handleServiceRequest(ServiceRequest request, ServiceResponse response) {
-    int foo = 0;
-  }
+    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.MATKA_REQUEST)
+    public void handleServiceRequest(ServiceRequest request, ServiceResponse response) {
+        int foo = 0;
+    }
 
 
-  public String getDistance(String city1, String city2) {
-    String url = String.format("https://www.vaelimatka.org/%s/%s", city1, city2);
+    public String getDistance(String city1, String city2) {
+        String url = String.format("https://www.vaelimatka.org/%s/%s", city1, city2);
 
-    try {
-      Document doc = Jsoup.connect(url).ignoreContentType(true).get();
-      Elements element = doc.getElementsByClass("caption panel-footer");
-      return element.text();
+        try {
+            Document doc = Jsoup.connect(url).ignoreContentType(true).get();
+            Elements element = doc.getElementsByClass("caption panel-footer");
+            return element.text();
 
-    } catch (IOException e) {
-      log.error("Distance data fetch failed", e);
+        } catch (IOException e) {
+            log.error("Distance data fetch failed", e);
         }
         return null;
     }

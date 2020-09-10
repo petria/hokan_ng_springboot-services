@@ -62,7 +62,6 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     }
 
 
-
     private void checkPerkeleVittu(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
         if (rnd < 85) {
@@ -381,7 +380,6 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             _lastReply = now;
         }
     }
-
 
 
 }

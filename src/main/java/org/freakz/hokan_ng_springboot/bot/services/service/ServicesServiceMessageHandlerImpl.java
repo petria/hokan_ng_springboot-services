@@ -5,7 +5,6 @@ import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
 import org.freakz.hokan_ng_springboot.bot.common.jms.JmsEnvelope;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsServiceMessageHandler;
-import org.freakz.hokan_ng_springboot.bot.common.jpa.service.DataValuesService;
 import org.freakz.hokan_ng_springboot.bot.common.models.*;
 import org.freakz.hokan_ng_springboot.bot.common.service.translate.SanakirjaOrgTranslateService;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
@@ -46,9 +45,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @Autowired
     private CurrencyService currencyService;
-
-    @Autowired
-    private DataValuesService dataValuesService;
 
     @Autowired
     private org.freakz.hokan_ng_springboot.bot.services.service.imdb.IMDBService IMDBService;
@@ -122,32 +118,6 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
         return false;
     }
 
-    @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.GLUGGA_COUNT_REQUEST)
-    public void gluggaCalculate(ServiceRequest request, ServiceResponse response) {
-        String message = request.getIrcMessageEvent().getMessage().toLowerCase();
-        if (message.matches(".*(\\*glugga\\*|\\*glug\\*).*")) {
-            String nick = request.getIrcMessageEvent().getSender().toLowerCase();
-            String channel = request.getIrcMessageEvent().getChannel().toLowerCase();
-            String network = request.getIrcMessageEvent().getNetwork().toLowerCase();
-            String key = "GLUGGA_COUNT";
-
-            log.debug("Got glugga from: {}", nick);
-
-            String value = dataValuesService.getValue(nick, channel, network, key);
-            if (value == null) {
-                value = "1";
-            } else {
-                int count = Integer.parseInt(value);
-                count++;
-                value = "" + count;
-            }
-            log.debug("{} glugga count: {}", nick, value);
-            dataValuesService.setValue(nick, channel, network, key, value);
-
-        }
-
-
-    }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.WEATHER_REQUEST)
     public void handleWeatherRequest(ServiceRequest request, ServiceResponse response) {

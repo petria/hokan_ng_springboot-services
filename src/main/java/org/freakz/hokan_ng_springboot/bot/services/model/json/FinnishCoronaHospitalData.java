@@ -1,4 +1,3 @@
-
 package org.freakz.hokan_ng_springboot.bot.services.model.json;
 
 import lombok.Data;
