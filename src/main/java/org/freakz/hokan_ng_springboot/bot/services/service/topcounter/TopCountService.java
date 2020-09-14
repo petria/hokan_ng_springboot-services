@@ -25,7 +25,7 @@ public class TopCountService {
     public void calculateTopCounters(ServiceRequest request, ServiceResponse response) {
 
         doCalc(request, ".*(\\*glugga\\*|\\*glug\\*).*", "GLUGGA_COUNT");
-        doCalc(request, ".*(\\*korina*\\*|\\*kuo*len\\*|\\*tappakaa\\*).*", "KORINA_COUNT");
+        doCalc(request, "\\s*(\\*korina*\\*|\\*kuo*len\\*|\\*tappakaa\\*).*", "KORINA_COUNT");
         doCalc(request, "puuh", "PUUH_COUNT");
         doCalc(request, ".*(kaleeri).*", "KALEERI_COUNT");
         doCalc(request, ".*(jäätävä).*", "JÄÄTÄVÄ_COUNT");
