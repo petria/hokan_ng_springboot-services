@@ -24,7 +24,9 @@ public class TopCountService {
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.TOP_COUNT_REQUEST)
     public void calculateTopCounters(ServiceRequest request, ServiceResponse response) {
 
-        doCalc(request, ".*(\\*glugga\\*|\\*glug\\*).*", "GLUGGA_COUNT");
+        if (doCalc(request, ".*(\\*glugga\\*|\\*glug\\*).*", "GLUGGA_COUNT")) {
+            handleLastGluggaTime(request);
+        }
         doCalc(request, "\\s*(\\*korina*\\*|\\*kuo*len\\*|\\*tappakaa\\*).*", "KORINA_COUNT");
         doCalc(request, "puuh", "PUUH_COUNT");
         doCalc(request, ".*(kaleeri).*", "KALEERI_COUNT");
@@ -32,7 +34,15 @@ public class TopCountService {
 
     }
 
-    private void doCalc(ServiceRequest request, String regex, String key) {
+    private void handleLastGluggaTime(ServiceRequest request) {
+        String nick = request.getIrcMessageEvent().getSender().toLowerCase();
+        String channel = request.getIrcMessageEvent().getChannel().toLowerCase();
+        String network = request.getIrcMessageEvent().getNetwork().toLowerCase();
+        String key = String.format("%s_LAST_GLUGGA", nick.toUpperCase());
+        dataValuesService.setValue(nick, channel, network, key, System.currentTimeMillis() + "");
+    }
+
+    private boolean doCalc(ServiceRequest request, String regex, String key) {
         String message = request.getIrcMessageEvent().getMessage().toLowerCase();
         if (message.matches(regex)) {
             String nick = request.getIrcMessageEvent().getSender().toLowerCase();
@@ -51,8 +61,9 @@ public class TopCountService {
             }
             log.debug("{} {} count: {}", key, nick, value);
             dataValuesService.setValue(nick, channel, network, key, value);
-
+            return true;
         }
+        return false;
     }
 
 }
