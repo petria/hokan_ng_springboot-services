@@ -377,7 +377,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 //        checkPerkeleVittu(iEvent);
         checkJoulu(iEvent);
 //        checkJuhannus(iEvent);
-//        checkPitasko(iEvent);
+        checkPitasko(iEvent);
 //        checkSpede(iEvent);
 //        checkSilli(iEvent);
 //        checkOlisko(iEvent);
