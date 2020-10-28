@@ -66,7 +66,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         if (parameter != null && parameter instanceof UrlCatchResolvedEvent) {
             catchUrlAlreadySolved(ircMessageEvent, parameter, channel);
         } else {
-            catchUrls(ircMessageEvent, channel);
+            catchUrls(ircMessageEvent, channel, false);
         }
     }
 
@@ -74,7 +74,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         UrlCatchResolvedEvent event = (UrlCatchResolvedEvent) parameter;
         long isWanha = logUrl(ircMessageEvent, event.getUrl());
 
-        doUrl(isWanha, event.getUrl(), ignoreTitles, channel, false);
+        doUrl(isWanha, event.getUrl(), ignoreTitles, channel, false, true);
 
         log.debug("Already titled url {} -> {}", event.getUrl(), event.getTitle());
     }
@@ -99,7 +99,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
 
     private static String ignoreTitles = "fbcdn-sphotos.*|.*(avi|bz|gz|gif|exe|iso|jpg|jpeg|mp3|mp4|mkv|mpeg|mpg|mov|pdf|png|torrent|zip|7z|tar)";
 
-    private void catchUrls(IrcMessageEvent iEvent, Channel channel) {
+    private void catchUrls(IrcMessageEvent iEvent, Channel channel, boolean isNewTitle) {
         String msg = iEvent.getMessage();
         boolean askWanha = false;
         if (msg.contains("wanha?")) {
@@ -113,23 +113,23 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         while (m.find()) {
             String url = m.group();
             long isWanha = logUrl(iEvent, url);
-            doUrl(isWanha, url, ignoreTitles, channel, askWanha);
+            doUrl(isWanha, url, ignoreTitles, channel, askWanha, isNewTitle);
 
         }
     }
 
-    private void doUrl(long isWanha, String url, String ignoreTitles, Channel channel, boolean askWanha) {
+    private void doUrl(long isWanha, String url, String ignoreTitles, Channel channel, boolean askWanha, boolean isNewTitle) {
         StringBuilder wanhaAdd = new StringBuilder();
         for (int i = 0; i < isWanha; i++) {
             wanhaAdd.append("!");
         }
-        if (!StringStuff.match(url, ignoreTitles, true)) {
+        if (!isNewTitle && !StringStuff.match(url, ignoreTitles, true)) {
             log.info("Finding title: " + url);
             getTitleNew(url, channel, isWanha > 0, wanhaAdd.toString());
         } else {
             log.info("SKIP finding title: " + url);
             boolean titles = channelPropertyService.getChannelPropertyAsBoolean(channel, PropertyName.PROP_CHANNEL_DO_URL_TITLES, false);
-            if (titles) {
+            if (channel.getChannelName().contains("privmsg") || titles) {
                 if (isWanha > 0) {
                     NotifyRequest notifyRequest = new NotifyRequest();
                     if (askWanha) {
