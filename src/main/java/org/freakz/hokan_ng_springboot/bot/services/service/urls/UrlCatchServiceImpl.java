@@ -4,6 +4,7 @@ import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.UrlCatchResolvedEvent;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Network;
@@ -61,9 +62,21 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         IrcMessageEvent ircMessageEvent = request.getIrcMessageEvent();
         Network network = networkService.getNetwork(ircMessageEvent.getNetwork());
         Channel channel = channelService.findByNetworkAndChannelName(network, ircMessageEvent.getChannel());
-        String titleAlready = (String) request.getParameters()[0];
-        log.debug("titleAlready -> {}", titleAlready);
-        catchUrls(ircMessageEvent, channel);
+        Object parameter = request.getParameters()[0];
+        if (parameter != null && parameter instanceof UrlCatchResolvedEvent) {
+            catchUrlAlreadySolved(ircMessageEvent, parameter, channel);
+        } else {
+            catchUrls(ircMessageEvent, channel);
+        }
+    }
+
+    private void catchUrlAlreadySolved(IrcMessageEvent ircMessageEvent, Object parameter, Channel channel) {
+        UrlCatchResolvedEvent event = (UrlCatchResolvedEvent) parameter;
+        long isWanha = logUrl(ircMessageEvent, event.getUrl());
+
+        doUrl(isWanha, event.getUrl(), ignoreTitles, channel, false);
+
+        log.debug("Already titled url {} -> {}", event.getUrl(), event.getTitle());
     }
 
     private long logUrl(IrcMessageEvent iEvent, String url) {
@@ -84,6 +97,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
 
     }
 
+    private static String ignoreTitles = "fbcdn-sphotos.*|.*(avi|bz|gz|gif|exe|iso|jpg|jpeg|mp3|mp4|mkv|mpeg|mpg|mov|pdf|png|torrent|zip|7z|tar)";
 
     private void catchUrls(IrcMessageEvent iEvent, Channel channel) {
         String msg = iEvent.getMessage();
@@ -99,32 +113,37 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         while (m.find()) {
             String url = m.group();
             long isWanha = logUrl(iEvent, url);
-            String ignoreTitles = "fbcdn-sphotos.*|.*(avi|bz|gz|gif|exe|iso|jpg|jpeg|mp3|mp4|mkv|mpeg|mpg|mov|pdf|png|torrent|zip|7z|tar)";
+            doUrl(isWanha, url, ignoreTitles, channel, askWanha);
 
-            StringBuilder wanhaAdd = new StringBuilder();
-            for (int i = 0; i < isWanha; i++) {
-                wanhaAdd.append("!");
-            }
-            if (!StringStuff.match(url, ignoreTitles, true)) {
-                log.info("Finding title: " + url);
-                getTitleNew(url, channel, isWanha > 0, wanhaAdd.toString());
-            } else {
-                log.info("SKIP finding title: " + url);
-                boolean titles = channelPropertyService.getChannelPropertyAsBoolean(channel, PropertyName.PROP_CHANNEL_DO_URL_TITLES, false);
-                if (titles) {
-                    if (isWanha > 0) {
-                        NotifyRequest notifyRequest = new NotifyRequest();
-                        if (askWanha) {
-                            notifyRequest.setNotifyMessage(url + " | joo oli wanha!");
-                        } else {
-                            notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
-                        }
-                        notifyRequest.setTargetChannelId(channel.getId());
-                        jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
+        }
+    }
+
+    private void doUrl(long isWanha, String url, String ignoreTitles, Channel channel, boolean askWanha) {
+        StringBuilder wanhaAdd = new StringBuilder();
+        for (int i = 0; i < isWanha; i++) {
+            wanhaAdd.append("!");
+        }
+        if (!StringStuff.match(url, ignoreTitles, true)) {
+            log.info("Finding title: " + url);
+            getTitleNew(url, channel, isWanha > 0, wanhaAdd.toString());
+        } else {
+            log.info("SKIP finding title: " + url);
+            boolean titles = channelPropertyService.getChannelPropertyAsBoolean(channel, PropertyName.PROP_CHANNEL_DO_URL_TITLES, false);
+            if (titles) {
+                if (isWanha > 0) {
+                    NotifyRequest notifyRequest = new NotifyRequest();
+                    if (askWanha) {
+                        notifyRequest.setNotifyMessage(url + " | joo oli wanha!");
+                    } else {
+                        notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
                     }
+                    notifyRequest.setTargetChannelId(channel.getId());
+                    jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
                 }
             }
         }
+
+
     }
 
     private String getIMDBData(String url) throws Exception {
