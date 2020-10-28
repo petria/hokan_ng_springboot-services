@@ -14,6 +14,7 @@ import org.freakz.hokan_ng_springboot.bot.services.service.sms.SMSSenderServiceI
 import org.freakz.hokan_ng_springboot.bot.services.service.timer.KoronaCheckService;
 import org.freakz.hokan_ng_springboot.bot.services.service.timer.KoronaJSONReader;
 import org.freakz.hokan_ng_springboot.bot.services.service.weather.IlmatieteenlaitosRequestHandler;
+import org.freakz.hokan_ng_springboot.bot.services.service.wholelinetricker.WholeLineTriggersImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -92,12 +93,20 @@ public class IntegrationTest {
     int foo = 0;
   }
 
-  private ServiceRequest createServiceRequest(ServiceRequestType type, String message, Object... parameters) {
-    IrcMessageEvent ircEvent = new IrcMessageEvent();
-    ircEvent.setMessage(message);
-    ServiceRequest req = new ServiceRequest(type, ircEvent, new CommandArgs(ircEvent.getMessage()), parameters);
-    return req;
+    private ServiceRequest createServiceRequest(ServiceRequestType type, String message, Object... parameters) {
+        IrcMessageEvent ircEvent = new IrcMessageEvent();
+        ircEvent.setMessage(message);
+        ServiceRequest req = new ServiceRequest(type, ircEvent, new CommandArgs(ircEvent.getMessage()), parameters);
+        return req;
 
-  }
+    }
+
+    @Test
+    public void testWholeLineTriggers() {
+        WholeLineTriggersImpl sut = new WholeLineTriggersImpl(null, null);
+
+//      sut.checkMikaPaiva(null);
+
+    }
 
 }

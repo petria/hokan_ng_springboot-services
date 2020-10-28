@@ -3,6 +3,7 @@ package org.freakz.hokan_ng_springboot.bot.services.service.urls;
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
+import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Channel;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.entity.Network;
@@ -56,9 +57,12 @@ public class UrlCatchServiceImpl implements UrlCatchService {
     }
 
     @Override
-    public void catchUrls(IrcMessageEvent ircMessageEvent) {
+    public void catchUrls(ServiceRequest request) {
+        IrcMessageEvent ircMessageEvent = request.getIrcMessageEvent();
         Network network = networkService.getNetwork(ircMessageEvent.getNetwork());
         Channel channel = channelService.findByNetworkAndChannelName(network, ircMessageEvent.getChannel());
+        String titleAlready = (String) request.getParameters()[0];
+        log.debug("titleAlready -> {}", titleAlready);
         catchUrls(ircMessageEvent, channel);
     }
 

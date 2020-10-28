@@ -142,7 +142,7 @@ public class ServicesServiceMessageHandlerImpl implements JmsServiceMessageHandl
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.CATCH_URLS_REQUEST)
     public void handleCatchUrlsRequest(ServiceRequest request, ServiceResponse response) {
-        urlCatchService.catchUrls(request.getIrcMessageEvent());
+        urlCatchService.catchUrls(request);
     }
 
     @ServiceMessageHandler(ServiceRequestType = ServiceRequestType.CURRENCY_CONVERT_REQUEST)
