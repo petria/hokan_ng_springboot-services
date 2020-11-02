@@ -62,9 +62,9 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         IrcMessageEvent ircMessageEvent = request.getIrcMessageEvent();
         Network network = networkService.getNetwork(ircMessageEvent.getNetwork());
         Channel channel = channelService.findByNetworkAndChannelName(network, ircMessageEvent.getChannel());
-        Object parameter = request.getParameters()[0];
-        if (parameter != null && parameter instanceof UrlCatchResolvedEvent) {
-            catchUrlAlreadySolved(ircMessageEvent, parameter, channel);
+        Object[] objs = request.getParameters();
+        if (objs != null && objs.length > 0) {
+            catchUrlAlreadySolved(ircMessageEvent, objs[0], channel);
         } else {
             catchUrls(ircMessageEvent, channel, false);
         }
