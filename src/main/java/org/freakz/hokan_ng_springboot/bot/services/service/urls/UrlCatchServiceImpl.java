@@ -74,7 +74,7 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         UrlCatchResolvedEvent event = (UrlCatchResolvedEvent) parameter;
         long isWanha = logUrl(ircMessageEvent, event.getUrl());
 
-        doUrl(isWanha, event.getUrl(), ignoreTitles, channel, false, true);
+        doUrl(isWanha, event.getUrl(), ignoreTitles, channel, false, true, event.getTitle());
 
         log.debug("Already titled url {} -> {}", event.getUrl(), event.getTitle());
     }
@@ -113,12 +113,12 @@ public class UrlCatchServiceImpl implements UrlCatchService {
         while (m.find()) {
             String url = m.group();
             long isWanha = logUrl(iEvent, url);
-            doUrl(isWanha, url, ignoreTitles, channel, askWanha, isNewTitle);
+            doUrl(isWanha, url, ignoreTitles, channel, askWanha, isNewTitle, null);
 
         }
     }
 
-    private void doUrl(long isWanha, String url, String ignoreTitles, Channel channel, boolean askWanha, boolean isNewTitle) {
+    private void doUrl(long isWanha, String url, String ignoreTitles, Channel channel, boolean askWanha, boolean isNewTitle, String title) {
         StringBuilder wanhaAdd = new StringBuilder();
         for (int i = 0; i < isWanha; i++) {
             wanhaAdd.append("!");
@@ -127,19 +127,22 @@ public class UrlCatchServiceImpl implements UrlCatchService {
             log.info("Finding title: " + url);
             getTitleNew(url, channel, isWanha > 0, wanhaAdd.toString());
         } else {
-            log.info("SKIP finding title: " + url);
+            log.info("Using already solver title: " + title);
             boolean titles = channelPropertyService.getChannelPropertyAsBoolean(channel, PropertyName.PROP_CHANNEL_DO_URL_TITLES, false);
             if (channel.getChannelName().contains("privmsg") || titles) {
+                NotifyRequest notifyRequest = new NotifyRequest();
+                notifyRequest.setTargetChannelId(channel.getId());
                 if (isWanha > 0) {
-                    NotifyRequest notifyRequest = new NotifyRequest();
                     if (askWanha) {
-                        notifyRequest.setNotifyMessage(url + " | joo oli wanha!");
+                        notifyRequest.setNotifyMessage(title + " | joo oli wanha!");
                     } else {
-                        notifyRequest.setNotifyMessage(url + " | wanha" + wanhaAdd);
+                        notifyRequest.setNotifyMessage(title + " | wanha" + wanhaAdd);
                     }
-                    notifyRequest.setTargetChannelId(channel.getId());
-                    jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
+                } else {
+                    notifyRequest.setNotifyMessage(title);
                 }
+                jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "URLS_NOTIFY_REQUEST", notifyRequest, false);
+
             }
         }
 
