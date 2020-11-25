@@ -173,7 +173,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
             String andPart;
             if (b1 || b2) {
-                andPart = " ja ";
+                andPart = "ja ";
             } else {
                 andPart = "";
             }
