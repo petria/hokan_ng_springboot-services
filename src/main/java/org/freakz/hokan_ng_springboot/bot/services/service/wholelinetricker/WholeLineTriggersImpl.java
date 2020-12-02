@@ -181,7 +181,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             String ret = String.format("%s%s%s%02d:%02d:%02d jouluun!", monthPart, dayPart, andPart, ut[2], ut[1], ut[0]);
 
             processReply(iEvent, _olpo + ret);
-            jouluRandomBase = 120;
+            jouluRandomBase = 320;
 
         } else {
             jouluRandomBase--;
