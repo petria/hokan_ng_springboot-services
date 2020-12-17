@@ -5,6 +5,10 @@ import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.ChannelPropertyService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.DataValuesService;
+import org.freakz.hokan_ng_springboot.bot.common.jpa.service.PropertyService;
 import org.freakz.hokan_ng_springboot.bot.common.util.CommandArgs;
 import org.freakz.hokan_ng_springboot.bot.services.config.RuntimeConfig;
 import org.freakz.hokan_ng_springboot.bot.services.service.distance.DistanceService;
@@ -13,12 +17,15 @@ import org.freakz.hokan_ng_springboot.bot.services.service.sms.SMSSenderService;
 import org.freakz.hokan_ng_springboot.bot.services.service.sms.SMSSenderServiceImpl;
 import org.freakz.hokan_ng_springboot.bot.services.service.timer.KoronaCheckService;
 import org.freakz.hokan_ng_springboot.bot.services.service.timer.KoronaJSONReader;
+import org.freakz.hokan_ng_springboot.bot.services.service.timer.YuleCheckService;
 import org.freakz.hokan_ng_springboot.bot.services.service.weather.IlmatieteenlaitosRequestHandler;
 import org.freakz.hokan_ng_springboot.bot.services.service.wholelinetricker.WholeLineTriggersImpl;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class IntegrationTest {
 
@@ -107,6 +114,25 @@ public class IntegrationTest {
 
 //      sut.checkMikaPaiva(null);
 
+    }
+
+
+    @Mock
+    private DataValuesService dataValuesService;
+
+    @Mock
+    private ChannelPropertyService channelPropertyService;
+
+    @Mock
+    private JmsSender jmsSender;
+
+    @Mock
+    private PropertyService propertyService;
+
+    @Test
+    public void testYule() {
+        YuleCheckService sut = new YuleCheckService(channelPropertyService, dataValuesService, jmsSender, propertyService);
+        sut.checkIsItYule();
     }
 
 }
