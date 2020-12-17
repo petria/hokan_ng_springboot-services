@@ -76,8 +76,8 @@ public class YuleCheckService {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-dd-MM HH:mm");
         String formatDateTime = now.format(formatter);
-//        return formatDateTime;
-        return "2020-21-12 10:02";
+        return formatDateTime;
+//        return "2020-21-12 10:02";
     }
 
     private List<String> sendNotify(String notify) {
