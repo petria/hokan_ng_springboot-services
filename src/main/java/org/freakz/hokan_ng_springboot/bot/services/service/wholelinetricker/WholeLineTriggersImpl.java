@@ -237,14 +237,18 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             int rndLevel = 500;
             int rnd = (int) (Math.random() * 1000);
 
-            if (iEvent.getMessage().toLowerCase().matches(".*(viina|viini|bisse|olut|kalja|huikka|ryypätä|pillu|panna|perse).*")) {
-                rndLevel = 5000;
-            }
-            if (iEvent.getMessage().toLowerCase().indexOf("linux") > 0) {
-                rndLevel = 4000;
-            }
-            if (iEvent.getMessage().toLowerCase().matches(".*(mac|osx|win).*")) {
-                rndLevel = 3000;
+            if (iEvent.getMessage().toLowerCase().matches(".*(glugga).*")) {
+                rndLevel = 6000;
+            } else {
+                if (iEvent.getMessage().toLowerCase().matches(".*(viina|viini|bisse|olut|kalja|huikka|ryypätä|pillu|panna|perse).*")) {
+                    rndLevel = 5000;
+                }
+                if (iEvent.getMessage().toLowerCase().indexOf("linux") > 0) {
+                    rndLevel = 4000;
+                }
+                if (iEvent.getMessage().toLowerCase().matches(".*(mac|osx|win).*")) {
+                    rndLevel = 3000;
+                }
             }
 
             String rndWord = "";
@@ -254,7 +258,9 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             }
 
 
-            if (rndLevel == 5000) {
+            if (rndLevel == 6000) {
+                sb.append(String.format("Joo, pitäis se on #AmigaFIN laki!!!!", rndWord));
+            } else if (rndLevel == 5000) {
                 sb.append(String.format("Joo pitäis%s!!!!!!", rndWord));
             } else if (rndLevel == 4000) {
                 sb.append(String.format("Joo pitäis%s!!!", rndWord));
@@ -402,7 +408,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 //        checkDrugs(iEvent);
         checkPilalla(iEvent);
 //        checkPerkeleVittu(iEvent);
-        checkJoulu(iEvent);
+//        checkJoulu(iEvent);
 //        checkJuhannus(iEvent);
         checkPitasko(iEvent);
 //        checkSpede(iEvent);
