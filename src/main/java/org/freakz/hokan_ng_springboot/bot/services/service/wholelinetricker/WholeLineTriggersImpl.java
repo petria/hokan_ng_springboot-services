@@ -48,6 +48,21 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         }
     }
 
+    //    TTR0gVk001
+
+    private void checkPyksyCrypto(IrcMessageEvent iEvent) {
+/*        int rnd = 1 + (int) (Math.random() * 100);
+        if (rnd < 55) {
+            return;
+        }*/
+        String line = iEvent.getMessage();
+        if (line.contains("TTR0gVk001")) {
+            processReply(iEvent, _olpo + iEvent.getSender() + ": RemonttiMiesPornot/ unlocked!");
+        }
+
+    }
+
+
     private void checkYhdet(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
         if (rnd < 65) {
@@ -418,6 +433,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 //        checkMuisti(iEvent);
 //        checkVTEC(iEvent);
         checkYhdet(iEvent);
+        checkPyksyCrypto(iEvent);
 
         if (diff > 1500) {
             checkHuomenta(iEvent);
