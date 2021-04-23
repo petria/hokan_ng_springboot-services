@@ -55,9 +55,10 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
         if (rnd < 55) {
             return;
         }*/
+        String pornot = StringStuff.getRandomString("RemonttiMiesPornot/", "KääpiöPornot/", "HomoPornot/", "EläinPornot/", "SaapasPornot/");
         String line = iEvent.getMessage();
         if (line.contains("TTR0gVk001")) {
-            processReply(iEvent, _olpo + iEvent.getSender() + ": RemonttiMiesPornot/ unlocked!");
+            processReply(iEvent, _olpo + iEvent.getSender() + ": " + pornot + " unlocked!");
         }
 
     }
