@@ -66,7 +66,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     private void checkYhdet(IrcMessageEvent iEvent) {
 
         String line = iEvent.getMessage().toLowerCase();
-        if (line.contains("yhdet") || line.contains("yhdelle")) {
+        if (line.contains("yhdet") || line.contains("yhdelle") || line.contains("yhelle") || line.contains("leskiseen") || line.contains("leskinen")) {
 
             if (iEvent.getSender().equals("shd")) {
                 processReply(iEvent, _olpo + iEvent.getSender() + ": (56)");
