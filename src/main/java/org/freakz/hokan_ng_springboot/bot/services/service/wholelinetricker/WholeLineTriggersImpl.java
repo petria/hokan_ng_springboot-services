@@ -63,18 +63,25 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     }
 
-
     private void checkYhdet(IrcMessageEvent iEvent) {
-        int rnd = 1 + (int) (Math.random() * 100);
-        if (rnd < 65) {
-            return;
-        }
+
         String line = iEvent.getMessage().toLowerCase();
         if (line.contains("yhdet") || line.contains("yhdelle")) {
+
+            if (iEvent.getSender().equals("shd")) {
+                processReply(iEvent, _olpo + iEvent.getSender() + ": (56)");
+                return;
+            }
+
+            int rnd = 1 + (int) (Math.random() * 100);
+            if (rnd < 33) {
+                return;
+            }
+
             rnd = 8 + (int) (Math.random() * 20);
             processReply(iEvent, _olpo + iEvent.getSender() + ": (" + rnd + ")");
-        }
 
+        }
     }
 
 
