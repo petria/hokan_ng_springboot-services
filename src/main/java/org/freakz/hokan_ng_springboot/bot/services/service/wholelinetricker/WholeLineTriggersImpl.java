@@ -63,6 +63,21 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     }
 
+    public void checkPallo(IrcMessageEvent iEvent) {
+        int rnd = 1 + (int) (Math.random() * 100);
+        if (rnd < 33) {
+            return;
+        }
+        String line = iEvent.getMessage();
+        if (line.matches("^\\d?-\\d?")) {
+            String[] split = line.split("-");
+            int i1 = Integer.parseInt(split[0]);
+            int i2 = Integer.parseInt(split[1]);
+            String win = String.format("%d-%d", i1 + 1, i2 + 1);
+            processReply(iEvent, _olpo + iEvent.getSender() + ": " + win);
+        }
+    }
+
     private void checkYhdet(IrcMessageEvent iEvent) {
 
         String line = iEvent.getMessage().toLowerCase();
@@ -442,6 +457,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 //        checkVTEC(iEvent);
         checkYhdet(iEvent);
         checkPyksyCrypto(iEvent);
+        checkPallo(iEvent);
 
         if (diff > 1500) {
             checkHuomenta(iEvent);
