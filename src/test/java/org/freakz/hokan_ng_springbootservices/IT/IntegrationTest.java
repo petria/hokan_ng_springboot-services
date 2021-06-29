@@ -111,7 +111,10 @@ public class IntegrationTest {
     @Test
     public void testWholeLineTriggers() {
         WholeLineTriggersImpl sut = new WholeLineTriggersImpl(null, null);
+        IrcMessageEvent iEvent = new IrcMessageEvent();
+        iEvent.setMessage("1-3");
 
+        sut.checkPallo(iEvent);
 //      sut.checkMikaPaiva(null);
 
     }

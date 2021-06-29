@@ -65,7 +65,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     public void checkPallo(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
-        if (rnd > 94) {
+        if (rnd > 90) {
             return;
         }
         String line = iEvent.getMessage();
@@ -73,7 +73,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
             String[] split = line.split("-");
             int i1 = Integer.parseInt(split[0]);
             int i2 = Integer.parseInt(split[1]);
-            String win = String.format("%d-%d", i1 + 1, i2 + 1);
+            String win = String.format("%d-%d=%d", i1, i2, i1 - i2);
             processReply(iEvent, _olpo + iEvent.getSender() + ": " + win);
         }
     }
