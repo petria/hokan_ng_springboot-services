@@ -1,5 +1,6 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.wholelinetricker;
 
+import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
 import org.freakz.hokan_ng_springboot.bot.common.events.IrcMessageEvent;
 import org.freakz.hokan_ng_springboot.bot.common.events.NotifyRequest;
@@ -23,6 +24,7 @@ import java.util.GregorianCalendar;
  * Time: 08:22:02
  */
 @Service
+@Slf4j
 @Scope("singleton")
 public class WholeLineTriggersImpl implements WholeLineTriggers {
 
@@ -65,6 +67,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
 
     public void checkPallo(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
+        log.debug("rnd: {}", rnd);
         if (rnd > 90) {
             return;
         }
