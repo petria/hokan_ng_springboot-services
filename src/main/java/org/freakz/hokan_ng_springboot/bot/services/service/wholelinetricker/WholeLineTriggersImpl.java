@@ -68,7 +68,7 @@ public class WholeLineTriggersImpl implements WholeLineTriggers {
     public void checkPallo(IrcMessageEvent iEvent) {
         int rnd = 1 + (int) (Math.random() * 100);
         log.debug("rnd: {}", rnd);
-        if (rnd > 33) {
+        if (rnd > 20) {
             return;
         }
         String line = iEvent.getMessage();
