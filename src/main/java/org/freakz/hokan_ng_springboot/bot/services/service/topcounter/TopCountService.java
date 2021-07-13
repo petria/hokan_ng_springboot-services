@@ -1,9 +1,8 @@
 package org.freakz.hokan_ng_springboot.bot.services.service.topcounter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
-import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
-import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.enums.HokanModule;
+import org.freakz.hokan_ng_springboot.bot.common.events.*;
 import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.service.DataValuesService;
 import org.freakz.hokan_ng_springboot.bot.common.models.DataValuesModel;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+
 
 @Service
 @Slf4j
@@ -75,10 +75,24 @@ public class TopCountService {
             int newPos = getNickPosition(channel, network, key, nick);
 
             log.debug("key: {} - oldPos: {} <-> newPos {}", key, oldPos, newPos);
-
+            if (oldPos != -1 && newPos != -1) {
+                if (oldPos != newPos) {
+                    IrcMessageEvent iEvent = request.getIrcMessageEvent();
+                    String positionChange = String.format("%d) -> %d) !!", oldPos, newPos);
+                    processReply(iEvent, iEvent.getSender() + ": " + positionChange);
+                }
+            }
             return true;
         }
         return false;
+    }
+
+    private void processReply(IrcMessageEvent iEvent, String reply) {
+
+        NotifyRequest notifyRequest = new NotifyRequest();
+        notifyRequest.setNotifyMessage(reply);
+        notifyRequest.setTargetChannelId(iEvent.getChannelId());
+        jmsSender.send(HokanModule.HokanServices, HokanModule.HokanIo.getQueueName(), "WHOLE_LINE_TRIGGER_NOTIFY_REQUEST", notifyRequest, false);
     }
 
     private int getNickPosition(String channel, String network, String key, String nick) {
