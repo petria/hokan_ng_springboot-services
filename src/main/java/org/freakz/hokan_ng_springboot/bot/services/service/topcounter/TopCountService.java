@@ -4,20 +4,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequest;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceRequestType;
 import org.freakz.hokan_ng_springboot.bot.common.events.ServiceResponse;
+import org.freakz.hokan_ng_springboot.bot.common.jms.api.JmsSender;
 import org.freakz.hokan_ng_springboot.bot.common.jpa.service.DataValuesService;
+import org.freakz.hokan_ng_springboot.bot.common.models.DataValuesModel;
 import org.freakz.hokan_ng_springboot.bot.services.service.annotation.ServiceMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @Slf4j
 public class TopCountService {
 
     private final DataValuesService dataValuesService;
+    private final JmsSender jmsSender;
 
     @Autowired
-    public TopCountService(DataValuesService dataValuesService) {
+    public TopCountService(DataValuesService dataValuesService, JmsSender jmsSender) {
         this.dataValuesService = dataValuesService;
+        this.jmsSender = jmsSender;
     }
 
 
@@ -59,11 +66,39 @@ public class TopCountService {
                 count++;
                 value = "" + count;
             }
+
+            int oldPos = getNickPosition(channel, network, key, nick);
+
             log.debug("{} {} count: {}", key, nick, value);
             dataValuesService.setValue(nick, channel, network, key, value);
+
+            int newPos = getNickPosition(channel, network, key, nick);
+
+            log.debug("key: {} - oldPos: {} <-> newPos {}", key, oldPos, newPos);
+
             return true;
         }
         return false;
+    }
+
+    private int getNickPosition(String channel, String network, String key, String nick) {
+        List<DataValuesModel> dataValues = dataValuesService.getDataValues(channel, network, key);
+        if (dataValues.size() > 0) {
+            Comparator<? super DataValuesModel> comparator = (Comparator<DataValuesModel>) (o1, o2) -> {
+                Integer i1 = Integer.parseInt(o1.getValue());
+                Integer i2 = Integer.parseInt(o2.getValue());
+                return i2.compareTo(i1);
+            };
+            dataValues.sort(comparator);
+            int c = 1;
+            for (DataValuesModel model : dataValues) {
+                if (model.getNick().equalsIgnoreCase(nick)) {
+                    return c;
+                }
+                c++;
+            }
+        }
+        return -1;
     }
 
 }
