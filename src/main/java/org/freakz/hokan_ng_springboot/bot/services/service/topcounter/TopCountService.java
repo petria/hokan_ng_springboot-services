@@ -78,7 +78,7 @@ public class TopCountService {
             if (oldPos != -1 && newPos != -1) {
                 if (oldPos != newPos) {
                     IrcMessageEvent iEvent = request.getIrcMessageEvent();
-                    String positionChange = String.format("%s: %d) -> %d) !!", key, oldPos, newPos);
+                    String positionChange = String.format("%s: %d. -> %d. !!", key, oldPos, newPos);
                     processReply(iEvent, iEvent.getSender() + ": " + positionChange);
                 }
             }
